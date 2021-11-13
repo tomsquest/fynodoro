@@ -7,13 +7,13 @@ Fynodoro is the little widget for doing Pomodoro.
 Run:
 
 ```shell
-go run main.go
+go generate && go run .
 ```
 
 Package (Requires: `go get fyne.io/fyne/v2/cmd/fyne`):
 
 ```shell
-fyne package -os linux
+fyne package -os linux -icon assets/Icon.png
 ```
 
 ## Credits
