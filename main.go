@@ -37,6 +37,9 @@ func updateTimer(myCanvas fyne.Canvas, timerDuration time.Duration) {
 				timerDuration -= time.Second
 				displayTimer(myCanvas, timerDuration)
 			case <-timer.C:
+				// Force the time to be 0 given the timer can end just a bit before the tick,
+				// and the final time be 1 instead of 0.
+				displayTimer(myCanvas, 0)
 				return
 			}
 		}
