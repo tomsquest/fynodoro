@@ -11,25 +11,46 @@ import (
 	"time"
 )
 
-type pomodoro struct {
-	period    time.Duration
-	remaining time.Duration
-	running   bool
-	ticker    *time.Ticker
-	timer     *time.Timer
-	onTick    func(time.Duration)
-	onEnd     func()
+type PomodoroKind int
+
+const (
+	Work PomodoroKind = iota
+	ShortBreak
+)
+
+func (t PomodoroKind) String() string {
+	names := [...]string{"Work", "Short Break"}
+	return names[t]
 }
 
-func NewPomodoro(period time.Duration) *pomodoro {
+type pomodoro struct {
+	// Config
+	workDuration       time.Duration
+	shortBreakDuration time.Duration
+	// External events
+	onTick func()
+	onEnd  func()
+	// State
+	kind      PomodoroKind
+	remaining time.Duration
+	running   bool
+	// Internal
+	ticker *time.Ticker
+	timer  *time.Timer
+}
+
+func NewPomodoro(workDuration time.Duration, shortBreakDuration time.Duration) *pomodoro {
 	p := new(pomodoro)
-	p.period = period
-	p.remaining = period
+	p.workDuration = workDuration
+	p.shortBreakDuration = shortBreakDuration
+
+	p.kind = Work
+	p.remaining = workDuration
 	p.running = false
 	return p
 }
 func (p *pomodoro) Start() {
-	fmt.Println("Start", p.remaining)
+	fmt.Println("Start", "Remaining:", p.remaining, "PomodoroKind:", p.kind)
 	p.ticker = time.NewTicker(time.Second)
 	p.timer = time.NewTimer(p.remaining)
 	p.running = true
@@ -41,11 +62,12 @@ func (p *pomodoro) Start() {
 				p.remaining -= time.Second
 
 				if p.onTick != nil {
-					p.onTick(p.remaining)
+					p.onTick()
 				}
 			case <-p.timer.C:
 				p.remaining = 0
 				p.stop()
+				p.next()
 
 				if p.onEnd != nil {
 					p.onEnd()
@@ -57,13 +79,19 @@ func (p *pomodoro) Start() {
 	}()
 }
 func (p *pomodoro) Pause() {
-	fmt.Println("Pause", p.remaining)
+	fmt.Println("Pause", "Remaining:", p.remaining, "PomodoroKind:", p.kind)
 	p.stop()
 }
 func (p *pomodoro) Stop() {
-	fmt.Println("Stop")
+	fmt.Println("Stop", "Remaining:", p.remaining, "PomodoroKind:", p.kind)
 	p.stop()
-	p.remaining = p.period
+
+	switch p.kind {
+	case ShortBreak:
+		p.remaining = p.shortBreakDuration
+	default:
+		p.remaining = p.workDuration
+	}
 }
 func (p *pomodoro) stop() {
 	p.running = false
@@ -75,6 +103,16 @@ func (p *pomodoro) stop() {
 		p.timer.Stop()
 	}
 }
+func (p *pomodoro) next() {
+	switch p.kind {
+	case ShortBreak:
+		p.kind = Work
+		p.remaining = p.workDuration
+	default:
+		p.kind = ShortBreak
+		p.remaining = p.shortBreakDuration
+	}
+}
 
 func main() {
 	myApp := app.NewWithID("com.tomquest.fynodoro")
@@ -84,23 +122,22 @@ func main() {
 	myWin.SetIcon(resourceIconPng)
 	myWin.CenterOnScreen()
 
-	timerDuration := 25 * 60 * time.Second
-	pomodoro := NewPomodoro(timerDuration)
+	workDuration := 25 * 60 * time.Second
+	shortBreakDuration := 5 * 60 * time.Second
+	pomodoro := NewPomodoro(workDuration, shortBreakDuration)
 
-	timer := canvas.NewText(formatDuration(pomodoro.period), nil)
+	timer := canvas.NewText(formatDuration(pomodoro.remaining), nil)
 	timer.TextSize = 42
 	timerPanel := container.NewHBox(layout.NewSpacer(), timer, layout.NewSpacer())
 
 	startButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	startButton.OnTapped = func() {
 		if pomodoro.running {
-			fmt.Println("Pause")
 			startButton.Icon = theme.MediaPlayIcon()
 			startButton.Refresh()
 
 			pomodoro.Pause()
 		} else {
-			fmt.Println("Start")
 			startButton.Icon = theme.MediaPauseIcon()
 			startButton.Refresh()
 
@@ -110,21 +147,22 @@ func main() {
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), func() {
 		pomodoro.Stop()
 
-		timer.Text = formatDuration(pomodoro.period)
+		timer.Text = formatDuration(pomodoro.remaining)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 	})
 	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, layout.NewSpacer())
 
-	pomodoro.onTick = func(remainingTime time.Duration) {
-		fmt.Println("onTick", remainingTime)
-		timer.Text = formatDuration(remainingTime)
+	pomodoro.onTick = func() {
+		timer.Text = formatDuration(pomodoro.remaining)
 		timer.Refresh()
 	}
 	pomodoro.onEnd = func() {
 		fmt.Println("onEnd")
 
+		timer.Text = formatDuration(pomodoro.remaining)
+		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 	}
