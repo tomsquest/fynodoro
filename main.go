@@ -44,6 +44,7 @@ func (p *pomodoro) Start() {
 					p.onTick(p.remaining)
 				}
 			case <-p.timer.C:
+				p.remaining = 0
 				p.stop()
 
 				if p.onEnd != nil {
