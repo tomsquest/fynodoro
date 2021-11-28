@@ -1,25 +1,16 @@
-name: Go
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+name: Checks
+on: [push, pull_request]
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
+    - uses: WillAbides/setup-go-faster@v1.7.0
       with:
-        go-version: 1.16
-
+        go-version: '1.16.x'
+    - name: Install Dev dependencies
+      run: sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
     - name: Build
       run: go build -v ./...
-
     - name: Test
       run: go test -v ./...
