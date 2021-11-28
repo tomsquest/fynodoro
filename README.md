@@ -1,6 +1,6 @@
 # Fynodoro
 
-![build](https://github.com/tomsquest/fynodoro/actions/workflows/check/badge.svg)
+![build](https://github.com/tomsquest/fynodoro/actions/workflows/checks.yml/badge.svg)
 
 Fynodoro is the little widget for doing Pomodoro.
 
