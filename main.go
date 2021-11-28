@@ -87,33 +87,31 @@ func main() {
 	pomodoro := NewPomodoro(timerDuration)
 
 	timer := canvas.NewText(formatDuration(pomodoro.period), nil)
-	timer.TextSize = 72
+	timer.TextSize = 42
+	timerPanel := container.NewHBox(layout.NewSpacer(), timer, layout.NewSpacer())
 
-	startButton := widget.NewButtonWithIcon("Start", theme.MediaPlayIcon(), nil)
+	startButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	startButton.OnTapped = func() {
 		if pomodoro.running {
 			fmt.Println("Pause")
 			startButton.Icon = theme.MediaPlayIcon()
-			startButton.Text = "Start"
 			startButton.Refresh()
 
 			pomodoro.Pause()
 		} else {
 			fmt.Println("Start")
 			startButton.Icon = theme.MediaPauseIcon()
-			startButton.Text = "Pause"
 			startButton.Refresh()
 
 			pomodoro.Start()
 		}
 	}
-	stopButton := widget.NewButtonWithIcon("Stop", theme.MediaStopIcon(), func() {
+	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), func() {
 		pomodoro.Stop()
+
 		timer.Text = formatDuration(pomodoro.period)
 		timer.Refresh()
-
 		startButton.Icon = theme.MediaPlayIcon()
-		startButton.Text = "Start"
 		startButton.Refresh()
 	})
 	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, layout.NewSpacer())
@@ -127,10 +125,9 @@ func main() {
 		fmt.Println("onEnd")
 
 		startButton.Icon = theme.MediaPlayIcon()
-		startButton.Text = "Start"
 		startButton.Refresh()
 	}
 
-	myWin.SetContent(container.NewVBox(timer, buttons))
+	myWin.SetContent(container.NewVBox(timerPanel, buttons))
 	myWin.ShowAndRun()
 }
