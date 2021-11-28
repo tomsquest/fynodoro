@@ -167,6 +167,6 @@ func main() {
 		startButton.Refresh()
 	}
 
-	myWin.SetContent(container.NewVBox(timerPanel, buttons))
+	myWin.SetContent(container.NewBorder(nil, buttons, nil, nil, timerPanel))
 	myWin.ShowAndRun()
 }
