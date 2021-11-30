@@ -93,6 +93,11 @@ func (p *pomodoro) Stop() {
 		p.remaining = p.workDuration
 	}
 }
+func (p *pomodoro) Next() {
+	fmt.Println("Next", "Remaining:", p.remaining, "PomodoroKind:", p.kind)
+	p.stop()
+	p.next()
+}
 func (p *pomodoro) stop() {
 	p.running = false
 
@@ -152,7 +157,15 @@ func main() {
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 	})
-	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, layout.NewSpacer())
+	skipButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {
+		pomodoro.Next()
+
+		timer.Text = formatDuration(pomodoro.remaining)
+		timer.Refresh()
+		startButton.Icon = theme.MediaPlayIcon()
+		startButton.Refresh()
+	})
+	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, skipButton, layout.NewSpacer())
 
 	pomodoro.onTick = func() {
 		timer.Text = formatDuration(pomodoro.remaining)
