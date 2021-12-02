@@ -4,7 +4,7 @@
 
 # Fynodoro, the Pomodoro Widget
 
-![build](https://github.com/tomsquest/fynodoro/actions/workflows/checks.yml/badge.svg)
+![build](https://github.com/tomsquest/fynodoro/actions/workflows/build.yml/badge.svg)
 
 <img align="right" src="screenshots/app.png" alt="Fynodoro app screenshot">
 
