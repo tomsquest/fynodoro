@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
@@ -29,7 +30,7 @@ type pomodoro struct {
 	shortBreakDuration time.Duration
 	// External events
 	onTick func()
-	onEnd  func()
+	onEnd  func(kind PomodoroKind)
 	// State
 	kind      PomodoroKind
 	remaining time.Duration
@@ -65,12 +66,14 @@ func (p *pomodoro) Start() {
 					p.onTick()
 				}
 			case <-p.timer.C:
+				currentKind := p.kind
+
 				p.remaining = 0
 				p.stop()
 				p.next()
 
 				if p.onEnd != nil {
-					p.onEnd()
+					p.onEnd(currentKind)
 				}
 
 				return
@@ -171,13 +174,16 @@ func main() {
 		timer.Text = formatDuration(pomodoro.remaining)
 		timer.Refresh()
 	}
-	pomodoro.onEnd = func() {
+	pomodoro.onEnd = func(kind PomodoroKind) {
 		fmt.Println("onEnd")
 
 		timer.Text = formatDuration(pomodoro.remaining)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
+
+		notification := fyne.NewNotification(kind.String()+" done", "You just finished a "+kind.String()+" pomodoro.")
+		myApp.SendNotification(notification)
 	}
 
 	myWin.SetContent(container.NewBorder(nil, buttons, nil, nil, timerPanel))
