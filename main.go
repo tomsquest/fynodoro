@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"github.com/gen2brain/beeep"
 	"time"
 )
 
@@ -72,8 +72,7 @@ func main() {
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 
-		notification := fyne.NewNotification(kind.String()+" done", "You just finished a "+kind.String()+" pomodoro.")
-		myApp.SendNotification(notification)
+		_ = beeep.Notify(kind.String()+" done", "You just finished a "+kind.String()+" pomodoro.", "")
 	}
 
 	myWin.SetContent(container.NewBorder(nil, buttons, nil, nil, timerPanel))
