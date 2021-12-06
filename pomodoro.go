@@ -30,7 +30,6 @@ type pomodoro struct {
 	running   bool
 	// Internal
 	ticker *time.Ticker
-	timer  *time.Timer
 }
 
 func NewPomodoro(workDuration time.Duration, shortBreakDuration time.Duration) *pomodoro {
@@ -46,7 +45,6 @@ func NewPomodoro(workDuration time.Duration, shortBreakDuration time.Duration) *
 func (p *pomodoro) Start() {
 	fmt.Println("Start", "Remaining:", p.remaining, "PomodoroKind:", p.kind)
 	p.ticker = time.NewTicker(time.Second)
-	p.timer = time.NewTimer(p.remaining)
 	p.running = true
 
 	go func() {
@@ -55,21 +53,21 @@ func (p *pomodoro) Start() {
 			case <-p.ticker.C:
 				p.remaining -= time.Second
 
-				if p.onTick != nil {
-					p.onTick()
+				if p.remaining > 0 {
+					if p.onTick != nil {
+						p.onTick()
+					}
+				} else {
+					currentKind := p.kind
+
+					p.remaining = 0
+					p.stop()
+					p.next()
+
+					if p.onEnd != nil {
+						p.onEnd(currentKind)
+					}
 				}
-			case <-p.timer.C:
-				currentKind := p.kind
-
-				p.remaining = 0
-				p.stop()
-				p.next()
-
-				if p.onEnd != nil {
-					p.onEnd(currentKind)
-				}
-
-				return
 			}
 		}
 	}()
@@ -99,9 +97,6 @@ func (p *pomodoro) stop() {
 
 	if p.ticker != nil {
 		p.ticker.Stop()
-	}
-	if p.timer != nil {
-		p.timer.Stop()
 	}
 }
 func (p *pomodoro) next() {
