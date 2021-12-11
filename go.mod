@@ -3,7 +3,7 @@ module github.com/tomsquest/fynodoro
 go 1.17
 
 require (
-	fyne.io/fyne/v2 v2.1.1
+	fyne.io/fyne/v2 v2.1.2
 	github.com/gen2brain/beeep v0.0.0-20210529141713-5586760f0cc1
 	github.com/godbus/dbus/v5 v5.0.6 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
@@ -17,7 +17,7 @@ require (
 	github.com/fredbi/uri v0.0.0-20181227131451-3dcfdacbaaf3 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-gl/gl v0.0.0-20210813123233-e4099ee2221f // indirect
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20210410170116-ea3d685f79fb // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211024062804-40e447a793be // indirect
 	github.com/go-toast/toast v0.0.0-20190211030409-01e6764cf0a4 // indirect
 	github.com/goki/freetype v0.0.0-20181231101311-fa8a33aabaff // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20180825215210-0210a2f0f73c // indirect
