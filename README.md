@@ -16,22 +16,17 @@ Fynodoro is a tiny and cute Pomodoro **Widget**.
 
 ## TODO
 
-- [ ] Release v1.0.0 :smile:
-- [ ] Long break
+- [ ] Long breaks
+- [ ] Pico/Nano/Normal UI
 - [ ] Tons of options
+- [ ] Release Deb/Rpm/Snap :smile:
 
 ## Development
 
 Run:
 
 ```shell
-go generate && go run .
-```
-
-Package the app with Fyne (requires: `go get fyne.io/fyne/v2/cmd/fyne`):
-
-```shell
-fyne package -os linux -icon assets/Icon.png
+go run .
 ```
 
 ## Credits
