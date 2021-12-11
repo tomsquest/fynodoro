@@ -1,0 +1,20 @@
+name: 'go-mod-tidy'
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'go.mod'
+      - 'go.sum'
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: WillAbides/setup-go-faster@v1.7.0
+        with:
+          go-version: '1.17.x'
+      - name: tidy
+        uses: paulvollmer/action-golang-gosum@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
