@@ -25,6 +25,15 @@ archives:
   - format: binary
 checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
+nfpms:
+  - maintainer: Thomas Queste <tom@tomsquest.com>
+    description: Fynodoro is a Pomodoro Widget
+    homepage: https://github.com/tomsquest/fynodoro
+    license: MIT
+    formats:
+      - deb
+      - rpm
+      - apk
 release:
   draft: true
   footer: |
