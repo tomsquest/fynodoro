@@ -52,6 +52,15 @@ curl -1sLf \
   | sudo -E bash
 ```
 
+Then, install Fynodoro depending of your package manager:
+
+```shell
+sudo dnf install fynodoro
+sudo yum install fynodoro
+sudo microdnf install fynodoro
+sudo zypper install fynodoro
+```
+
 _Fynodoro uses Cloudsmith. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#repository-setup-yum)_
 
 ## TODO
