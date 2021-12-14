@@ -9,6 +9,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/gen2brain/beeep"
+	"github.com/tomsquest/fynodoro/pomodoro"
 	"time"
 )
 
@@ -22,57 +23,57 @@ func main() {
 
 	workDuration := 25 * 60 * time.Second
 	shortBreakDuration := 5 * 60 * time.Second
-	pomodoro := NewPomodoro(workDuration, shortBreakDuration)
+	myPomodoro := pomodoro.NewPomodoro(workDuration, shortBreakDuration)
 
-	timer := canvas.NewText(formatDuration(pomodoro.remaining), nil)
+	timer := canvas.NewText(formatDuration(myPomodoro.Remaining), nil)
 	timer.TextSize = 42
 	timerPanel := container.NewHBox(layout.NewSpacer(), timer, layout.NewSpacer())
 
 	startButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	startButton.OnTapped = func() {
-		if pomodoro.running {
+		if myPomodoro.Running {
 			startButton.Icon = theme.MediaPlayIcon()
 			startButton.Refresh()
 
-			pomodoro.Pause()
+			myPomodoro.Pause()
 		} else {
 			startButton.Icon = theme.MediaPauseIcon()
 			startButton.Refresh()
 
-			pomodoro.Start()
+			myPomodoro.Start()
 		}
 	}
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), func() {
-		pomodoro.Stop()
+		myPomodoro.Stop()
 
-		timer.Text = formatDuration(pomodoro.remaining)
+		timer.Text = formatDuration(myPomodoro.Remaining)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 	})
 	skipButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {
-		pomodoro.Next()
+		myPomodoro.Next()
 
-		timer.Text = formatDuration(pomodoro.remaining)
+		timer.Text = formatDuration(myPomodoro.Remaining)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 	})
 	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, skipButton, layout.NewSpacer())
 
-	pomodoro.onTick = func() {
-		timer.Text = formatDuration(pomodoro.remaining)
+	myPomodoro.OnTick = func() {
+		timer.Text = formatDuration(myPomodoro.Remaining)
 		timer.Refresh()
 	}
-	pomodoro.onEnd = func(kind PomodoroKind) {
-		fmt.Println("onEnd")
-
-		timer.Text = formatDuration(pomodoro.remaining)
+	myPomodoro.OnEnd = func(kind pomodoro.Kind) {
+		timer.Text = formatDuration(myPomodoro.Remaining)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 
-		_ = beeep.Notify(kind.String()+" done", "You just finished a "+kind.String()+" pomodoro.", "")
+		notifTitle := fmt.Sprintf("%s done", kind)
+		notifMessage := fmt.Sprintf("You just finished a %s pomodoro.", kind)
+		_ = beeep.Notify(notifTitle, notifMessage, "")
 	}
 
 	myWin.SetContent(container.NewBorder(nil, buttons, nil, nil, timerPanel))
