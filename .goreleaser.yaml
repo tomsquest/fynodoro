@@ -34,7 +34,6 @@ nfpms:
     formats:
       - deb
       - rpm
-      - apk
 release:
   draft: true
   footer: |
