@@ -22,6 +22,8 @@ See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for d
 
 #### Install Debian/Ubuntu (.deb)
 
+[![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/)
+
 First, add the apt repo:
 
 ```shell
@@ -39,6 +41,8 @@ sudo apt install fynodoro
 _Fynodoro uses Cloudsmith to host deb/rpm. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#formats-deb)_
 
 #### Install Fedora/Redhat (.rpm)
+
+[![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/)
 
 Add the repository:
 
