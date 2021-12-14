@@ -26,8 +26,7 @@ archives:
 checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
 nfpms:
-  - id: linux-packages
-    file_name_template: "{{ .ConventionalFileName }}"
+  - file_name_template: "{{ .ConventionalFileName }}"
     maintainer: Thomas Queste <tom@tomsquest.com>
     description: Fynodoro is a Pomodoro Widget
     homepage: https://github.com/tomsquest/fynodoro
@@ -36,12 +35,6 @@ nfpms:
       - deb
       - rpm
       - apk
-publishers:
-  - name: fury.io
-    ids:
-      - linux-packages
-    dir: "{{ dir .ArtifactPath }}"
-    cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/tomsquest/
 release:
   draft: true
   footer: |

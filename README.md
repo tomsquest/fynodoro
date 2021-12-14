@@ -20,13 +20,14 @@ Fynodoro is a tiny and cute Pomodoro **Widget**.
 
 See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads
 
-#### Deb
+#### Install Debian/Ubuntu (.deb)
 
 First, add the apt repo:
 
 ```shell
-sudo echo "deb [trusted=yes] https://apt.fury.io/tomsquest/ /" > /etc/apt/sources.list.d/fury.fynodoro.list
-sudo apt update
+curl -1sLf \
+  'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.deb.sh' \
+  | sudo -E bash
 ```
 
 Then, install Fynodoro:
@@ -35,17 +36,19 @@ Then, install Fynodoro:
 sudo apt install fynodoro 
 ```
 
-#### Rpm
+_Fynodoro uses Cloudsmith to host deb/rpm. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#formats-deb)_
 
-To enable, add the following file `/etc/yum.repos.d/fury.fynodoro.repo`:
+#### Install Fedora/Redhat (.rpm)
+
+Add the repository:
 
 ```
-[fury]
-name=Gemfury Private Repo
-baseurl=https://yum.fury.io/tomsquest/
-enabled=1
-gpgcheck=0
+curl -1sLf \
+  'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.rpm.sh' \
+  | sudo -E bash
 ```
+
+_Fynodoro uses Cloudsmith. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#repository-setup-yum)_
 
 ## TODO
 
