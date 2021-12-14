@@ -3,8 +3,4 @@
    commands:
      gofmt:
        glob: "*.go"
-       run: gofmt -w {staged_files}
-     govet:
-       files: git ls-files -m
-       glob: "*.go"
-       run: go vet {files}
+       run: [ -f ~/.asdf/asdf.sh ] && . ~/.asdf/asdf.sh && gofmt -w {staged_files}
