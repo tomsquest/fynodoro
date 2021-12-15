@@ -68,7 +68,7 @@ _Fynodoro uses Cloudsmith. [See the complete instructions](https://cloudsmith.io
 - [ ] Long breaks
 - [ ] Pico/Nano/Normal UI
 - [ ] Tons of options
-- [ ] Release Deb/Rpm/Snap :smile:
+- [ ] Release Snap
 
 ## Development
 
@@ -80,5 +80,5 @@ go run .
 
 ## Credits
 
-- Icons made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com)
+- Icon made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/free-icon/tomato_877814)
 - Screenshot pimped with [PrettySnap](https://prettysnap.app)
