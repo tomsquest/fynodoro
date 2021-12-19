@@ -1,6 +1,8 @@
 package pomodoro
 
 import (
+	"fmt"
+	"github.com/benbjohnson/clock"
 	"time"
 )
 
@@ -16,6 +18,12 @@ func (t Kind) String() string {
 	return names[t]
 }
 
+type PomodoroParams struct {
+	WorkDuration       time.Duration
+	ShortBreakDuration time.Duration
+	Clock              clock.Clock
+}
+
 type pomodoro struct {
 	// External events
 	OnTick func()
@@ -27,23 +35,30 @@ type pomodoro struct {
 	// Config
 	workDuration       time.Duration
 	shortBreakDuration time.Duration
+	clock              clock.Clock
 	// Internal
-	ticker *time.Ticker
+	ticker *clock.Ticker
 }
 
-func NewPomodoro(workDuration time.Duration, shortBreakDuration time.Duration) *pomodoro {
-	p := new(pomodoro)
-	p.workDuration = workDuration
-	p.shortBreakDuration = shortBreakDuration
-
-	p.Kind = Work
-	p.Remaining = workDuration
-	p.Running = false
+func NewPomodoro(params *PomodoroParams) *pomodoro {
+	p := &pomodoro{
+		workDuration:       params.WorkDuration,
+		shortBreakDuration: params.ShortBreakDuration,
+		Kind:               Work,
+		Remaining:          params.WorkDuration,
+		Running:            false,
+	}
+	if params.Clock == nil {
+		p.clock = clock.New()
+	} else {
+		p.clock = params.Clock
+	}
 	return p
 }
 
 func (p *pomodoro) Start() {
-	p.ticker = time.NewTicker(time.Second)
+	fmt.Println("Start", p.Remaining, "Kind", p.Kind)
+	p.ticker = p.clock.Ticker(time.Second)
 	p.Running = true
 
 	go func() {
@@ -73,10 +88,12 @@ func (p *pomodoro) Start() {
 }
 
 func (p *pomodoro) Pause() {
+	fmt.Println("Pause", p.Remaining, "Kind", p.Kind)
 	p.stop()
 }
 
 func (p *pomodoro) Stop() {
+	fmt.Println("Stop", p.Remaining, "Kind", p.Kind)
 	p.stop()
 
 	switch p.Kind {
@@ -88,6 +105,7 @@ func (p *pomodoro) Stop() {
 }
 
 func (p *pomodoro) Next() {
+	fmt.Println("Next", p.Remaining, "Kind", p.Kind)
 	p.stop()
 	p.next()
 }

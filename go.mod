@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	fyne.io/fyne/v2 v2.1.2
+	github.com/benbjohnson/clock v1.3.0
 	github.com/gen2brain/beeep v0.0.0-20210529141713-5586760f0cc1
 	github.com/godbus/dbus/v5 v5.0.6 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect

@@ -21,9 +21,13 @@ func main() {
 	myWin.SetIcon(resourceIconPng)
 	myWin.CenterOnScreen()
 
-	workDuration := 25 * 60 * time.Second
-	shortBreakDuration := 5 * 60 * time.Second
-	myPomodoro := pomodoro.NewPomodoro(workDuration, shortBreakDuration)
+	myPomodoro := pomodoro.NewPomodoro(&pomodoro.PomodoroParams{
+		// TODO
+		//WorkDuration:       25 * 60 * time.Second,
+		WorkDuration: 6 * time.Second,
+		//ShortBreakDuration: 5 * 60 * time.Second,
+		ShortBreakDuration: 3 * time.Second,
+	})
 
 	timer := canvas.NewText(formatDuration(myPomodoro.Remaining), nil)
 	timer.TextSize = 42
