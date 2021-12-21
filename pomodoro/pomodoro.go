@@ -1,6 +1,7 @@
 package pomodoro
 
 import (
+	"github.com/benbjohnson/clock"
 	"time"
 )
 
@@ -16,7 +17,18 @@ func (t Kind) String() string {
 	return names[t]
 }
 
+type Params struct {
+	WorkDuration       time.Duration
+	ShortBreakDuration time.Duration
+	// use for testing, do not set it yourself
+	Clock clock.Clock
+}
+
 type pomodoro struct {
+	// Config
+	workDuration       time.Duration
+	shortBreakDuration time.Duration
+	clock              clock.Clock
 	// External events
 	OnTick func()
 	OnEnd  func(kind Kind)
@@ -24,26 +36,28 @@ type pomodoro struct {
 	Kind      Kind
 	Remaining time.Duration
 	Running   bool
-	// Config
-	workDuration       time.Duration
-	shortBreakDuration time.Duration
 	// Internal
-	ticker *time.Ticker
+	ticker *clock.Ticker
 }
 
-func NewPomodoro(workDuration time.Duration, shortBreakDuration time.Duration) *pomodoro {
-	p := new(pomodoro)
-	p.workDuration = workDuration
-	p.shortBreakDuration = shortBreakDuration
-
-	p.Kind = Work
-	p.Remaining = workDuration
-	p.Running = false
+func NewPomodoro(params *Params) *pomodoro {
+	p := &pomodoro{
+		workDuration:       params.WorkDuration,
+		shortBreakDuration: params.ShortBreakDuration,
+		Kind:               Work,
+		Remaining:          params.WorkDuration,
+		Running:            false,
+	}
+	if params.Clock == nil {
+		p.clock = clock.New()
+	} else {
+		p.clock = params.Clock
+	}
 	return p
 }
 
 func (p *pomodoro) Start() {
-	p.ticker = time.NewTicker(time.Second)
+	p.ticker = p.clock.Ticker(time.Second)
 	p.Running = true
 
 	go func() {
