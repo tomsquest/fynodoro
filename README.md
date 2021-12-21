@@ -4,7 +4,8 @@
 
 # Fynodoro, the Pomodoro Widget
 
-![build](https://github.com/tomsquest/fynodoro/actions/workflows/build.yaml/badge.svg)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
 
 <img align="right" src="screenshots/app.png" alt="Fynodoro app screenshot">
 
@@ -18,50 +19,39 @@ Fynodoro is a tiny and cute Pomodoro **Widget**.
 
 #### Downloads binaries
 
+Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)](https://github.com/tomsquest/fynodoro/releases)
+
 See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads
 
 #### Install Debian/Ubuntu (.deb)
 
-[![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/)
+Latest: [![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/#install)
 
-First, add the apt repo:
-
-```shell
-curl -1sLf \
-  'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.deb.sh' \
-  | sudo -E bash
-```
-
-Then, install Fynodoro:
+Add the repository and install Fynodoro:
 
 ```shell
+curl -1sLf 'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.deb.sh' | sudo -E bash
 sudo apt install fynodoro 
 ```
 
-_Fynodoro uses Cloudsmith to host deb/rpm. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#formats-deb)_
+_[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/#install)_
 
 #### Install Fedora/Redhat (.rpm)
 
-[![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/)
+Latest: [![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)
 
-Add the repository:
-
-```
-curl -1sLf \
-  'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.rpm.sh' \
-  | sudo -E bash
-```
-
-Then, install Fynodoro depending of your package manager:
+Add the repository and install Fynodoro:
 
 ```shell
+curl -1sLf 'https://dl.cloudsmith.io/public/tomsquest/fynodoro/setup.rpm.sh' | sudo -E bash
+# Choose between:
 sudo dnf install fynodoro
 sudo yum install fynodoro
 sudo microdnf install fynodoro
 sudo zypper install fynodoro
 ```
 
-_Fynodoro uses Cloudsmith. [See the complete instructions](https://cloudsmith.io/~tomsquest/repos/fynodoro/setup/#repository-setup-yum)_
+_[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)_
 
 ## TODO
 
@@ -69,14 +59,6 @@ _Fynodoro uses Cloudsmith. [See the complete instructions](https://cloudsmith.io
 - [ ] Pico/Nano/Normal UI
 - [ ] Tons of options
 - [ ] Release Snap
-
-## Development
-
-Run:
-
-```shell
-go run .
-```
 
 ## Credits
 
