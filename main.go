@@ -21,7 +21,7 @@ func main() {
 	myWin.SetIcon(resourceIconPng)
 	myWin.CenterOnScreen()
 
-	myPomodoro := pomodoro.NewPomodoro(&pomodoro.PomodoroParams{
+	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
 		// TODO
 		//WorkDuration:       25 * 60 * time.Second,
 		WorkDuration: 6 * time.Second,

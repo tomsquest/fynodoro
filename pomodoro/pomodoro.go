@@ -18,7 +18,7 @@ func (t Kind) String() string {
 	return names[t]
 }
 
-type PomodoroParams struct {
+type Params struct {
 	WorkDuration       time.Duration
 	ShortBreakDuration time.Duration
 	Clock              clock.Clock
@@ -40,7 +40,7 @@ type pomodoro struct {
 	ticker *clock.Ticker
 }
 
-func NewPomodoro(params *PomodoroParams) *pomodoro {
+func NewPomodoro(params *Params) *pomodoro {
 	p := &pomodoro{
 		workDuration:       params.WorkDuration,
 		shortBreakDuration: params.ShortBreakDuration,
