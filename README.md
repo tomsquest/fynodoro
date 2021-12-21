@@ -15,13 +15,17 @@ Fynodoro is a tiny and cute Pomodoro **Widget**.
 
 - :rocket: it counts from 25:00 to 0! And then from 5:00 to 0! :zap:
 
+## Changelog
+
+See the [Releases](https://github.com/tomsquest/fynodoro/releases) section.
+
 ## Install
 
 #### Downloads binaries
 
 Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)](https://github.com/tomsquest/fynodoro/releases)
 
-See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads
+See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads.
 
 #### Install Debian/Ubuntu (.deb)
 
