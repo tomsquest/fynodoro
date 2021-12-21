@@ -21,10 +21,15 @@ func (t Kind) String() string {
 type Params struct {
 	WorkDuration       time.Duration
 	ShortBreakDuration time.Duration
-	Clock              clock.Clock
+	// use for testing, do not set it yourself
+	Clock clock.Clock
 }
 
 type pomodoro struct {
+	// Config
+	workDuration       time.Duration
+	shortBreakDuration time.Duration
+	clock              clock.Clock
 	// External events
 	OnTick func()
 	OnEnd  func(kind Kind)
@@ -32,10 +37,6 @@ type pomodoro struct {
 	Kind      Kind
 	Remaining time.Duration
 	Running   bool
-	// Config
-	workDuration       time.Duration
-	shortBreakDuration time.Duration
-	clock              clock.Clock
 	// Internal
 	ticker *clock.Ticker
 }

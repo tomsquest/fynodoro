@@ -22,11 +22,8 @@ func main() {
 	myWin.CenterOnScreen()
 
 	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
-		// TODO
-		//WorkDuration:       25 * 60 * time.Second,
-		WorkDuration: 6 * time.Second,
-		//ShortBreakDuration: 5 * 60 * time.Second,
-		ShortBreakDuration: 3 * time.Second,
+		WorkDuration:       25 * 60 * time.Second,
+		ShortBreakDuration: 5 * 60 * time.Second,
 	})
 
 	timer := canvas.NewText(formatDuration(myPomodoro.Remaining), nil)
