@@ -1,7 +1,6 @@
 package pomodoro
 
 import (
-	"fmt"
 	"github.com/benbjohnson/clock"
 	"time"
 )
@@ -58,7 +57,6 @@ func NewPomodoro(params *Params) *pomodoro {
 }
 
 func (p *pomodoro) Start() {
-	fmt.Println("Start", p.Remaining, "Kind", p.Kind)
 	p.ticker = p.clock.Ticker(time.Second)
 	p.Running = true
 
@@ -89,12 +87,10 @@ func (p *pomodoro) Start() {
 }
 
 func (p *pomodoro) Pause() {
-	fmt.Println("Pause", p.Remaining, "Kind", p.Kind)
 	p.stop()
 }
 
 func (p *pomodoro) Stop() {
-	fmt.Println("Stop", p.Remaining, "Kind", p.Kind)
 	p.stop()
 
 	switch p.Kind {
@@ -106,7 +102,6 @@ func (p *pomodoro) Stop() {
 }
 
 func (p *pomodoro) Next() {
-	fmt.Println("Next", p.Remaining, "Kind", p.Kind)
 	p.stop()
 	p.next()
 }
