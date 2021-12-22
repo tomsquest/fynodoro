@@ -10,7 +10,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/gen2brain/beeep"
 	"github.com/tomsquest/fynodoro/pomodoro"
-	"time"
 )
 
 func main() {
@@ -21,10 +20,7 @@ func main() {
 	myWin.SetIcon(resourceIconPng)
 	myWin.CenterOnScreen()
 
-	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
-		WorkDuration:       25 * 60 * time.Second,
-		ShortBreakDuration: 5 * 60 * time.Second,
-	})
+	myPomodoro := pomodoro.NewPomodoroWithDefault()
 
 	timer := canvas.NewText(formatDuration(myPomodoro.Remaining), nil)
 	timer.TextSize = 42

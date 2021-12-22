@@ -7,6 +7,39 @@ import (
 	"time"
 )
 
+func TestNewPomodoroWithDefault(t *testing.T) {
+	p := NewPomodoroWithDefault()
+
+	assert.Equal(t, 25*time.Minute, p.workDuration)
+	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, p.workDuration, p.Remaining)
+	assert.False(t, p.Running)
+}
+
+func TestNewPomodoro_emptyParams(t *testing.T) {
+	p := NewPomodoro(&Params{})
+
+	assert.Equal(t, 25*time.Minute, p.workDuration)
+	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, p.workDuration, p.Remaining)
+	assert.False(t, p.Running)
+}
+
+func TestNewPomodoro_withParams(t *testing.T) {
+	p := NewPomodoro(&Params{
+		WorkDuration: 1 * time.Second,
+		ShortBreakDuration: 2 * time.Minute,
+	})
+
+	assert.Equal(t, 1*time.Second, p.workDuration)
+	assert.Equal(t, 2*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, 1 * time.Second, p.Remaining)
+	assert.False(t, p.Running)
+}
+
 func TestPomodoro_OnTick(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{

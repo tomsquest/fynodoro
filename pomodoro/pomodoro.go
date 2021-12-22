@@ -40,17 +40,28 @@ type pomodoro struct {
 	ticker *clock.Ticker
 }
 
-func NewPomodoro(params *Params) *pomodoro {
+func NewPomodoroWithDefault() *pomodoro {
 	p := &pomodoro{
-		workDuration:       params.WorkDuration,
-		shortBreakDuration: params.ShortBreakDuration,
+		workDuration:       25 * time.Minute,
+		shortBreakDuration: 5 * time.Minute,
 		Kind:               Work,
-		Remaining:          params.WorkDuration,
 		Running:            false,
 	}
-	if params.Clock == nil {
-		p.clock = clock.New()
-	} else {
+	p.Remaining = p.workDuration
+	p.clock = clock.New()
+	return p
+}
+
+func NewPomodoro(params *Params) *pomodoro {
+	p := NewPomodoroWithDefault()
+	if params.WorkDuration > 0 {
+		p.workDuration = params.WorkDuration
+		p.Remaining = params.WorkDuration
+	}
+	if params.ShortBreakDuration > 0 {
+		p.shortBreakDuration = params.ShortBreakDuration
+	}
+	if params.Clock != nil {
 		p.clock = params.Clock
 	}
 	return p
