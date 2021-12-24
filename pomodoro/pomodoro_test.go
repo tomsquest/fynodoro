@@ -12,8 +12,10 @@ func TestNewPomodoroWithDefault(t *testing.T) {
 
 	assert.Equal(t, 25*time.Minute, p.workDuration)
 	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, 15*time.Minute, p.longBreakDuration)
+	assert.Equal(t, uint8(4), p.workRound)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, p.workDuration, p.Remaining)
+	assert.Equal(t, p.workDuration, p.RemainingTime)
 	assert.False(t, p.Running)
 }
 
@@ -22,30 +24,35 @@ func TestNewPomodoro_emptyParams(t *testing.T) {
 
 	assert.Equal(t, 25*time.Minute, p.workDuration)
 	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, 15*time.Minute, p.longBreakDuration)
+	assert.Equal(t, uint8(4), p.workRound)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, p.workDuration, p.Remaining)
+	assert.Equal(t, p.workDuration, p.RemainingTime)
 	assert.False(t, p.Running)
 }
 
 func TestNewPomodoro_withParams(t *testing.T) {
 	p := NewPomodoro(&Params{
-		WorkDuration: 1 * time.Second,
+		WorkDuration:       1 * time.Second,
 		ShortBreakDuration: 2 * time.Minute,
+		LongBreakDuration:  3 * time.Hour,
+		WorkRound:          42,
 	})
 
 	assert.Equal(t, 1*time.Second, p.workDuration)
 	assert.Equal(t, 2*time.Minute, p.shortBreakDuration)
+	assert.Equal(t, 3*time.Hour, p.longBreakDuration)
+	assert.Equal(t, uint8(42), p.workRound)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 1 * time.Second, p.Remaining)
+	assert.Equal(t, 1*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
 }
 
 func TestPomodoro_OnTick(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{
-		WorkDuration:       3 * time.Second,
-		ShortBreakDuration: 3 * time.Second,
-		Clock:              clockMock,
+		WorkRound: 2,
+		Clock:     clockMock,
 	})
 
 	// Capture tick events
@@ -54,6 +61,7 @@ func TestPomodoro_OnTick(t *testing.T) {
 		tickedCount++
 	}
 
+	// Start Work
 	p.Start()
 
 	clockMock.Add(1 * time.Second)
@@ -61,9 +69,24 @@ func TestPomodoro_OnTick(t *testing.T) {
 	clockMock.Add(1 * time.Second)
 	assert.Equal(t, 2, tickedCount)
 
-	// Finish Work, start ShortBreak
-	clockMock.Add(3 * time.Second)
+	// Start ShortBreak
+	p.Next()
 	assert.Equal(t, ShortBreak, p.Kind)
+	tickedCount = 0 // Reset count
+
+	p.Start()
+
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, 1, tickedCount)
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, 2, tickedCount)
+
+	// Skip to Work
+	p.Next()
+
+	// Start LongBreak
+	p.Next()
+	assert.Equal(t, LongBreak, p.Kind)
 	tickedCount = 0 // Reset count
 
 	p.Start()
@@ -79,6 +102,8 @@ func TestPomodoro_OnEnd(t *testing.T) {
 	p := NewPomodoro(&Params{
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
+		LongBreakDuration:  10 * time.Second,
+		WorkRound:          2,
 		Clock:              clockMock,
 	})
 
@@ -97,16 +122,28 @@ func TestPomodoro_OnEnd(t *testing.T) {
 	assert.True(t, endCalled)
 	assert.Equal(t, Work, endKind)
 	assert.False(t, p.Running)
-	assert.Equal(t, 5*time.Second, p.Remaining)
 
 	// Start and finish ShortBreak
+	assert.Equal(t, 5*time.Second, p.RemainingTime)
 	p.Start()
 	clockMock.Add(5 * time.Second)
 
 	assert.True(t, endCalled)
 	assert.Equal(t, ShortBreak, endKind)
 	assert.False(t, p.Running)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+
+	// Skip Work
+	p.Start()
+	p.Next()
+
+	// Start and finish LongBreak
+	assert.Equal(t, 10*time.Second, p.RemainingTime)
+	p.Start()
+	clockMock.Add(10 * time.Second)
+
+	assert.True(t, endCalled)
+	assert.Equal(t, LongBreak, endKind)
+	assert.False(t, p.Running)
 }
 
 func TestPomodoro_Stop(t *testing.T) {
@@ -114,60 +151,42 @@ func TestPomodoro_Stop(t *testing.T) {
 	p := NewPomodoro(&Params{
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
+		LongBreakDuration:  10 * time.Second,
+		WorkRound:          2,
 		Clock:              clockMock,
 	})
 
 	// Start Work
 	p.Start()
-	clockMock.Add(1 * time.Second)
 
 	// Stop Work
 	p.Stop()
 	assert.False(t, p.Running)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, 25*time.Second, p.RemainingTime)
 
-	// Finish Work, start ShortBreak
+	// Start ShortBreak
+	p.Next()
 	p.Start()
-	clockMock.Add(25 * time.Second)
 
 	// Stop ShortBreak
 	p.Stop()
 	assert.False(t, p.Running)
 	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 5*time.Second, p.Remaining)
+	assert.Equal(t, 5*time.Second, p.RemainingTime)
 
-	// Finish ShortBreak, start Work
+	// Skip Work
+	p.Next()
+
+	// Start LongBreak
+	p.Next()
 	p.Start()
-	clockMock.Add(5 * time.Second)
 
-	// Stop Work
+	// Stop LongBreak
 	p.Stop()
 	assert.False(t, p.Running)
-	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
-
-	// 2nd Pomodoro
-
-	// Finish Work, start ShortBreak
-	p.Start()
-	clockMock.Add(25 * time.Second)
-
-	// Stop ShortBreak
-	p.Stop()
-	assert.False(t, p.Running)
-	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 5*time.Second, p.Remaining)
-
-	// Finish ShortBreak, start Work
-	p.Start()
-	clockMock.Add(5 * time.Second)
-
-	// Stop Work
-	p.Stop()
-	assert.False(t, p.Running)
-	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, LongBreak, p.Kind)
+	assert.Equal(t, 10*time.Second, p.RemainingTime)
 }
 
 func TestPomodoro_Pause(t *testing.T) {
@@ -186,7 +205,7 @@ func TestPomodoro_Pause(t *testing.T) {
 	p.Pause()
 	assert.False(t, p.Running)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 24*time.Second, p.Remaining)
+	assert.Equal(t, 24*time.Second, p.RemainingTime)
 
 	// Finish Work
 	p.Start()
@@ -199,7 +218,7 @@ func TestPomodoro_Pause(t *testing.T) {
 	p.Pause()
 	assert.False(t, p.Running)
 	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 4*time.Second, p.Remaining)
+	assert.Equal(t, 4*time.Second, p.RemainingTime)
 }
 
 func TestPomodoro_Next(t *testing.T) {
@@ -207,52 +226,99 @@ func TestPomodoro_Next(t *testing.T) {
 	p := NewPomodoro(&Params{
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
+		LongBreakDuration:  10 * time.Second,
+		WorkRound:          3,
 		Clock:              clockMock,
 	})
 
-	// Initial state
+	// Work
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, 25*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
 
-	// Skip work
+	// ShortBreak
 	p.Next()
 	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 5*time.Second, p.Remaining)
+	assert.Equal(t, 5*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
 
-	// Skip shortBreak
+	// Work
 	p.Next()
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, 25*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
 
-	// Skip work again
+	// ShortBreak
 	p.Next()
 	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 5*time.Second, p.Remaining)
+	assert.Equal(t, 5*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
 
-	// Skip shortBreak again
+	// Work
 	p.Next()
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, 25*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
+
+	// LongBreak
+	p.Next()
+	assert.Equal(t, LongBreak, p.Kind)
+	assert.Equal(t, 10*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
+
+	// Work
+	p.Next()
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, 25*time.Second, p.RemainingTime)
+	assert.False(t, p.Running)
 
 	// While running
 
-	// Start Work
+	// ShortBreak
+	p.Next()
 	p.Start()
 	clockMock.Add(1 * time.Second)
-
-	// Skip work
-	p.Next()
-	assert.False(t, p.Running)
 	assert.Equal(t, ShortBreak, p.Kind)
-	assert.Equal(t, 5*time.Second, p.Remaining)
+	assert.Equal(t, 4*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
 
-	// Start Pause
+	// Work
+	p.Next()
 	p.Start()
 	clockMock.Add(1 * time.Second)
-
-	// Skip pause
-	p.Next()
-	assert.False(t, p.Running)
 	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, 25*time.Second, p.Remaining)
+	assert.Equal(t, 24*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
+
+	// ShortBreak
+	p.Next()
+	p.Start()
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, ShortBreak, p.Kind)
+	assert.Equal(t, 4*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
+
+	// Work
+	p.Next()
+	p.Start()
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, 24*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
+
+	// LongBreak
+	p.Next()
+	p.Start()
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, LongBreak, p.Kind)
+	assert.Equal(t, 9*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
+
+	// Work
+	p.Next()
+	p.Start()
+	clockMock.Add(1 * time.Second)
+	assert.Equal(t, Work, p.Kind)
+	assert.Equal(t, 24*time.Second, p.RemainingTime)
+	assert.True(t, p.Running)
 }
