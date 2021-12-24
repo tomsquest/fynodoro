@@ -57,6 +57,18 @@ sudo zypper install fynodoro
 
 _[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)_
 
+## Releasing the project
+
+Push a new tag from a clean master:
+
+```shell
+git checkout master && git pull
+if ! [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
+  echo "Warning: there are some local changes"
+fi
+git tag v1.3.0 && git push --tags
+```
+
 ## TODO
 
 - [ ] Pico/Nano/Normal UI
