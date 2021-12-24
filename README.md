@@ -67,6 +67,7 @@ if ! [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   echo "Warning: there are some local changes"
 fi
 git tag v1.3.0 && git push --tags
+# Publish Release draft: https://github.com/tomsquest/fynodoro/releases
 ```
 
 ## TODO
