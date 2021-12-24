@@ -22,7 +22,7 @@ func main() {
 
 	myPomodoro := pomodoro.NewPomodoroWithDefault()
 
-	timer := canvas.NewText(formatDuration(myPomodoro.Remaining), nil)
+	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
 	timerPanel := container.NewHBox(layout.NewSpacer(), timer, layout.NewSpacer())
 
@@ -43,7 +43,7 @@ func main() {
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), func() {
 		myPomodoro.Stop()
 
-		timer.Text = formatDuration(myPomodoro.Remaining)
+		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
@@ -51,7 +51,7 @@ func main() {
 	skipButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {
 		myPomodoro.Next()
 
-		timer.Text = formatDuration(myPomodoro.Remaining)
+		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
@@ -59,11 +59,11 @@ func main() {
 	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, skipButton, layout.NewSpacer())
 
 	myPomodoro.OnTick = func() {
-		timer.Text = formatDuration(myPomodoro.Remaining)
+		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 	}
 	myPomodoro.OnEnd = func(kind pomodoro.Kind) {
-		timer.Text = formatDuration(myPomodoro.Remaining)
+		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()

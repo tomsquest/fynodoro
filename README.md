@@ -59,10 +59,9 @@ _[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos
 
 ## TODO
 
-- [ ] Long breaks
 - [ ] Pico/Nano/Normal UI
-- [ ] Tons of options
-- [ ] Release Snap
+- [ ] Tons of options ( durations, work rounds...)
+- [ ] Release Snap, Windows, macOS, Android versions
 
 ## Credits
 
