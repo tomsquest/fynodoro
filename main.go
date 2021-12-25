@@ -24,10 +24,15 @@ func main() {
 
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
-	timerPanel := container.NewHBox(layout.NewSpacer(), timer, layout.NewSpacer())
+	timerButton := widget.NewButton("", nil)
+	timerPanel := container.NewMax(timer, timerButton)
 
 	startButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
-	startButton.OnTapped = func() {
+	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
+	nextButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nil)
+	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, nextButton, layout.NewSpacer())
+
+	onPlay := func() {
 		if myPomodoro.Running {
 			startButton.Icon = theme.MediaPlayIcon()
 			startButton.Refresh()
@@ -40,23 +45,27 @@ func main() {
 			myPomodoro.Start()
 		}
 	}
-	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), func() {
+	onStop := func() {
 		myPomodoro.Stop()
 
 		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
-	})
-	skipButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), func() {
+	}
+	onNext := func() {
 		myPomodoro.Next()
 
 		timer.Text = formatDuration(myPomodoro.RemainingTime)
 		timer.Refresh()
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
-	})
-	buttons := container.NewHBox(layout.NewSpacer(), startButton, stopButton, skipButton, layout.NewSpacer())
+	}
+
+	startButton.OnTapped = onPlay
+	timerButton.OnTapped = onPlay
+	stopButton.OnTapped = onStop
+	nextButton.OnTapped = onNext
 
 	myPomodoro.OnTick = func() {
 		timer.Text = formatDuration(myPomodoro.RemainingTime)
@@ -68,11 +77,15 @@ func main() {
 		startButton.Icon = theme.MediaPlayIcon()
 		startButton.Refresh()
 
-		notifTitle := fmt.Sprintf("%s done", kind)
-		notifMessage := fmt.Sprintf("You just finished a %s pomodoro.", kind)
-		_ = beeep.Notify(notifTitle, notifMessage, "")
+		notifyPomodoroDone(kind)
 	}
 
-	myWin.SetContent(container.NewBorder(nil, buttons, nil, nil, timerPanel))
+	myWin.SetContent(container.NewVBox(timerPanel, buttons))
 	myWin.ShowAndRun()
+}
+
+func notifyPomodoroDone(kind pomodoro.Kind) {
+	notifTitle := fmt.Sprintf("%s done", kind)
+	notifMessage := fmt.Sprintf("You just finished a %s pomodoro.", kind)
+	_ = beeep.Notify(notifTitle, notifMessage, "")
 }
