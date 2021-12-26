@@ -26,14 +26,20 @@ archives:
 checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
 nfpms:
-  - file_name_template: "{{ .ConventionalFileName }}"
-    maintainer: Thomas Queste <tom@tomsquest.com>
+  - maintainer: Thomas Queste <tom@tomsquest.com>
     description: Fynodoro is a Pomodoro Widget
     homepage: https://github.com/tomsquest/fynodoro
+    vendor: Tom's Quest
     license: MIT
+    section: utils
     formats:
       - deb
       - rpm
+    contents:
+      - src: assets/Icon.png
+        dst: /usr/share/pixmaps/fynodoro.png
+      - src: assets/fynodoro.desktop
+        dst: /usr/local/share/applications/fynodoro.desktop
 release:
   draft: true
   footer: |

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Fynodoro
+GenericName=Timer
+Comment=Pomodoro widget
+Exec=fynodoro
+Icon=fynodoro
+Categories=Utility;Clock;
