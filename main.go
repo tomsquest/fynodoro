@@ -8,12 +8,7 @@ import (
 
 func main() {
 	myApp := app.NewWithID("com.tomquest.fynodoro")
-	myApp.Settings().SetTheme(&myTheme{})
-
-	myWin := myApp.NewWindow("Fynodoro")
-	myWin.SetIcon(resourceIconPng)
-	myWin.CenterOnScreen()
-	myWin.SetMaster()
+	myApp.Settings().SetTheme(&ui.Theme{})
 
 	myPomodoro := pomodoro.NewPomodoroWithDefault()
 	//myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
@@ -23,6 +18,10 @@ func main() {
 	//	LongBreakDuration:  4 * time.Second,
 	//})
 
+	myWin := myApp.NewWindow("Fynodoro")
+	myWin.SetIcon(resourceIconPng)
+	myWin.CenterOnScreen()
+	myWin.SetMaster()
 	myWin.SetContent(ui.MakeClassicView(myPomodoro))
 	myWin.ShowAndRun()
 }
