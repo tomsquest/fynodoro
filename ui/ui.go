@@ -1,14 +1,12 @@
 package ui
 
 import (
-	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/gen2brain/beeep"
 	"github.com/tomsquest/fynodoro/pomodoro"
 )
 
@@ -72,10 +70,4 @@ func MakeClassicView(myPomodoro *pomodoro.Pomodoro) *fyne.Container {
 	}
 
 	return container.NewVBox(timerPanel, buttons)
-}
-
-func notifyPomodoroDone(kind pomodoro.Kind) {
-	title := fmt.Sprintf("%s done", kind)
-	message := fmt.Sprintf("You just finished a %s pomodoro.", kind)
-	_ = beeep.Notify(title, message, "")
 }
