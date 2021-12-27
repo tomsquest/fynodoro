@@ -27,7 +27,7 @@ type Params struct {
 	Clock clock.Clock
 }
 
-type pomodoro struct {
+type Pomodoro struct {
 	// Config
 	workDuration       time.Duration
 	shortBreakDuration time.Duration
@@ -46,8 +46,8 @@ type pomodoro struct {
 	ticker *clock.Ticker
 }
 
-func NewPomodoroWithDefault() *pomodoro {
-	p := &pomodoro{
+func NewPomodoroWithDefault() *Pomodoro {
+	p := &Pomodoro{
 		workDuration:       25 * time.Minute,
 		shortBreakDuration: 5 * time.Minute,
 		longBreakDuration:  15 * time.Minute,
@@ -61,7 +61,7 @@ func NewPomodoroWithDefault() *pomodoro {
 	return p
 }
 
-func NewPomodoro(params *Params) *pomodoro {
+func NewPomodoro(params *Params) *Pomodoro {
 	p := NewPomodoroWithDefault()
 	if params.WorkDuration > 0 {
 		p.workDuration = params.WorkDuration
@@ -83,7 +83,7 @@ func NewPomodoro(params *Params) *pomodoro {
 	return p
 }
 
-func (p *pomodoro) Start() {
+func (p *Pomodoro) Start() {
 	p.ticker = p.clock.Ticker(time.Second)
 	p.Running = true
 
@@ -112,11 +112,11 @@ func (p *pomodoro) Start() {
 	}()
 }
 
-func (p *pomodoro) Pause() {
+func (p *Pomodoro) Pause() {
 	p.stop()
 }
 
-func (p *pomodoro) Stop() {
+func (p *Pomodoro) Stop() {
 	p.stop()
 
 	switch p.Kind {
@@ -129,12 +129,12 @@ func (p *pomodoro) Stop() {
 	}
 }
 
-func (p *pomodoro) Next() {
+func (p *Pomodoro) Next() {
 	p.stop()
 	p.next()
 }
 
-func (p *pomodoro) stop() {
+func (p *Pomodoro) stop() {
 	p.Running = false
 
 	if p.ticker != nil {
@@ -142,7 +142,7 @@ func (p *pomodoro) stop() {
 	}
 }
 
-func (p *pomodoro) next() {
+func (p *Pomodoro) next() {
 	switch p.Kind {
 	case ShortBreak, LongBreak:
 		p.Kind = Work
