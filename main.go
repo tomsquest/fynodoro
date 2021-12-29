@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	myApp := app.NewWithID("com.tomquest.fynodoro")
+	myApp := app.NewWithID("com.tomsquest.fynodoro")
 	myApp.Settings().SetTheme(&ui.Theme{})
 
 	myPomodoro := pomodoro.NewPomodoroWithDefault()
