@@ -14,7 +14,7 @@ func MakeClassicView(myPomodoro *pomodoro.Pomodoro) *fyne.Container {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
 	timerButton := widget.NewButton("", nil)
-	timerPanel := container.NewMax(timer, timerButton)
+	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewMax(timer, timerButton), layout.NewSpacer())
 
 	startButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
