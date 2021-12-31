@@ -7,7 +7,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 )
 
-//go:generate fyne bundle -o ../bundled.go ../assets/Icon.png
+//go:generate fyne bundle --package ui -o assets.go --prefix Asset ../assets/Icon.png
 
 type Theme struct {
 }
