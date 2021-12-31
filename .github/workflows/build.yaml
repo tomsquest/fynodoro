@@ -4,13 +4,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install Dev dependencies
-      run: sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
-    - uses: WillAbides/setup-go-faster@v1.7.0
-      with:
-        go-version: '1.17.x'
-    - name: Build
-      run: go build -v ./...
-    - name: Test
-      run: go test -v ./...
+      - uses: actions/checkout@v2
+      - name: Install Dev dependencies
+        run: sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
+      - uses: WillAbides/setup-go-faster@v1.7.0
+        with:
+          go-version: '1.17.x'
+      - name: Generate assets
+        run: |
+          go install fyne.io/fyne/v2/cmd/fyne@latest
+          echo "go generate"
+          go generate -v ./...
+          echo "Git status"
+          git status --short
+          # Ensure repo clean after go generate
+          git diff-index --quiet HEAD --
+      - name: Build
+        run: go build -v ./...
+      - name: Test
+        run: go test -v ./...
