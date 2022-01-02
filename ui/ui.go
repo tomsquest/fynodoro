@@ -10,7 +10,7 @@ import (
 	"github.com/tomsquest/fynodoro/pomodoro"
 )
 
-func MakeClassicView(app fyne.App, myPomodoro *pomodoro.Pomodoro) *fyne.Container {
+func MakeClassicView(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
 	timerButton := widget.NewButton("", nil)
@@ -53,15 +53,9 @@ func MakeClassicView(app fyne.App, myPomodoro *pomodoro.Pomodoro) *fyne.Containe
 	}
 	onSettings := func() {
 		win := app.NewWindow("Settings")
-		win.SetIcon(AssetIconPng)
+		win.SetContent(MakeSettings(win))
 		win.CenterOnScreen()
-
-		win.Resize(fyne.NewSize(200, 200))
-		content := widget.NewLabel("Settings")
-
-		win.SetContent(content)
 		win.Show()
-		win.Close()
 	}
 
 	startButton.OnTapped = onPlay
