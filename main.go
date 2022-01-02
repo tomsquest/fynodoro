@@ -9,6 +9,7 @@ import (
 func main() {
 	myApp := app.NewWithID("com.tomsquest.fynodoro")
 	myApp.Settings().SetTheme(&ui.Theme{})
+	myApp.SetIcon(ui.AssetIconPng)
 
 	myPomodoro := pomodoro.NewPomodoroWithDefault()
 	//myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
@@ -19,7 +20,6 @@ func main() {
 	//})
 
 	myWin := myApp.NewWindow("Fynodoro")
-	myWin.SetIcon(ui.AssetIconPng)
 	myWin.CenterOnScreen()
 	myWin.SetMaster()
 	myWin.SetContent(ui.MakeClassicView(myApp, myPomodoro))
