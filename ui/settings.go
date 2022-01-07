@@ -13,22 +13,30 @@ func MakeSettings(win fyne.Window) fyne.CanvasObject {
 
 	workDurationBinding := binding.NewInt()
 	_ = workDurationBinding.Set(25)
-	workDurationFormItem := widget.NewFormItem("Work duration in minutes", newIntegerEntryWithData(binding.IntToString(workDurationBinding)))
+	workDurationEntry := newIntegerEntryWithData(binding.IntToString(workDurationBinding))
+	workDurationEntry.Validator = NewRangeValidator(0, 999)
+	workDurationFormItem := widget.NewFormItem("Work duration in minutes", workDurationEntry)
 	form.AppendItem(workDurationFormItem)
 
 	shortBreakDurationBinding := binding.NewInt()
 	_ = shortBreakDurationBinding.Set(5)
-	shortBreakDurationFormItem := widget.NewFormItem("Short break duration in minutes", newIntegerEntryWithData(binding.IntToString(shortBreakDurationBinding)))
+	shortBreakDurationEntry := newIntegerEntryWithData(binding.IntToString(shortBreakDurationBinding))
+	shortBreakDurationEntry.Validator = NewRangeValidator(0, 999)
+	shortBreakDurationFormItem := widget.NewFormItem("Short break duration in minutes", shortBreakDurationEntry)
 	form.AppendItem(shortBreakDurationFormItem)
 
 	longBreakDurationBinding := binding.NewInt()
 	_ = longBreakDurationBinding.Set(15)
-	longBreakDurationFormItem := widget.NewFormItem("Long break duration in minutes", newIntegerEntryWithData(binding.IntToString(longBreakDurationBinding)))
+	longBreakDurationEntry := newIntegerEntryWithData(binding.IntToString(longBreakDurationBinding))
+	longBreakDurationEntry.Validator = NewRangeValidator(0, 999)
+	longBreakDurationFormItem := widget.NewFormItem("Long break duration in minutes", longBreakDurationEntry)
 	form.AppendItem(longBreakDurationFormItem)
 
 	workRoundsBinding := binding.NewInt()
 	_ = workRoundsBinding.Set(4)
-	workRoundsDurationFormItem := widget.NewFormItem("Work rounds", newIntegerEntryWithData(binding.IntToString(workRoundsBinding)))
+	workRoundsEntry := newIntegerEntryWithData(binding.IntToString(workRoundsBinding))
+	workRoundsEntry.Validator = NewRangeValidator(0, 999999)
+	workRoundsDurationFormItem := widget.NewFormItem("Work rounds", workRoundsEntry)
 	form.AppendItem(workRoundsDurationFormItem)
 
 	form.OnSubmit = func() {
