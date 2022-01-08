@@ -13,7 +13,7 @@ func NewRangeValidator(min int64, max int64) fyne.StringValidator {
 		if err != nil {
 			return errors.New("Not a valid number")
 		}
-		if v <= min {
+		if v < min {
 			return errors.New(fmt.Sprintf("Must be greater that %d", min))
 		}
 		if v > max {
