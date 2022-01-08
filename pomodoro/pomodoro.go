@@ -22,7 +22,7 @@ type Params struct {
 	WorkDuration       time.Duration
 	ShortBreakDuration time.Duration
 	LongBreakDuration  time.Duration
-	WorkRound          uint8
+	WorkRounds         uint8
 	// use for testing, do not set it yourself
 	Clock clock.Clock
 }
@@ -32,7 +32,7 @@ type Pomodoro struct {
 	workDuration       time.Duration
 	shortBreakDuration time.Duration
 	longBreakDuration  time.Duration
-	workRound          uint8
+	workRounds         uint8
 	clock              clock.Clock
 	// External events
 	OnTick func()
@@ -51,35 +51,27 @@ func NewPomodoroWithDefault() *Pomodoro {
 		workDuration:       25 * time.Minute,
 		shortBreakDuration: 5 * time.Minute,
 		longBreakDuration:  15 * time.Minute,
-		workRound:          4,
+		workRounds:         4,
 		Kind:               Work,
 		Running:            false,
 	}
 	p.RemainingTime = p.workDuration
-	p.RemainingRound = p.workRound
+	p.RemainingRound = p.workRounds
 	p.clock = clock.New()
 	return p
 }
 
 func NewPomodoro(params *Params) *Pomodoro {
-	p := NewPomodoroWithDefault()
-	if params.WorkDuration > 0 {
-		p.workDuration = params.WorkDuration
-	}
-	if params.ShortBreakDuration > 0 {
-		p.shortBreakDuration = params.ShortBreakDuration
-	}
-	if params.LongBreakDuration > 0 {
-		p.longBreakDuration = params.LongBreakDuration
-	}
-	if params.WorkRound > 0 {
-		p.workRound = params.WorkRound
-	}
+	p := &Pomodoro{}
+	p.workDuration = params.WorkDuration
+	p.shortBreakDuration = params.ShortBreakDuration
+	p.longBreakDuration = params.LongBreakDuration
+	p.workRounds = params.WorkRounds
 	if params.Clock != nil {
 		p.clock = params.Clock
 	}
 	p.RemainingTime = p.workDuration
-	p.RemainingRound = p.workRound
+	p.RemainingRound = p.workRounds
 	return p
 }
 
@@ -148,14 +140,20 @@ func (p *Pomodoro) next() {
 		p.Kind = Work
 		p.RemainingTime = p.workDuration
 	default:
-		p.RemainingRound--
-		if p.RemainingRound == 0 {
-			p.Kind = LongBreak
-			p.RemainingTime = p.longBreakDuration
-			p.RemainingRound = p.workRound
-		} else {
+		if p.workRounds == 0 || p.longBreakDuration == 0 {
+			// LongBreak disabled, only do ShortBreak
 			p.Kind = ShortBreak
 			p.RemainingTime = p.shortBreakDuration
+		} else {
+			p.RemainingRound--
+			if p.RemainingRound == 0 {
+				p.Kind = LongBreak
+				p.RemainingTime = p.longBreakDuration
+				p.RemainingRound = p.workRounds
+			} else {
+				p.Kind = ShortBreak
+				p.RemainingTime = p.shortBreakDuration
+			}
 		}
 	}
 }
