@@ -7,19 +7,7 @@ import (
 	"time"
 )
 
-func TestNewPomodoroWithDefault(t *testing.T) {
-	p := NewPomodoroWithDefault()
-
-	assert.Equal(t, 25*time.Minute, p.workDuration)
-	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
-	assert.Equal(t, 15*time.Minute, p.longBreakDuration)
-	assert.Equal(t, uint8(4), p.workRounds)
-	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, p.workDuration, p.RemainingTime)
-	assert.False(t, p.Running)
-}
-
-func TestNewPomodoro_withParams(t *testing.T) {
+func TestNewPomodoro(t *testing.T) {
 	p := NewPomodoro(&Params{
 		WorkDuration:       1 * time.Second,
 		ShortBreakDuration: 2 * time.Minute,
@@ -30,7 +18,7 @@ func TestNewPomodoro_withParams(t *testing.T) {
 	assert.Equal(t, 1*time.Second, p.workDuration)
 	assert.Equal(t, 2*time.Minute, p.shortBreakDuration)
 	assert.Equal(t, 3*time.Hour, p.longBreakDuration)
-	assert.Equal(t, uint8(42), p.workRounds)
+	assert.Equal(t, 42, p.workRounds)
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 1*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)

@@ -5,31 +5,27 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
-	"log"
+	"github.com/tomsquest/fynodoro/pref"
 )
 
 func MakeSettings(win fyne.Window) fyne.CanvasObject {
+	myPref := pref.Load()
 	form := widget.NewForm()
 
-	defaultWorkDuration := 25
-	defaultShortBreakDuration := 5
-	defaultLongBreakDuration := 15
-	defaultWorkRoundsDuration := 4
-
 	workDurationBinding := binding.NewInt()
-	_ = workDurationBinding.Set(defaultWorkDuration)
+	_ = workDurationBinding.Set(myPref.WorkDuration)
 	addWorkDurationField(form, workDurationBinding)
 
 	shortBreakDurationBinding := binding.NewInt()
-	_ = shortBreakDurationBinding.Set(defaultShortBreakDuration)
+	_ = shortBreakDurationBinding.Set(myPref.ShortBreakDuration)
 	addShortBreakField(form, shortBreakDurationBinding)
 
 	longBreakDurationBinding := binding.NewInt()
-	_ = longBreakDurationBinding.Set(defaultLongBreakDuration)
+	_ = longBreakDurationBinding.Set(myPref.LongBreakDuration)
 	addLongBreakDurationField(form, longBreakDurationBinding)
 
 	workRoundsBinding := binding.NewInt()
-	_ = workRoundsBinding.Set(defaultWorkRoundsDuration)
+	_ = workRoundsBinding.Set(myPref.WorkRounds)
 	addWorkRoundsField(form, workRoundsBinding)
 
 	form.OnSubmit = func() {
@@ -37,11 +33,13 @@ func MakeSettings(win fyne.Window) fyne.CanvasObject {
 		shortBreakDuration, _ := shortBreakDurationBinding.Get()
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
-		fmt.Println("Submit")
-		log.Println("workDuration:", workDuration)
-		log.Println("shortBreakDuration:", shortBreakDuration)
-		log.Println("longBreakDuration:", longBreakDuration)
-		log.Println("workRounds:", workRounds)
+		pref.Save(pref.Pref{
+			workDuration,
+			shortBreakDuration,
+			longBreakDuration,
+			workRounds,
+		})
+		win.Close()
 	}
 	form.OnCancel = func() {
 		win.Close()

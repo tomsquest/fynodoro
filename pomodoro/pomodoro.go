@@ -22,7 +22,7 @@ type Params struct {
 	WorkDuration       time.Duration
 	ShortBreakDuration time.Duration
 	LongBreakDuration  time.Duration
-	WorkRounds         uint8
+	WorkRounds         int
 	// use for testing, do not set it yourself
 	Clock clock.Clock
 }
@@ -32,7 +32,7 @@ type Pomodoro struct {
 	workDuration       time.Duration
 	shortBreakDuration time.Duration
 	longBreakDuration  time.Duration
-	workRounds         uint8
+	workRounds         int
 	clock              clock.Clock
 	// External events
 	OnTick func()
@@ -40,25 +40,10 @@ type Pomodoro struct {
 	// State
 	Kind           Kind
 	RemainingTime  time.Duration
-	RemainingRound uint8
+	RemainingRound int
 	Running        bool
 	// Internal
 	ticker *clock.Ticker
-}
-
-func NewPomodoroWithDefault() *Pomodoro {
-	p := &Pomodoro{
-		workDuration:       25 * time.Minute,
-		shortBreakDuration: 5 * time.Minute,
-		longBreakDuration:  15 * time.Minute,
-		workRounds:         4,
-		Kind:               Work,
-		Running:            false,
-	}
-	p.RemainingTime = p.workDuration
-	p.RemainingRound = p.workRounds
-	p.clock = clock.New()
-	return p
 }
 
 func NewPomodoro(params *Params) *Pomodoro {
@@ -67,11 +52,15 @@ func NewPomodoro(params *Params) *Pomodoro {
 	p.shortBreakDuration = params.ShortBreakDuration
 	p.longBreakDuration = params.LongBreakDuration
 	p.workRounds = params.WorkRounds
-	if params.Clock != nil {
-		p.clock = params.Clock
-	}
 	p.RemainingTime = p.workDuration
 	p.RemainingRound = p.workRounds
+	p.Kind = Work
+	p.Running = false
+	if params.Clock != nil {
+		p.clock = params.Clock
+	} else {
+		p.clock = clock.New()
+	}
 	return p
 }
 

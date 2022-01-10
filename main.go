@@ -3,7 +3,9 @@ package main
 import (
 	"fyne.io/fyne/v2/app"
 	"github.com/tomsquest/fynodoro/pomodoro"
+	"github.com/tomsquest/fynodoro/pref"
 	"github.com/tomsquest/fynodoro/ui"
+	"time"
 )
 
 func main() {
@@ -11,13 +13,14 @@ func main() {
 	myApp.Settings().SetTheme(&ui.Theme{})
 	myApp.SetIcon(ui.AssetIconPng)
 
-	myPomodoro := pomodoro.NewPomodoroWithDefault()
-	//myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
-	//	WorkRound:          2,
-	//	WorkDuration:       6 * time.Second,
-	//	ShortBreakDuration: 2 * time.Second,
-	//	LongBreakDuration:  4 * time.Second,
-	//})
+	myPref := pref.Load()
+
+	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
+		WorkDuration:       time.Duration(myPref.WorkDuration) * time.Minute,
+		ShortBreakDuration: time.Duration(myPref.ShortBreakDuration) * time.Minute,
+		LongBreakDuration:  time.Duration(myPref.LongBreakDuration) * time.Minute,
+		WorkRounds:         myPref.WorkRounds,
+	})
 
 	myWin := myApp.NewWindow("Fynodoro")
 	myWin.CenterOnScreen()
