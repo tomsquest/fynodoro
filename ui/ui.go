@@ -8,9 +8,27 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/tomsquest/fynodoro/pomodoro"
+	"github.com/tomsquest/fynodoro/pref"
+	"time"
 )
 
-func MakeClassicView(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+func Display(app fyne.App) {
+	myPref := pref.Load()
+	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
+		WorkDuration:       time.Duration(myPref.WorkDuration) * time.Minute,
+		ShortBreakDuration: time.Duration(myPref.ShortBreakDuration) * time.Minute,
+		LongBreakDuration:  time.Duration(myPref.LongBreakDuration) * time.Minute,
+		WorkRounds:         myPref.WorkRounds,
+	})
+
+	myWin := app.NewWindow("Fynodoro")
+	myWin.CenterOnScreen()
+	myWin.SetMaster()
+	myWin.SetContent(MakeClassicLayout(app, myPomodoro))
+	myWin.ShowAndRun()
+}
+
+func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
 	timerButton := widget.NewButton("", nil)
@@ -53,7 +71,16 @@ func MakeClassicView(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasObj
 	}
 	onSettings := func() {
 		win := app.NewWindow("Settings")
-		win.SetContent(MakeSettings(win))
+
+		onPrefUpdated := func(newPref pref.Pref) {
+			myPomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
+			myPomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
+			myPomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
+			myPomodoro.SetWorkRounds(newPref.WorkRounds)
+		}
+
+		settings := MakeSettings(win, onPrefUpdated)
+		win.SetContent(settings)
 		win.CenterOnScreen()
 		win.Show()
 	}

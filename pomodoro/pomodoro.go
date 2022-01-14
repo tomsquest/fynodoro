@@ -64,6 +64,22 @@ func NewPomodoro(params *Params) *Pomodoro {
 	return p
 }
 
+func (p *Pomodoro) SetWorkDuration(duration time.Duration) {
+	p.workDuration = duration
+}
+
+func (p *Pomodoro) SetShortBreakDuration(duration time.Duration) {
+	p.shortBreakDuration = duration
+}
+
+func (p *Pomodoro) SetLongBreakDuration(duration time.Duration) {
+	p.longBreakDuration = duration
+}
+
+func (p *Pomodoro) SetWorkRounds(workRounds int) {
+	p.workRounds = workRounds
+}
+
 func (p *Pomodoro) Start() {
 	p.ticker = p.clock.Ticker(time.Second)
 	p.Running = true

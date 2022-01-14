@@ -8,7 +8,7 @@ import (
 	"github.com/tomsquest/fynodoro/pref"
 )
 
-func MakeSettings(win fyne.Window) fyne.CanvasObject {
+func MakeSettings(win fyne.Window, onSubmit func(newPref pref.Pref)) fyne.CanvasObject {
 	myPref := pref.Load()
 	form := widget.NewForm()
 
@@ -33,14 +33,19 @@ func MakeSettings(win fyne.Window) fyne.CanvasObject {
 		shortBreakDuration, _ := shortBreakDurationBinding.Get()
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
-		pref.Save(pref.Pref{
+
+		newPref := pref.Pref{
 			workDuration,
 			shortBreakDuration,
 			longBreakDuration,
 			workRounds,
-		})
+		}
+		pref.Save(newPref)
+		onSubmit(newPref)
+
 		win.Close()
 	}
+
 	form.OnCancel = func() {
 		win.Close()
 	}
@@ -54,7 +59,7 @@ func addWorkDurationField(form *widget.Form, bind binding.Int) {
 	entry := newIntegerEntryWithData(binding.IntToString(bind))
 	entry.Validator = NewRangeValidator(0, 999)
 	formItem := widget.NewFormItem("Work duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the Work period. Default is: %d minutes", value)
+	formItem.HintText = fmt.Sprintf("Set the duration of the Work period. Default is: %d minutes.", value)
 	form.AppendItem(formItem)
 }
 
@@ -63,7 +68,7 @@ func addShortBreakField(form *widget.Form, bind binding.Int) {
 	entry := newIntegerEntryWithData(binding.IntToString(bind))
 	entry.Validator = NewRangeValidator(1, 999)
 	formItem := widget.NewFormItem("Short break duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the short break. Default is: %d minutes", value)
+	formItem.HintText = fmt.Sprintf("Set the duration of the short break. Default is: %d minutes.", value)
 	form.AppendItem(formItem)
 }
 
