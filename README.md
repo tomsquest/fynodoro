@@ -4,12 +4,18 @@
 
 # Fynodoro, the Pomodoro Widget
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
+![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
+![GitHub status](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
 
-<img align="right" src="screenshots/app.png" alt="Fynodoro app screenshot">
+**Fynodoro** is a tiny and cute Pomodoro **Widget**.
 
-Fynodoro is a tiny and cute Pomodoro **Widget**.
+## Application
+
+<img align="center" src="screenshots/app.png" alt="Fynodoro app screenshot">
+
+## Settings
+
+<img align="center" src="screenshots/settings.png" alt="Fynodoro settings screenshot">
 
 ## Features
 
@@ -73,8 +79,8 @@ git tag v1.3.0 && git push --tags
 ## TODO
 
 - [ ] Pico/Nano/Normal UI
-- [ ] Tons of options ( durations, work rounds...)
-- [ ] Release Snap, Windows, macOS, Android versions
+- [ ] Tons of options (run script on pomodoro end, notification sound, ...)
+- [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits
 
