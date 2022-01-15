@@ -11,11 +11,15 @@
 
 ## Application
 
-<img align="center" src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
+<p align="center">
+    <img src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
+</p>
 
 ## Settings
 
-<img align="center" src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
+<p align="center">
+    <img src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
+</p>
 
 ## Features
 
