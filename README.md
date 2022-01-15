@@ -26,7 +26,7 @@
 - ⏲️ Timer with 25 minutes of work, then short break of 5 min. Do it four times before a long break of 15 minutes. Total: 2 hours. ✨
 - 🚀 Configurable Work rounds, Short breaks, Long breaks ⚡
 - 🏆 Small download size
-- 💼 Releases for linux: Ubuntu/Debian, Fedora/Redhat, and linux binaries
+- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and linux binaries
 
 ## Changelog
 
