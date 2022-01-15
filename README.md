@@ -11,15 +11,18 @@
 
 ## Application
 
-<img align="center" src="screenshots/app.png" alt="Fynodoro app screenshot">
+<img align="center" src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
 
 ## Settings
 
-<img align="center" src="screenshots/settings.png" alt="Fynodoro settings screenshot">
+<img align="center" src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
 
 ## Features
 
-- :rocket: it counts from 25:00 to 0! And then from 5:00 to 0! :zap:
+- ⏲️ Timer with 25 minutes of work, then short break of 5 min. Do it four times before a long break of 15 minutes. Total: 2 hours. ✨
+- 🚀 Configurable Work rounds, Short breaks, Long breaks ⚡
+- 🏆 Small download size
+- 💼 Releases for linux: Ubuntu/Debian, Fedora/Redhat, and linux binaries
 
 ## Changelog
 
@@ -33,7 +36,7 @@ Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/relea
 
 See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads.
 
-#### Install Debian/Ubuntu (.deb)
+#### Install Ubuntu/Debian (.deb)
 
 Latest: [![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/#install)
 
