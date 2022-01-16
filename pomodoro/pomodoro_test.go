@@ -24,14 +24,14 @@ func TestNewPomodoro(t *testing.T) {
 	assert.False(t, p.Running)
 }
 
-func TestNewPomodoro_disableLongBreak_zeroDurationLongBreak(t *testing.T) {
+func TestNewPomodoro_disableLongBreaks_zeroDurationLongBreak(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{
 		LongBreakDuration: 0,
 
-		WorkDuration:       1,
-		ShortBreakDuration: 1,
-		WorkRounds:         1,
+		WorkDuration:       3,
+		ShortBreakDuration: 3,
+		WorkRounds:         3,
 		Clock:              clockMock,
 	})
 
@@ -41,18 +41,53 @@ func TestNewPomodoro_disableLongBreak_zeroDurationLongBreak(t *testing.T) {
 	}
 }
 
-func TestNewPomodoro_disableLongBreak_zeroWorkRounds(t *testing.T) {
+func TestNewPomodoro_disableLongBreaks_zeroWorkRounds(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{
 		WorkRounds: 0,
 
-		WorkDuration:       1,
-		ShortBreakDuration: 1,
-		LongBreakDuration:  1,
+		WorkDuration:       3,
+		ShortBreakDuration: 3,
+		LongBreakDuration:  3,
 		Clock:              clockMock,
 	})
 
 	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, LongBreak, p.Kind)
+		p.Next()
+	}
+}
+
+func TestNewPomodoro_disableShortBreaks_zeroDuration(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		ShortBreakDuration: 0,
+
+		WorkDuration:      3,
+		LongBreakDuration: 3,
+		WorkRounds:        3,
+		Clock:             clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, ShortBreak, p.Kind)
+		p.Next()
+	}
+}
+
+func TestNewPomodoro_disableAnyBreaks(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		ShortBreakDuration: 0,
+		LongBreakDuration:  0,
+
+		WorkDuration: 3,
+		WorkRounds:   3,
+		Clock:        clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, ShortBreak, p.Kind)
 		assert.NotEqual(t, LongBreak, p.Kind)
 		p.Next()
 	}

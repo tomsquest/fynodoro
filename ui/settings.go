@@ -66,9 +66,9 @@ func addWorkDurationField(form *widget.Form, bind binding.Int) {
 func addShortBreakField(form *widget.Form, bind binding.Int) {
 	value, _ := bind.Get()
 	entry := newIntegerEntryWithData(binding.IntToString(bind))
-	entry.Validator = NewRangeValidator(1, 999)
+	entry.Validator = NewRangeValidator(0, 999)
 	formItem := widget.NewFormItem("Short break duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the short break. Default is: %d minutes.", value)
+	formItem.HintText = fmt.Sprintf("Set the duration of the short break. Default is: %d minutes. 0 to disable.", value)
 	form.AppendItem(formItem)
 }
 

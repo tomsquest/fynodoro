@@ -145,10 +145,22 @@ func (p *Pomodoro) next() {
 		p.Kind = Work
 		p.RemainingTime = p.workDuration
 	default:
-		if p.workRounds == 0 || p.longBreakDuration == 0 {
-			// LongBreak disabled, only do ShortBreak
+		shortBreaksDisabled := p.shortBreakDuration == 0
+		longBreaksDisabled := p.workRounds == 0 || p.longBreakDuration == 0
+
+		if shortBreaksDisabled && longBreaksDisabled {
+			// Both Short and Long breaks disabled, only do Work
+			p.RemainingRound--
+			p.Kind = Work
+			p.RemainingTime = p.workDuration
+		} else if longBreaksDisabled {
+			// Only LongBreaks disabled, only do ShortBreak
 			p.Kind = ShortBreak
 			p.RemainingTime = p.shortBreakDuration
+		} else if shortBreaksDisabled {
+			// Only ShortBreaks disabled, only do LongBreak
+			p.Kind = LongBreak
+			p.RemainingTime = p.longBreakDuration
 		} else {
 			p.RemainingRound--
 			if p.RemainingRound == 0 {
