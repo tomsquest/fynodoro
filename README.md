@@ -28,6 +28,23 @@
 - 🏆 Small download size
 - 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binaries
 
+## Configuration
+
+The Pomodoro technique defaults to 4 work rounds of 25 minutes, with a 5 minutes pause ("short break") in-between and a final 15 minutes pause (the "long" break), for a total of 2 hours (4x25m Work + 3x5m Short breaks + 1x15m Long break).
+
+You can **configure**:
+
+- the duration in minutes of the Work period (default: `25` minutes)
+- the duration in minutes of the Short breaks (default: `5` minutes)
+- the duration in minutes of the Long breaks (default: `15` minutes)
+- the number of Work rounds before a long break (default: `4` rounds)
+
+You can **disable** Long breaks by setting the duration of Long breaks to `0` or the number of work rounds to `0`. This will make the timer do a Work period, then a Short break, and so-on, and never do Long break.
+
+You can **disable** Short breaks by setting the duration of Short breaks to `0`. This will make the timer do a Work period, then a Long break, and so-on, and never do Short break.
+
+Tips: you can **disable** both Short and Long breaks by setting them to `0`. The timer will then act as a ticker, notifying you after each Work period.
+
 ## Changelog
 
 See the [Releases](https://github.com/tomsquest/fynodoro/releases) section.
