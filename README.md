@@ -34,13 +34,7 @@ See the [Releases](https://github.com/tomsquest/fynodoro/releases) section.
 
 ## Install
 
-#### Downloads binaries
-
-Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)](https://github.com/tomsquest/fynodoro/releases)
-
-See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads.
-
-#### Install Ubuntu/Debian (.deb)
+### Install Ubuntu/Debian (.deb)
 
 Latest: [![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/#install)
 
@@ -53,7 +47,7 @@ sudo apt install fynodoro
 
 _[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/deb/fynodoro/latest/a=amd64;d=any-distro%252Fany-version;t=binary/#install)_
 
-#### Install Fedora/Redhat (.rpm)
+### Install Fedora/Redhat (.rpm)
 
 Latest: [![Latest version of 'fynodoro' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/tomsquest/fynodoro/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)
 
@@ -69,6 +63,12 @@ sudo zypper install fynodoro
 ```
 
 _[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)_
+
+### Downloads Linux binaries
+
+Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)](https://github.com/tomsquest/fynodoro/releases)
+
+See the [Releases](https://github.com/tomsquest/fynodoro/releases) section for downloads.
 
 ## Releasing the project
 
