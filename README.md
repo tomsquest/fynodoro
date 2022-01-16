@@ -2,20 +2,20 @@
   <img src="screenshots/hero.jpg" alt="Fynodoro hero"/>
 </p>
 
-# Fynodoro, the Pomodoro Widget
+# **Fynodoro** is a tiny and cute Pomodoro **Widget**.
 
 ![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
 ![GitHub status](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
 
-**Fynodoro** is a tiny and cute Pomodoro **Widget**.
+## Screenshots
 
-## Application
+### Timer
 
 <p align="center">
     <img src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
 </p>
 
-## Settings
+### Settings
 
 <p align="center">
     <img src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
