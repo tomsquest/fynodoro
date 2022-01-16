@@ -23,10 +23,10 @@
 
 ## Features
 
-- ⏲️ Timer with 25 minutes of work, then short break of 5 min. Do it four times before a long break of 15 minutes. Total: 2 hours. ✨
-- 🚀 Configurable Work rounds, Short breaks, Long breaks ⚡
+- ⏲️ Pomodoro Timer ✨
+- 🗒️ Configurable: work duration, short break/long break, work rounds 🖊️
 - 🏆 Small download size
-- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and linux binaries
+- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binaries
 
 ## Changelog
 
