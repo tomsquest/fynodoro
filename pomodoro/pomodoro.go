@@ -22,7 +22,7 @@ type Params struct {
 	WorkDuration       time.Duration
 	ShortBreakDuration time.Duration
 	LongBreakDuration  time.Duration
-	WorkRound          uint8
+	WorkRounds         int
 	// use for testing, do not set it yourself
 	Clock clock.Clock
 }
@@ -32,7 +32,7 @@ type Pomodoro struct {
 	workDuration       time.Duration
 	shortBreakDuration time.Duration
 	longBreakDuration  time.Duration
-	workRound          uint8
+	workRounds         int
 	clock              clock.Clock
 	// External events
 	OnTick func()
@@ -40,47 +40,44 @@ type Pomodoro struct {
 	// State
 	Kind           Kind
 	RemainingTime  time.Duration
-	RemainingRound uint8
+	RemainingRound int
 	Running        bool
 	// Internal
 	ticker *clock.Ticker
 }
 
-func NewPomodoroWithDefault() *Pomodoro {
-	p := &Pomodoro{
-		workDuration:       25 * time.Minute,
-		shortBreakDuration: 5 * time.Minute,
-		longBreakDuration:  15 * time.Minute,
-		workRound:          4,
-		Kind:               Work,
-		Running:            false,
-	}
+func NewPomodoro(params *Params) *Pomodoro {
+	p := &Pomodoro{}
+	p.workDuration = params.WorkDuration
+	p.shortBreakDuration = params.ShortBreakDuration
+	p.longBreakDuration = params.LongBreakDuration
+	p.workRounds = params.WorkRounds
 	p.RemainingTime = p.workDuration
-	p.RemainingRound = p.workRound
-	p.clock = clock.New()
+	p.RemainingRound = p.workRounds
+	p.Kind = Work
+	p.Running = false
+	if params.Clock != nil {
+		p.clock = params.Clock
+	} else {
+		p.clock = clock.New()
+	}
 	return p
 }
 
-func NewPomodoro(params *Params) *Pomodoro {
-	p := NewPomodoroWithDefault()
-	if params.WorkDuration > 0 {
-		p.workDuration = params.WorkDuration
-	}
-	if params.ShortBreakDuration > 0 {
-		p.shortBreakDuration = params.ShortBreakDuration
-	}
-	if params.LongBreakDuration > 0 {
-		p.longBreakDuration = params.LongBreakDuration
-	}
-	if params.WorkRound > 0 {
-		p.workRound = params.WorkRound
-	}
-	if params.Clock != nil {
-		p.clock = params.Clock
-	}
-	p.RemainingTime = p.workDuration
-	p.RemainingRound = p.workRound
-	return p
+func (p *Pomodoro) SetWorkDuration(duration time.Duration) {
+	p.workDuration = duration
+}
+
+func (p *Pomodoro) SetShortBreakDuration(duration time.Duration) {
+	p.shortBreakDuration = duration
+}
+
+func (p *Pomodoro) SetLongBreakDuration(duration time.Duration) {
+	p.longBreakDuration = duration
+}
+
+func (p *Pomodoro) SetWorkRounds(workRounds int) {
+	p.workRounds = workRounds
 }
 
 func (p *Pomodoro) Start() {
@@ -148,14 +145,32 @@ func (p *Pomodoro) next() {
 		p.Kind = Work
 		p.RemainingTime = p.workDuration
 	default:
-		p.RemainingRound--
-		if p.RemainingRound == 0 {
-			p.Kind = LongBreak
-			p.RemainingTime = p.longBreakDuration
-			p.RemainingRound = p.workRound
-		} else {
+		shortBreaksDisabled := p.shortBreakDuration == 0
+		longBreaksDisabled := p.workRounds == 0 || p.longBreakDuration == 0
+
+		if shortBreaksDisabled && longBreaksDisabled {
+			// Both Short and Long breaks disabled, only do Work
+			p.RemainingRound--
+			p.Kind = Work
+			p.RemainingTime = p.workDuration
+		} else if longBreaksDisabled {
+			// Only LongBreaks disabled, only do ShortBreak
 			p.Kind = ShortBreak
 			p.RemainingTime = p.shortBreakDuration
+		} else if shortBreaksDisabled {
+			// Only ShortBreaks disabled, only do LongBreak
+			p.Kind = LongBreak
+			p.RemainingTime = p.longBreakDuration
+		} else {
+			p.RemainingRound--
+			if p.RemainingRound == 0 {
+				p.Kind = LongBreak
+				p.RemainingTime = p.longBreakDuration
+				p.RemainingRound = p.workRounds
+			} else {
+				p.Kind = ShortBreak
+				p.RemainingTime = p.shortBreakDuration
+			}
 		}
 	}
 }

@@ -7,52 +7,100 @@ import (
 	"time"
 )
 
-func TestNewPomodoroWithDefault(t *testing.T) {
-	p := NewPomodoroWithDefault()
-
-	assert.Equal(t, 25*time.Minute, p.workDuration)
-	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
-	assert.Equal(t, 15*time.Minute, p.longBreakDuration)
-	assert.Equal(t, uint8(4), p.workRound)
-	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, p.workDuration, p.RemainingTime)
-	assert.False(t, p.Running)
-}
-
-func TestNewPomodoro_emptyParams(t *testing.T) {
-	p := NewPomodoro(&Params{})
-
-	assert.Equal(t, 25*time.Minute, p.workDuration)
-	assert.Equal(t, 5*time.Minute, p.shortBreakDuration)
-	assert.Equal(t, 15*time.Minute, p.longBreakDuration)
-	assert.Equal(t, uint8(4), p.workRound)
-	assert.Equal(t, Work, p.Kind)
-	assert.Equal(t, p.workDuration, p.RemainingTime)
-	assert.False(t, p.Running)
-}
-
-func TestNewPomodoro_withParams(t *testing.T) {
+func TestNewPomodoro(t *testing.T) {
 	p := NewPomodoro(&Params{
 		WorkDuration:       1 * time.Second,
 		ShortBreakDuration: 2 * time.Minute,
 		LongBreakDuration:  3 * time.Hour,
-		WorkRound:          42,
+		WorkRounds:         42,
 	})
 
 	assert.Equal(t, 1*time.Second, p.workDuration)
 	assert.Equal(t, 2*time.Minute, p.shortBreakDuration)
 	assert.Equal(t, 3*time.Hour, p.longBreakDuration)
-	assert.Equal(t, uint8(42), p.workRound)
+	assert.Equal(t, 42, p.workRounds)
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 1*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
 }
 
+func TestNewPomodoro_disableLongBreaks_zeroDurationLongBreak(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		LongBreakDuration: 0,
+
+		WorkDuration:       3,
+		ShortBreakDuration: 3,
+		WorkRounds:         3,
+		Clock:              clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, LongBreak, p.Kind)
+		p.Next()
+	}
+}
+
+func TestNewPomodoro_disableLongBreaks_zeroWorkRounds(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		WorkRounds: 0,
+
+		WorkDuration:       3,
+		ShortBreakDuration: 3,
+		LongBreakDuration:  3,
+		Clock:              clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, LongBreak, p.Kind)
+		p.Next()
+	}
+}
+
+func TestNewPomodoro_disableShortBreaks_zeroDuration(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		ShortBreakDuration: 0,
+
+		WorkDuration:      3,
+		LongBreakDuration: 3,
+		WorkRounds:        3,
+		Clock:             clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, ShortBreak, p.Kind)
+		p.Next()
+	}
+}
+
+func TestNewPomodoro_disableAnyBreaks(t *testing.T) {
+	clockMock := clock.NewMock()
+	p := NewPomodoro(&Params{
+		ShortBreakDuration: 0,
+		LongBreakDuration:  0,
+
+		WorkDuration: 3,
+		WorkRounds:   3,
+		Clock:        clockMock,
+	})
+
+	for i := 0; i < 99; i++ {
+		assert.NotEqual(t, ShortBreak, p.Kind)
+		assert.NotEqual(t, LongBreak, p.Kind)
+		p.Next()
+	}
+}
+
 func TestPomodoro_OnTick(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{
-		WorkRound: 2,
-		Clock:     clockMock,
+		WorkDuration:       25 * time.Second,
+		ShortBreakDuration: 5 * time.Second,
+		LongBreakDuration:  10 * time.Second,
+		WorkRounds:         2,
+		Clock:              clockMock,
 	})
 
 	// Capture tick events
@@ -103,7 +151,7 @@ func TestPomodoro_OnEnd(t *testing.T) {
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
 		LongBreakDuration:  10 * time.Second,
-		WorkRound:          2,
+		WorkRounds:         2,
 		Clock:              clockMock,
 	})
 
@@ -152,7 +200,7 @@ func TestPomodoro_Stop(t *testing.T) {
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
 		LongBreakDuration:  10 * time.Second,
-		WorkRound:          2,
+		WorkRounds:         2,
 		Clock:              clockMock,
 	})
 
@@ -227,7 +275,7 @@ func TestPomodoro_Next(t *testing.T) {
 		WorkDuration:       25 * time.Second,
 		ShortBreakDuration: 5 * time.Second,
 		LongBreakDuration:  10 * time.Second,
-		WorkRound:          3,
+		WorkRounds:         3,
 		Clock:              clockMock,
 	})
 
