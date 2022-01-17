@@ -77,6 +77,9 @@ func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasO
 			myPomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
 			myPomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
 			myPomodoro.SetWorkRounds(newPref.WorkRounds)
+
+			timer.Text = formatDuration(myPomodoro.RemainingTime)
+			timer.Refresh()
 		}
 
 		settings := MakeSettings(win, onPrefUpdated)
