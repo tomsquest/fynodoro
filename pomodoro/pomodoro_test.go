@@ -93,64 +93,31 @@ func TestNewPomodoro_disableAnyBreaks(t *testing.T) {
 	}
 }
 
-func TestPomodoro_SetWorkDuration(t *testing.T) {
+func TestPomodoro_SetRemainingTime(t *testing.T) {
 	p := NewPomodoro(&Params{
-		ShortBreakDuration: 3,
-		LongBreakDuration:  3,
 		WorkDuration:       3,
-		WorkRounds:         3,
+		ShortBreakDuration: 2,
+		LongBreakDuration:  1,
+		WorkRounds:         1,
 		Clock:              clock.NewMock(),
 	})
+	p.Kind = Work
 
-	p.SetWorkDuration(9)
+	p.SetRemainingTime()
 
-	assert.Equal(t, time.Duration(9), p.RemainingTime)
-}
+	assert.Equal(t, time.Duration(3), p.RemainingTime)
 
-func TestPomodoro_SetShortBreakDuration(t *testing.T) {
-	p := NewPomodoro(&Params{
-		ShortBreakDuration: 3,
-		LongBreakDuration:  3,
-		WorkDuration:       3,
-		WorkRounds:         3,
-		Clock:              clock.NewMock(),
-	})
 	p.Kind = ShortBreak
 
-	p.SetShortBreakDuration(9)
+	p.SetRemainingTime()
 
-	assert.Equal(t, time.Duration(9), p.RemainingTime)
-}
+	assert.Equal(t, time.Duration(2), p.RemainingTime)
 
-func TestPomodoro_SetLongBreakDuration(t *testing.T) {
-	p := NewPomodoro(&Params{
-		ShortBreakDuration: 3,
-		LongBreakDuration:  3,
-		WorkDuration:       3,
-		WorkRounds:         3,
-		Clock:              clock.NewMock(),
-	})
 	p.Kind = LongBreak
 
-	p.SetLongBreakDuration(9)
+	p.SetRemainingTime()
 
-	assert.Equal(t, time.Duration(9), p.RemainingTime)
-}
-
-func TestPomodoro_SetWorkRounds(t *testing.T) {
-	p := NewPomodoro(&Params{
-		WorkRounds: 3,
-
-		ShortBreakDuration: 3,
-		LongBreakDuration:  3,
-		WorkDuration:       3,
-		Clock:              clock.NewMock(),
-	})
-
-	p.SetWorkRounds(9)
-
-	assert.Equal(t, 9, p.RemainingRound)
-	assert.Equal(t, 9, p.workRounds)
+	assert.Equal(t, time.Duration(1), p.RemainingTime)
 }
 
 func TestPomodoro_OnTick(t *testing.T) {

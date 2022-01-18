@@ -66,25 +66,22 @@ func NewPomodoro(params *Params) *Pomodoro {
 
 func (p *Pomodoro) SetWorkDuration(duration time.Duration) {
 	p.workDuration = duration
-	p.setRemainingTime()
 }
 
 func (p *Pomodoro) SetShortBreakDuration(duration time.Duration) {
 	p.shortBreakDuration = duration
-	p.setRemainingTime()
 }
 
 func (p *Pomodoro) SetLongBreakDuration(duration time.Duration) {
 	p.longBreakDuration = duration
-	p.setRemainingTime()
 }
 
 func (p *Pomodoro) SetWorkRounds(workRounds int) {
 	p.workRounds = workRounds
-	p.RemainingRound = p.workRounds
 }
 
-func (p *Pomodoro) setRemainingTime() {
+// SetRemainingTime sets the remaining time depending on the pomodoro kind
+func (p *Pomodoro) SetRemainingTime() {
 	switch p.Kind {
 	case Work:
 		p.RemainingTime = p.workDuration
@@ -130,7 +127,7 @@ func (p *Pomodoro) Pause() {
 
 func (p *Pomodoro) Stop() {
 	p.stop()
-	p.setRemainingTime()
+	p.SetRemainingTime()
 }
 
 func (p *Pomodoro) Next() {
@@ -174,5 +171,5 @@ func (p *Pomodoro) next() {
 			}
 		}
 	}
-	p.setRemainingTime()
+	p.SetRemainingTime()
 }
