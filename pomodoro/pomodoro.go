@@ -147,13 +147,13 @@ func (p *Pomodoro) next() {
 	switch p.Kind {
 	case ShortBreak, LongBreak:
 		p.Kind = Work
-	default:
+	case Work:
+		p.RemainingRound--
 		shortBreaksDisabled := p.shortBreakDuration == 0
 		longBreaksDisabled := p.workRounds == 0 || p.longBreakDuration == 0
 
 		if shortBreaksDisabled && longBreaksDisabled {
 			// Both Short and Long breaks disabled, only do Work
-			p.RemainingRound--
 			p.Kind = Work
 		} else if longBreaksDisabled {
 			// Only LongBreaks disabled, only do ShortBreak
@@ -162,8 +162,7 @@ func (p *Pomodoro) next() {
 			// Only ShortBreaks disabled, only do LongBreak
 			p.Kind = LongBreak
 		} else {
-			p.RemainingRound--
-			if p.RemainingRound == 0 {
+			if p.RemainingRound <= 0 {
 				p.Kind = LongBreak
 				p.RemainingRound = p.workRounds
 			} else {

@@ -310,42 +310,49 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 25*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 3, p.RemainingRound)
 
 	// ShortBreak
 	p.Next()
 	assert.Equal(t, ShortBreak, p.Kind)
 	assert.Equal(t, 5*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 2, p.RemainingRound)
 
 	// Work
 	p.Next()
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 25*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 2, p.RemainingRound)
 
 	// ShortBreak
 	p.Next()
 	assert.Equal(t, ShortBreak, p.Kind)
 	assert.Equal(t, 5*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 1, p.RemainingRound)
 
 	// Work
 	p.Next()
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 25*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 1, p.RemainingRound)
 
 	// LongBreak
 	p.Next()
 	assert.Equal(t, LongBreak, p.Kind)
 	assert.Equal(t, 10*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 3, p.RemainingRound)
 
 	// Work
 	p.Next()
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 25*time.Second, p.RemainingTime)
 	assert.False(t, p.Running)
+	assert.Equal(t, 3, p.RemainingRound)
 
 	// While running
 
@@ -356,6 +363,7 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, ShortBreak, p.Kind)
 	assert.Equal(t, 4*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 2, p.RemainingRound)
 
 	// Work
 	p.Next()
@@ -364,6 +372,7 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 24*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 2, p.RemainingRound)
 
 	// ShortBreak
 	p.Next()
@@ -372,6 +381,7 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, ShortBreak, p.Kind)
 	assert.Equal(t, 4*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 1, p.RemainingRound)
 
 	// Work
 	p.Next()
@@ -380,6 +390,7 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 24*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 1, p.RemainingRound)
 
 	// LongBreak
 	p.Next()
@@ -388,6 +399,7 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, LongBreak, p.Kind)
 	assert.Equal(t, 9*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 3, p.RemainingRound)
 
 	// Work
 	p.Next()
@@ -396,4 +408,5 @@ func TestPomodoro_Next(t *testing.T) {
 	assert.Equal(t, Work, p.Kind)
 	assert.Equal(t, 24*time.Second, p.RemainingTime)
 	assert.True(t, p.Running)
+	assert.Equal(t, 3, p.RemainingRound)
 }
