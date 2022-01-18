@@ -93,6 +93,33 @@ func TestNewPomodoro_disableAnyBreaks(t *testing.T) {
 	}
 }
 
+func TestPomodoro_SetRemainingTime(t *testing.T) {
+	p := NewPomodoro(&Params{
+		WorkDuration:       3,
+		ShortBreakDuration: 2,
+		LongBreakDuration:  1,
+		WorkRounds:         1,
+		Clock:              clock.NewMock(),
+	})
+	p.Kind = Work
+
+	p.SetRemainingTime()
+
+	assert.Equal(t, time.Duration(3), p.RemainingTime)
+
+	p.Kind = ShortBreak
+
+	p.SetRemainingTime()
+
+	assert.Equal(t, time.Duration(2), p.RemainingTime)
+
+	p.Kind = LongBreak
+
+	p.SetRemainingTime()
+
+	assert.Equal(t, time.Duration(1), p.RemainingTime)
+}
+
 func TestPomodoro_OnTick(t *testing.T) {
 	clockMock := clock.NewMock()
 	p := NewPomodoro(&Params{
