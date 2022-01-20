@@ -74,8 +74,6 @@ func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasO
 		stopButton.Disable()
 	}
 	onSettings := func() {
-		win := app.NewWindow("Settings")
-
 		onPrefUpdated := func(newPref pref.Pref) {
 			myPomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
 			myPomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
@@ -87,8 +85,15 @@ func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasO
 			timer.Refresh()
 		}
 
+		win := app.NewWindow("Settings")
 		settings := MakeSettings(win, onPrefUpdated)
 		win.SetContent(settings)
+
+		settingsButton.Disable()
+		win.SetOnClosed(func() {
+			settingsButton.Enable()
+		})
+
 		win.CenterOnScreen()
 		win.Show()
 	}
