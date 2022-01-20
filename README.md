@@ -96,7 +96,8 @@ git checkout master && git pull
 if ! [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
   echo "Warning: there are some local changes"
 fi
-git tag v1.3.0 && git push --tags
+git fetch --all --tags
+TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 # Publish Release draft: https://github.com/tomsquest/fynodoro/releases
 ```
 
