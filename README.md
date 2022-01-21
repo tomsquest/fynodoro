@@ -7,6 +7,26 @@
 ![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
 ![GitHub status](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of contents
+
+- [Screenshots](#screenshots)
+  - [Timer](#timer)
+  - [Settings](#settings)
+- [Features](#features)
+- [Configuration](#configuration)
+- [Changelog](#changelog)
+- [Install](#install)
+  - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
+  - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
+  - [Downloads Linux binaries](#downloads-linux-binaries)
+- [Releasing the project](#releasing-the-project)
+- [TODO](#todo)
+- [Credits](#credits)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Screenshots
 
 ### Timer
