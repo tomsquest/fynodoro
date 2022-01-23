@@ -8,7 +8,52 @@ import (
 	"github.com/tomsquest/fynodoro/pref"
 )
 
-func MakeSettings(win fyne.Window, onSubmit func(newPref pref.Pref)) fyne.CanvasObject {
+type Settings interface {
+	Show()
+	SetOnSubmit(callback func())
+	SetOnClose(callback func())
+}
+
+// type validation
+var _ Settings = (*settings)(nil)
+
+type settings struct {
+	win  *fyne.Window
+	form *widget.Form
+}
+
+func NewSettings() Settings {
+	w := fyne.CurrentApp().NewWindow("Settings")
+	f := makeForm()
+	f.OnCancel = func() {
+		w.Close()
+	}
+	f.Refresh()
+
+	w.SetContent(f)
+	w.CenterOnScreen()
+	return &settings{win: &w, form: f}
+}
+
+func (s *settings) Show() {
+	(*s.win).Show()
+}
+
+func (s *settings) SetOnSubmit(callback func()) {
+	formSubmit := s.form.OnSubmit
+	s.form.OnSubmit = func() {
+		formSubmit()
+		(*s.win).Close()
+		callback()
+	}
+	(*s.form).Refresh()
+}
+
+func (s *settings) SetOnClose(callback func()) {
+	(*s.win).SetOnClosed(callback)
+}
+
+func makeForm() *widget.Form {
 	myPref := pref.Load()
 	form := widget.NewForm()
 
@@ -41,16 +86,8 @@ func MakeSettings(win fyne.Window, onSubmit func(newPref pref.Pref)) fyne.Canvas
 			workRounds,
 		}
 		pref.Save(newPref)
-		onSubmit(newPref)
-
-		win.Close()
 	}
 
-	form.OnCancel = func() {
-		win.Close()
-	}
-
-	form.Refresh()
 	return form
 }
 

@@ -24,11 +24,11 @@ func Display(app fyne.App) {
 	myWin := app.NewWindow("Fynodoro")
 	myWin.CenterOnScreen()
 	myWin.SetMaster()
-	myWin.SetContent(MakeClassicLayout(app, myPomodoro))
+	myWin.SetContent(MakeClassicLayout(myPomodoro))
 	myWin.ShowAndRun()
 }
 
-func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
 	timerButton := widget.NewButton("", nil)
@@ -74,28 +74,26 @@ func MakeClassicLayout(app fyne.App, myPomodoro *pomodoro.Pomodoro) fyne.CanvasO
 		stopButton.Disable()
 	}
 	onSettings := func() {
-		onPrefUpdated := func(newPref pref.Pref) {
+		settings := NewSettings()
+		settings.SetOnSubmit(func() {
+			// Apply new preferences to current pomodoro
+			newPref := pref.Load()
 			myPomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
 			myPomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
 			myPomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
 			myPomodoro.SetWorkRounds(newPref.WorkRounds)
 			myPomodoro.SetRemainingTime()
 
+			// Display new duration
 			timer.Text = formatDuration(myPomodoro.RemainingTime)
 			timer.Refresh()
-		}
-
-		win := app.NewWindow("Settings")
-		settings := MakeSettings(win, onPrefUpdated)
-		win.SetContent(settings)
-
-		settingsButton.Disable()
-		win.SetOnClosed(func() {
+		})
+		settings.SetOnClose(func() {
 			settingsButton.Enable()
 		})
 
-		win.CenterOnScreen()
-		win.Show()
+		settingsButton.Disable()
+		settings.Show()
 	}
 
 	playButton.OnTapped = onPlay
