@@ -24,21 +24,28 @@ func Display(app fyne.App) {
 	myWin := app.NewWindow("Fynodoro")
 	myWin.CenterOnScreen()
 	myWin.SetMaster()
-	myWin.SetContent(MakeClassicLayout(myPomodoro))
+	myWin.SetContent(makeLayout(myPomodoro))
 	myWin.ShowAndRun()
 }
 
-func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
-	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
-	timer.TextSize = 42
-	timerButton := widget.NewButton("", nil)
-	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewMax(timer, timerButton), layout.NewSpacer())
+type customLayout struct {
+	timerText      *canvas.Text
+	timerButton    *widget.Button
+	playButton     *widget.Button
+	stopButton     *widget.Button
+	nextButton     *widget.Button
+	settingsButton *widget.Button
+}
 
+func makeLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
+	timerButton := widget.NewButton("", nil)
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
 	nextButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nil)
 	settingsButton := widget.NewButtonWithIcon("", theme.SettingsIcon(), nil)
-	buttons := container.NewHBox(layout.NewSpacer(), playButton, stopButton, nextButton, settingsButton, layout.NewSpacer())
+
+	// Disable stop button on start
 	stopButton.Disable()
 
 	onPlay := func() {
@@ -116,5 +123,21 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 		notifyPomodoroDone(kind)
 	}
 
+	myLayout := customLayout{
+		timerText:      timer,
+		timerButton:    timerButton,
+		playButton:     playButton,
+		stopButton:     stopButton,
+		nextButton:     nextButton,
+		settingsButton: settingsButton,
+	}
+
+	return myLayout.newClassicLayout()
+}
+
+func (l *customLayout) newClassicLayout() *fyne.Container {
+	l.timerText.TextSize = 42
+	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewMax(l.timerText, l.timerButton), layout.NewSpacer())
+	buttons := container.NewHBox(layout.NewSpacer(), l.playButton, l.stopButton, l.nextButton, l.settingsButton, layout.NewSpacer())
 	return container.NewVBox(timerPanel, buttons)
 }
