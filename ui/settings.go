@@ -28,6 +28,7 @@ func NewSettings() Settings {
 	f.OnCancel = func() {
 		w.Close()
 	}
+	// Need to "refresh" to make the Submit and Cancel buttons appears
 	f.Refresh()
 
 	w.SetContent(f)
@@ -59,19 +60,19 @@ func makeForm() *widget.Form {
 
 	workDurationBinding := binding.NewInt()
 	_ = workDurationBinding.Set(myPref.WorkDuration)
-	addWorkDurationField(form, workDurationBinding)
+	form.AppendItem(newIntegerFormItem(workDurationBinding, "Work duration in minutes", "Set the duration of the Work period. Default is: %d minutes.", NewRangeValidator(0, 999)))
 
 	shortBreakDurationBinding := binding.NewInt()
 	_ = shortBreakDurationBinding.Set(myPref.ShortBreakDuration)
-	addShortBreakField(form, shortBreakDurationBinding)
+	form.AppendItem(newIntegerFormItem(workDurationBinding, "Short break duration in minutes", "Set the duration of the short break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	longBreakDurationBinding := binding.NewInt()
 	_ = longBreakDurationBinding.Set(myPref.LongBreakDuration)
-	addLongBreakDurationField(form, longBreakDurationBinding)
+	form.AppendItem(newIntegerFormItem(workDurationBinding, "Long break duration in minutes", "Set the duration of the long break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	workRoundsBinding := binding.NewInt()
 	_ = workRoundsBinding.Set(myPref.WorkRounds)
-	addWorkRoundsField(form, workRoundsBinding)
+	form.AppendItem(newIntegerFormItem(workDurationBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
 
 	form.OnSubmit = func() {
 		workDuration, _ := workDurationBinding.Get()
@@ -91,38 +92,11 @@ func makeForm() *widget.Form {
 	return form
 }
 
-func addWorkDurationField(form *widget.Form, bind binding.Int) {
+func newIntegerFormItem(bind binding.Int, entryText string, hintText string, validator fyne.StringValidator) *widget.FormItem {
 	value, _ := bind.Get()
 	entry := newIntegerEntryWithData(binding.IntToString(bind))
-	entry.Validator = NewRangeValidator(0, 999)
-	formItem := widget.NewFormItem("Work duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the Work period. Default is: %d minutes.", value)
-	form.AppendItem(formItem)
-}
-
-func addShortBreakField(form *widget.Form, bind binding.Int) {
-	value, _ := bind.Get()
-	entry := newIntegerEntryWithData(binding.IntToString(bind))
-	entry.Validator = NewRangeValidator(0, 999)
-	formItem := widget.NewFormItem("Short break duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the short break. Default is: %d minutes. 0 to disable.", value)
-	form.AppendItem(formItem)
-}
-
-func addLongBreakDurationField(form *widget.Form, bind binding.Int) {
-	value, _ := bind.Get()
-	entry := newIntegerEntryWithData(binding.IntToString(bind))
-	entry.Validator = NewRangeValidator(0, 999)
-	formItem := widget.NewFormItem("Long break duration in minutes", entry)
-	formItem.HintText = fmt.Sprintf("Set the duration of the long break. Default is: %d minutes. 0 to disable.", value)
-	form.AppendItem(formItem)
-}
-
-func addWorkRoundsField(form *widget.Form, bind binding.Int) {
-	value, _ := bind.Get()
-	entry := newIntegerEntryWithData(binding.IntToString(bind))
-	entry.Validator = NewRangeValidator(0, 999999)
-	formItem := widget.NewFormItem("Work rounds", entry)
-	formItem.HintText = fmt.Sprintf("Set how many Work rounds before a long break. Default is: %d. 0 to disable.", value)
-	form.AppendItem(formItem)
+	entry.Validator = validator
+	formItem := widget.NewFormItem(entryText, entry)
+	formItem.HintText = fmt.Sprintf(hintText, value)
+	return formItem
 }
