@@ -64,15 +64,15 @@ func makeForm() *widget.Form {
 
 	shortBreakDurationBinding := binding.NewInt()
 	_ = shortBreakDurationBinding.Set(myPref.ShortBreakDuration)
-	form.AppendItem(newIntegerFormItem(workDurationBinding, "Short break duration in minutes", "Set the duration of the short break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(shortBreakDurationBinding, "Short break duration in minutes", "Set the duration of the short break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	longBreakDurationBinding := binding.NewInt()
 	_ = longBreakDurationBinding.Set(myPref.LongBreakDuration)
-	form.AppendItem(newIntegerFormItem(workDurationBinding, "Long break duration in minutes", "Set the duration of the long break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(longBreakDurationBinding, "Long break duration in minutes", "Set the duration of the long break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	workRoundsBinding := binding.NewInt()
 	_ = workRoundsBinding.Set(myPref.WorkRounds)
-	form.AppendItem(newIntegerFormItem(workDurationBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(workRoundsBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
 
 	form.OnSubmit = func() {
 		workDuration, _ := workDurationBinding.Get()
