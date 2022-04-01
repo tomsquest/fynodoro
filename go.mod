@@ -7,13 +7,13 @@ require (
 	github.com/benbjohnson/clock v1.3.0
 	github.com/gen2brain/beeep v0.0.0-20210529141713-5586760f0cc1
 	github.com/godbus/dbus/v5 v5.0.6 // indirect
+	github.com/hajimehoshi/go-mp3 v0.3.0
+	github.com/hajimehoshi/oto v0.7.1
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/sys v0.0.0-20211124211545-fe61309f8881 // indirect
 	golang.org/x/text v0.3.5 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
-
-require github.com/faiface/beep v1.1.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -25,9 +25,7 @@ require (
 	github.com/goki/freetype v0.0.0-20181231101311-fa8a33aabaff // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20180825215210-0210a2f0f73c // indirect
 	github.com/gopherjs/gopherwasm v1.1.0 // indirect
-	github.com/hajimehoshi/oto v0.7.1 // indirect
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/srwiley/oksvg v0.0.0-20200311192757-870daf9aa564 // indirect
 	github.com/srwiley/rasterx v0.0.0-20200120212402-85cb7272f5e9 // indirect

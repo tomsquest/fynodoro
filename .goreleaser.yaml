@@ -43,6 +43,8 @@ nfpms:
         dst: /usr/share/pixmaps/fynodoro.png
       - src: assets/fynodoro.desktop
         dst: /usr/local/share/applications/fynodoro.desktop
+      - src: assets/notification.mp3
+        dst: /usr/share/fynodoro/notification.mp3
     overrides:
       deb:
         dependencies:

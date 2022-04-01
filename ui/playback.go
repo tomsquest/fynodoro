@@ -1,35 +1,47 @@
 package ui
 
 import (
-	"bytes"
-	"github.com/faiface/beep"
+	"github.com/hajimehoshi/go-mp3"
+	"github.com/hajimehoshi/oto"
+	"io"
 	"log"
-	"time"
-
-	"github.com/faiface/beep/speaker"
-	"github.com/faiface/beep/wav"
+	"os"
+	"sync"
 )
 
+var once sync.Once
+var context *oto.Context
+
 func playNotificationSound() {
-	sound := bytes.NewReader(AssetBingWav.StaticContent)
+	fileName := "/usr/share/fynodoro/notification.mp3"
+	f, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	decoder, err := mp3.NewDecoder(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	once.Do(func() {
+		context, err = oto.NewContext(decoder.SampleRate(), 2, 2, 8192)
+		if err != nil {
+			log.Fatal(err)
+		}
+	})
 
 	go func() {
-		//streamer, format, err := mp3.Decode(f)
-		streamer, format, err := wav.Decode(sound)
-		if err != nil {
+		player := context.NewPlayer()
+		defer func() {
+			err := player.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}()
+
+		if _, err := io.Copy(player, decoder); err != nil {
 			log.Fatal(err)
 		}
-		_ = streamer.Close()
-
-		err = speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		done := make(chan bool)
-		speaker.Play(beep.Seq(streamer, beep.Callback(func() {
-			done <- true
-		})))
-		<-done
 	}()
 }

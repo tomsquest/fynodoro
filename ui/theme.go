@@ -8,7 +8,6 @@ import (
 )
 
 //go:generate fyne bundle --package ui -o assets.go --prefix Asset ../assets/Icon.png
-//go:generate fyne bundle --package ui -o assets.go --prefix Asset --append ../assets/bing.wav
 
 type Theme struct {
 }
