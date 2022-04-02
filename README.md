@@ -1,26 +1,27 @@
-<p align="center">
+<p align="center" width="100%">
   <img src="screenshots/hero.jpg" alt="Fynodoro hero"/>
 </p>
 
-# **Fynodoro** is a tiny and cute Pomodoro **Widget**.
+# **Fynodoro** is a tiny and cute Pomodoro **Widget**
 
 ![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
 ![GitHub status](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of contents
 
 - [Screenshots](#screenshots)
-  - [Timer](#timer)
-  - [Settings](#settings)
+    - [Timer](#timer)
+    - [Settings](#settings)
 - [Features](#features)
 - [Configuration](#configuration)
 - [Changelog](#changelog)
 - [Install](#install)
-  - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
-  - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
-  - [Downloads Linux binaries](#downloads-linux-binaries)
+    - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
+    - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
+    - [Downloads Linux binaries](#downloads-linux-binaries)
 - [Releasing the project](#releasing-the-project)
 - [TODO](#todo)
 - [Credits](#credits)
@@ -31,13 +32,13 @@
 
 ### Timer
 
-<p align="center">
+<p align="center" width="100%">
     <img src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
 </p>
 
 ### Settings
 
-<p align="center">
+<p align="center" width="100%">
     <img src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
 </p>
 
@@ -46,7 +47,7 @@
 - ⏲️ Pomodoro Timer ✨
 - 🗒️ Configurable: work duration, short break/long break, work rounds 🖊️
 - 🏆 Small download size
-- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binaries
+- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binary
 
 ## Configuration
 
