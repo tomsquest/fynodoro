@@ -125,10 +125,11 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 ## TODO
 
 - [ ] Pico/Nano/Normal UI
-- [ ] Tons of options (run script on pomodoro end, notification sound, ...)
+- [ ] Tons of options (run script on pomodoro end, notification sound on/off, ...)
 - [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits
 
 - Icon made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/free-icon/tomato_877814)
 - Screenshot pimped with [PrettySnap](https://prettysnap.app)
+- Notification sound from [Zedge](https://www.zedge.net/ringtones)
