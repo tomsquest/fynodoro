@@ -1,10 +1,10 @@
 package ui
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/go-mp3"
 	"github.com/hajimehoshi/oto"
 	"io"
-	"log"
 	"os"
 	"sync"
 )
@@ -12,36 +12,36 @@ import (
 var once sync.Once
 var context *oto.Context
 
-func playNotificationSound() {
+func playNotificationSound() error {
 	fileName := "/usr/share/fynodoro/notification.mp3"
 	f, err := os.Open(fileName)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("unable to read %s: %w", fileName, err)
 	}
 
 	decoder, err := mp3.NewDecoder(f)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("unable to decode %s: %w", fileName, err)
 	}
 
 	once.Do(func() {
 		context, err = oto.NewContext(decoder.SampleRate(), 2, 2, 8192)
-		if err != nil {
-			log.Fatal(err)
-		}
 	})
+	if err != nil {
+		return fmt.Errorf("unable to create oto context: %w", err)
+	}
 
 	go func() {
 		player := context.NewPlayer()
 		defer func() {
-			err := player.Close()
-			if err != nil {
-				log.Fatal(err)
-			}
+			err = player.Close()
 		}()
 
-		if _, err := io.Copy(player, decoder); err != nil {
-			log.Fatal(err)
-		}
+		_, err = io.Copy(player, decoder)
 	}()
+	if err != nil {
+		return fmt.Errorf("unable to play: %w", err)
+	}
+
+	return nil
 }
