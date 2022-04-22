@@ -16,8 +16,9 @@
     - [Timer](#timer)
     - [Settings](#settings)
 - [Features](#features)
-- [Configuration](#configuration)
 - [Changelog](#changelog)
+- [Configuration](#configuration)
+  - [Notification sound](#notification-sound)
 - [Install](#install)
     - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
     - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
@@ -49,6 +50,10 @@
 - 🏆 Small download size
 - 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binary
 
+## Changelog
+
+See the [Releases](https://github.com/tomsquest/fynodoro/releases) section on GitHub.
+
 ## Configuration
 
 The Pomodoro technique defaults to 4 work rounds of 25 minutes, with a 5 minutes pause ("short break") in-between and a final 15 minutes pause (the "long" break), for a total of 2 hours (4x25m Work + 3x5m Short breaks + 1x15m Long break).
@@ -66,9 +71,10 @@ You can **disable** Short breaks by setting the duration of Short breaks to `0`.
 
 Tips: you can **disable** both Short and Long breaks by setting them to `0`. The timer will then act as a ticker, notifying you after each Work period.
 
-## Changelog
+### Notification sound
 
-See the [Releases](https://github.com/tomsquest/fynodoro/releases) section.
+The notification sound is stored in: `/usr/share/fynodoro/notification.mp3`.  
+You can override it if you wish with another **mp3** file.
 
 ## Install
 
@@ -125,10 +131,11 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 ## TODO
 
 - [ ] Pico/Nano/Normal UI
-- [ ] Tons of options (run script on pomodoro end, notification sound, ...)
+- [ ] Tons of options (run script on pomodoro end, notification sound on/off, ...)
 - [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits
 
 - Icon made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/free-icon/tomato_877814)
 - Screenshot pimped with [PrettySnap](https://prettysnap.app)
+- Notification sound from [Zedge](https://www.zedge.net/ringtones)
