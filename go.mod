@@ -7,14 +7,11 @@ require (
 	github.com/benbjohnson/clock v1.3.0
 	github.com/gen2brain/beeep v0.0.0-20220909211152-5a9ec94374f6
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/hajimehoshi/go-mp3 v0.3.4
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect; indirect--
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-require github.com/hajimehoshi/oto/v2 v2.3.1
 
 require (
 	fyne.io/systray v1.10.1-0.20221115204952-d16a6177e6f1 // indirect

@@ -14,9 +14,4 @@ func notifyPomodoroDone(kind pomodoro.Kind) {
 	if err != nil {
 		log.Printf("unable to notify: %v\n", err)
 	}
-
-	err = playNotificationSound()
-	if err != nil {
-		log.Printf("unable to play notification sound: %v\n", err)
-	}
 }
