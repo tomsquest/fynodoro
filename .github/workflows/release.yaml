@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
       - uses: WillAbides/setup-go-faster@v1.7.0
         with:
-          go-version: '1.18.x'
+          go-version: '1.19.x'
       - name: Install Dev dependencies
         run: sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev libasound2-dev
       - name: Install Cloudsmith CLI
