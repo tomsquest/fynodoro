@@ -22,7 +22,6 @@ func Display(app fyne.App) {
 	})
 
 	myWin := app.NewWindow("Fynodoro")
-	myWin.CenterOnScreen()
 	myWin.SetMaster()
 	myWin.SetContent(MakeClassicLayout(myPomodoro))
 	myWin.ShowAndRun()

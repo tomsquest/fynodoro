@@ -32,7 +32,6 @@ func NewSettings() Settings {
 	f.Refresh()
 
 	w.SetContent(f)
-	w.CenterOnScreen()
 	return &settings{win: &w, form: f}
 }
 
