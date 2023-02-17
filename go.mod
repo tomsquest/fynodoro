@@ -9,7 +9,7 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect; indirect--
+	golang.org/x/text v0.7.0 // indirect; indirect--
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -36,7 +36,7 @@ require (
 	github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/yuin/goldmark v1.5.3 // indirect
-	golang.org/x/image v0.3.0 // indirect
+	golang.org/x/image v0.5.0 // indirect
 	golang.org/x/mobile v0.0.0-20221110043201-43a038452099 // indirect
 	golang.org/x/net v0.5.0 // indirect
 	honnef.co/go/js/dom v0.0.0-20221001195520-26252dedbe70 // indirect
