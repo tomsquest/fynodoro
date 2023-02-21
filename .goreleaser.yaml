@@ -10,9 +10,6 @@ gomod:
 builds:
   - targets:
       - linux_amd64
-    env:
-      # Required by oto (sound library)
-      - CGO_ENABLED=1
     # Reproducible build
     # https://goreleaser.com/customization/build/#reproducible-builds
     mod_timestamp: '{{ .CommitTimestamp }}'
@@ -45,15 +42,8 @@ nfpms:
         dst: /usr/local/share/applications/fynodoro.desktop
       - src: assets/notification.mp3
         dst: /usr/share/fynodoro/notification.mp3
-    overrides:
-      deb:
-        dependencies:
-          # Required by oto (sound library)
-          - libasound2-dev
-      rpm:
-        dependencies:
-          # Required by oto (sound library)
-          - alsa-lib-devel
+      - src: assets/notify.sh
+        dst: /usr/share/fynodoro/notify.sh
 release:
   draft: true
   footer: |
