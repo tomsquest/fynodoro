@@ -5,7 +5,7 @@
 # **Fynodoro** is a tiny and cute Pomodoro **Widget**
 
 ![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
-![GitHub status](https://img.shields.io/github/workflow/status/tomsquest/fynodoro/build/master?style=flat-square)
+![GitHub status](https://img.shields.io/github/actions/workflow/status/tomsquest/fynodoro/build.yaml?branch=master&style=flat-square)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
