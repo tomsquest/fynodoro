@@ -18,7 +18,7 @@
 - [Features](#features)
 - [Changelog](#changelog)
 - [Configuration](#configuration)
-  - [Notification sound](#notification-sound)
+    - [Notification sound](#notification-sound)
 - [Install](#install)
     - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
     - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
@@ -40,7 +40,7 @@
 ### Settings
 
 <p align="center" width="100%">
-    <img src="screenshots/settings,pimped.png" alt="Fynodoro settings screenshot">
+    <img src="screenshots/settings.pimped.png" alt="Fynodoro settings screenshot">
 </p>
 
 ## Features
