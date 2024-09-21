@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"github.com/gen2brain/beeep"
+	"fyne.io/fyne/v2"
 	"github.com/tomsquest/fynodoro/pomodoro"
 	"log"
 	"os/exec"
@@ -10,11 +10,9 @@ import (
 
 func notifyPomodoroDone(kind pomodoro.Kind) {
 	title := fmt.Sprintf("%s done", kind)
-	message := fmt.Sprintf("You just finished a %s pomodoro.", kind)
-	err := beeep.Notify(title, message, "/usr/share/pixmaps/fynodoro.png")
-	if err != nil {
-		log.Printf("unable to display notification bubble: %v\n", err)
-	}
+	content := fmt.Sprintf("You just finished a %s pomodoro.", kind)
+	notification := fyne.NewNotification(title, content)
+	fyne.CurrentApp().SendNotification(notification)
 
 	script := "/home/tom/Dev/fynodoro/assets/notify.sh"
 	cmd := exec.Command("/bin/sh", script)
