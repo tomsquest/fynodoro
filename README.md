@@ -108,7 +108,7 @@ sudo zypper install fynodoro
 
 _[Complete instructions at CloudSmith.io](https://cloudsmith.io/~tomsquest/repos/fynodoro/packages/detail/rpm/fynodoro/latest/a=x86_64;d=any-distro%252Fany-version;t=binary/#install)_
 
-### Downloads Linux binaries
+### Download Linux binaries
 
 Latest: [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)](https://github.com/tomsquest/fynodoro/releases)
 
@@ -131,7 +131,7 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 ## TODO
 
 - [ ] Pico/Nano/Normal UI
-- [ ] Tons of options (run script on pomodoro end, notification sound on/off, ...)
+- [ ] Tons of options (run script on the pomodoro end, notification sound on/off, ...)
 - [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits

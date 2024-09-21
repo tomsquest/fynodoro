@@ -10,10 +10,10 @@ jobs:
   fix:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: WillAbides/setup-go-faster@v1.8.0
+      - uses: actions/checkout@v4
+      - uses: WillAbides/setup-go-faster@v1.14.0
         with:
-          go-version: '1.19.x'
+          go-version: '1.23.1'
       - name: tidy
         uses: paulvollmer/action-golang-gosum@v1.0.0
         env:
