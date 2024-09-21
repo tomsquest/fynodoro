@@ -136,6 +136,9 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 
 ## Credits
 
+- Fynodoro is built in Go, using the awesome [Fyne toolkit](https://fyne.io) for the UI
+- [CloudSmith.io](https://cloudsmith.io) for hosting the packages
+- [Go Releaser](https://goreleaser.com) for the release automation
 - Icon made by [Freepik](https://www.freepik.com) from [Flaticon](https://www.flaticon.com/free-icon/tomato_877814)
 - Screenshot pimped with [PrettySnap](https://prettysnap.app)
 - Notification sound from [Zedge](https://www.zedge.net/ringtones)
