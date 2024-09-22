@@ -25,9 +25,9 @@ func Display(app fyne.App) {
 	mainWindow := app.NewWindow("Fynodoro")
 	if desk, ok := app.(desktop.App); ok {
 		trayMenu := fyne.NewMenu(app.Metadata().Name,
-			fyne.NewMenuItem("Show", func() {
-				mainWindow.Show()
-			}))
+			fyne.NewMenuItem("Show", mainWindow.Show),
+			fyne.NewMenuItem("Hide", mainWindow.Hide),
+			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
 	mainWindow.SetMaster()
