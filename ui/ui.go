@@ -4,6 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
@@ -21,16 +22,26 @@ func Display(app fyne.App) {
 		WorkRounds:         myPref.WorkRounds,
 	})
 
-	myWin := app.NewWindow("Fynodoro")
-	myWin.SetMaster()
-	myWin.SetContent(MakeClassicLayout(myPomodoro))
-	myWin.ShowAndRun()
+	mainWindow := app.NewWindow("Fynodoro")
+	if desk, ok := app.(desktop.App); ok {
+		trayMenu := fyne.NewMenu(app.Metadata().Name,
+			fyne.NewMenuItem("Show", mainWindow.Show),
+			fyne.NewMenuItem("Hide", mainWindow.Hide),
+			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen))
+		desk.SetSystemTrayMenu(trayMenu)
+	}
+	mainWindow.SetMaster()
+	mainWindow.SetContent(MakeClassicLayout(myPomodoro))
+	mainWindow.SetCloseIntercept(func() {
+		mainWindow.Hide()
+	})
+	mainWindow.ShowAndRun()
 }
 
 func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
-	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewMax(timer), layout.NewSpacer())
+	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewStack(timer), layout.NewSpacer())
 
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
