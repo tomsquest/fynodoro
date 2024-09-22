@@ -41,7 +41,7 @@ func Display(app fyne.App) {
 func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := canvas.NewText(formatDuration(myPomodoro.RemainingTime), nil)
 	timer.TextSize = 42
-	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewMax(timer), layout.NewSpacer())
+	timerPanel := container.NewHBox(layout.NewSpacer(), container.NewStack(timer), layout.NewSpacer())
 
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
