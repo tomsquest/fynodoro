@@ -11,7 +11,7 @@ import (
 type Settings interface {
 	Show()
 	SetOnSubmit(callback func())
-	SetOnClose(callback func())
+	SetOnClosed(callback func())
 }
 
 // type validation
@@ -49,7 +49,7 @@ func (s *settings) SetOnSubmit(callback func()) {
 	(*s.form).Refresh()
 }
 
-func (s *settings) SetOnClose(callback func()) {
+func (s *settings) SetOnClosed(callback func()) {
 	(*s.win).SetOnClosed(callback)
 }
 
