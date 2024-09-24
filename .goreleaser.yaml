@@ -1,3 +1,7 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+
+version: 2
+
 before:
   hooks:
     - go install fyne.io/fyne/v2/cmd/fyne@latest
