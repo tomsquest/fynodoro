@@ -95,7 +95,7 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 			timer.Text = formatDuration(myPomodoro.RemainingTime)
 			timer.Refresh()
 		})
-		settings.SetOnClose(func() {
+		settings.SetOnClosed(func() {
 			settingsButton.Enable()
 		})
 
