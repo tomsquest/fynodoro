@@ -13,7 +13,13 @@ import (
 	"time"
 )
 
-func Display(app fyne.App) {
+type BuildInfo struct {
+	Version    string
+	Commit     string
+	CommitDate string
+}
+
+func Display(app fyne.App, buildInfo BuildInfo) {
 	myPref := pref.Load()
 	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
 		WorkDuration:       time.Duration(myPref.WorkDuration) * time.Minute,
@@ -23,19 +29,49 @@ func Display(app fyne.App) {
 	})
 
 	mainWindow := app.NewWindow("Fynodoro")
+
 	if desk, ok := app.(desktop.App); ok {
-		trayMenu := fyne.NewMenu(app.Metadata().Name,
+		aboutWindow := makeAboutWindow(app, buildInfo)
+		trayMenu := fyne.NewMenu("Fynodoro",
 			fyne.NewMenuItem("Show", mainWindow.Show),
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
-			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen))
+			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
+			fyne.NewMenuItem("About", aboutWindow.Show))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
+
 	mainWindow.SetMaster()
 	mainWindow.SetContent(MakeClassicLayout(myPomodoro))
-	mainWindow.SetCloseIntercept(func() {
-		mainWindow.Hide()
-	})
+	mainWindow.SetCloseIntercept(mainWindow.Hide)
 	mainWindow.ShowAndRun()
+}
+
+func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
+	aboutWindow := app.NewWindow("About Fynodoro")
+	aboutWindow.SetFixedSize(true)
+
+	img := canvas.NewImageFromResource(AssetIconPng)
+	img.SetMinSize(fyne.NewSquareSize(64))
+	imgContainer := container.NewHBox(img, layout.NewSpacer())
+
+	markdownStr := "# Fynodoro" + "\n"
+	markdownStr += "" + "\n"
+	markdownStr += "Fynodoro is a tiny and cute **Pomodoro** Widget" + "\n"
+	markdownStr += "" + "\n"
+	markdownStr += "- `Version:     " + buildInfo.Version + "`" + "\n"
+	markdownStr += "- `Commit date: " + buildInfo.CommitDate + " `" + "\n"
+	markdownStr += "- `Commit:      " + buildInfo.Commit + "`" + "\n"
+	markdown := widget.NewRichTextFromMarkdown(markdownStr)
+
+	closeButton := &widget.Button{
+		Text:     "Close",
+		OnTapped: aboutWindow.Hide,
+	}
+	buttonsContainer := container.NewHBox(layout.NewSpacer(), closeButton)
+
+	aboutWindow.SetContent(container.NewVBox(imgContainer, markdown, layout.NewSpacer(), buttonsContainer))
+
+	return aboutWindow
 }
 
 func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
