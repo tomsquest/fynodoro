@@ -128,10 +128,17 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 # Publish Release draft: https://github.com/tomsquest/fynodoro/releases
 ```
 
-## TODO
+## TODO & IDEAS
 
-- [ ] Pico/Nano/Normal UI
-- [ ] Tons of options (run script on the pomodoro end, notification sound on/off, ...)
+- [ ] Make the timer clickable (start/stop)
+- [ ] Display the type of Pomodoro: Work/Short/Long
+- [ ] Display the time left in the Tray (see [Fomato](https://github.com/andydotxyz/fomato)
+- [ ] Resizable UI (scale timer and buttons with the window)
+- [ ] Pico/Nano/Normal UI presets
+- [ ] option for Dark/Light mode (what about Fyne global preferences?)
+- [ ] option to disable notification popup
+- [ ] option to change notification script
+- [ ] Keyboard shortcuts
 - [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits
