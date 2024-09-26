@@ -9,22 +9,21 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 ## Table of contents
 
 - [Screenshots](#screenshots)
-    - [Timer](#timer)
-    - [Settings](#settings)
+  - [Timer](#timer)
+  - [Settings](#settings)
 - [Features](#features)
 - [Changelog](#changelog)
 - [Configuration](#configuration)
-    - [Notification sound](#notification-sound)
+  - [Notification sound](#notification-sound)
 - [Install](#install)
-    - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
-    - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
-    - [Downloads Linux binaries](#downloads-linux-binaries)
+  - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
+  - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
+  - [Download Linux binaries](#download-linux-binaries)
 - [Releasing the project](#releasing-the-project)
-- [TODO](#todo)
+- [TODO & IDEAS](#todo--ideas)
 - [Credits](#credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
