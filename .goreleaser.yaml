@@ -24,6 +24,8 @@ builds:
 # Enable macOS "Universal Binaries" (amd64 + arm binaries)
 universal_binaries:
   - replace: true
+upx:
+  - enabled: true
 archives:
   # Upload the binaries, not archives
   - format: binary
