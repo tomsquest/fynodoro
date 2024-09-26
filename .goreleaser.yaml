@@ -33,7 +33,7 @@ checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
 nfpms:
   - maintainer: Thomas Queste <tom@tomsquest.com>
-    description: Fynodoro is a Pomodoro Widget
+    description: Fynodoro is a tiny and cute Pomodoro Widget
     homepage: https://github.com/tomsquest/fynodoro
     vendor: Tom's Quest
     license: MIT

@@ -56,7 +56,7 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 
 	markdownStr := "# Fynodoro" + "\n"
 	markdownStr += "" + "\n"
-	markdownStr += "Fynodoro is a tiny and cute **Pomodoro** Widget" + "\n"
+	markdownStr += "Fynodoro is a tiny and cute Pomodoro Widget" + "\n"
 	markdownStr += "" + "\n"
 	markdownStr += "- `Version:     " + buildInfo.Version + "`" + "\n"
 	markdownStr += "- `Commit date: " + buildInfo.CommitDate + " `" + "\n"

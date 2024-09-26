@@ -2,7 +2,7 @@
   <img src="screenshots/hero.jpg" alt="Fynodoro hero"/>
 </p>
 
-# **Fynodoro** is a tiny and cute Pomodoro **Widget**
+# Fynodoro is a tiny and cute Pomodoro Widget
 
 ![GitHub release)](https://img.shields.io/github/v/release/tomsquest/fynodoro?style=flat-square)
 ![GitHub status](https://img.shields.io/github/actions/workflow/status/tomsquest/fynodoro/build.yaml?branch=master&style=flat-square)
