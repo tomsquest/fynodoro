@@ -29,6 +29,10 @@ func Display(app fyne.App, buildInfo BuildInfo) {
 	})
 
 	mainWindow := app.NewWindow("Fynodoro")
+	mainWindow.SetMaster()
+	mainWindow.SetContent(MakeClassicLayout(myPomodoro))
+	mainWindow.SetCloseIntercept(mainWindow.Hide)
+	mainWindow.SetFixedSize(true)
 
 	if desk, ok := app.(desktop.App); ok {
 		aboutWindow := makeAboutWindow(app, buildInfo)
@@ -39,10 +43,6 @@ func Display(app fyne.App, buildInfo BuildInfo) {
 			fyne.NewMenuItem("About", aboutWindow.Show))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
-
-	mainWindow.SetMaster()
-	mainWindow.SetContent(MakeClassicLayout(myPomodoro))
-	mainWindow.SetCloseIntercept(mainWindow.Hide)
 	mainWindow.ShowAndRun()
 }
 
