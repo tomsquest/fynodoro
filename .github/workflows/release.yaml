@@ -26,9 +26,9 @@ jobs:
       - name: Install Cloudsmith CLI
         run: pipx install cloudsmith-cli
       - name: Release
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v6
         with:
-          version: latest
+          version: '~> v2'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
