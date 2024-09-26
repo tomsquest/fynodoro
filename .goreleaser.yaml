@@ -20,7 +20,7 @@ builds:
     flags:
       - -trimpath
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{ .CommitDate }} -X main.builtBy=goreleaser
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.commitDate={{.CommitDate}}
 # Enable macOS "Universal Binaries" (amd64 + arm binaries)
 universal_binaries:
   - replace: true
