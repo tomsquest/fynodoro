@@ -53,7 +53,7 @@ nfpms:
       - src: assets/notify.sh
         dst: /usr/share/fynodoro/notify.sh
 release:
-  draft: true
+  draft: false
   footer: |
     **Full Changelog**: https://github.com/tomsquest/fynodoro/compare/{{ .PreviousTag }}...{{ .Tag }}
 changelog:
