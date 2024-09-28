@@ -38,16 +38,6 @@ func (t *TappableText) SetText(text string) {
 	t.Refresh()
 }
 
-func (t *TappableText) SetTextSize(textSize float32) {
-	t.Label.TextSize = textSize
-	t.Refresh()
-}
-
 func (t *TappableText) Cursor() desktop.Cursor {
 	return desktop.PointerCursor
-}
-
-func (t *TappableText) SetTextStyle(style fyne.TextStyle) {
-	t.Label.TextStyle = style
-	t.Refresh()
 }
