@@ -9,19 +9,20 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of contents
 
 - [Screenshots](#screenshots)
-  - [Timer](#timer)
-  - [Settings](#settings)
+    - [Timer](#timer)
+    - [Settings](#settings)
 - [Features](#features)
 - [Changelog](#changelog)
 - [Configuration](#configuration)
-  - [Notification sound](#notification-sound)
+    - [Notification sound](#notification-sound)
 - [Install](#install)
-  - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
-  - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
-  - [Download Linux binaries](#download-linux-binaries)
+    - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
+    - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
+    - [Download Linux binaries](#download-linux-binaries)
 - [Releasing the project](#releasing-the-project)
 - [TODO & IDEAS](#todo--ideas)
 - [Credits](#credits)
@@ -129,7 +130,6 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 
 ## TODO & IDEAS
 
-- [ ] Make the timer clickable (start/stop)
 - [ ] Display the type of Pomodoro: Work/Short/Long
 - [ ] Display the time left in the Tray (see [Fomato](https://github.com/andydotxyz/fomato)
 - [ ] Resizable UI (scale timer and buttons with the window)
