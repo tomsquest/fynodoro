@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
+	"image/color"
 )
 
 type TappableText struct {
@@ -13,9 +14,9 @@ type TappableText struct {
 	OnTapped func()
 }
 
-func NewTappableText(title string, tapped func()) *TappableText {
+func NewTappableText(title string, color color.Color, tapped func()) *TappableText {
 	item := &TappableText{
-		Label:    canvas.NewText(title, nil),
+		Label:    canvas.NewText(title, color),
 		OnTapped: tapped,
 	}
 	item.ExtendBaseWidget(item)
@@ -44,4 +45,9 @@ func (t *TappableText) SetTextSize(textSize float32) {
 
 func (t *TappableText) Cursor() desktop.Cursor {
 	return desktop.PointerCursor
+}
+
+func (t *TappableText) SetTextStyle(style fyne.TextStyle) {
+	t.Label.TextStyle = style
+	t.Refresh()
 }
