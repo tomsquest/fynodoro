@@ -76,7 +76,8 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 
 func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := NewTappableText(formatDuration(myPomodoro.RemainingTime), nil, nil)
-	timer.Label.TextSize = 42
+	timer.Label.TextSize = 60
+	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
 	timerPanel := timer
 
