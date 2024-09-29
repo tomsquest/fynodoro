@@ -43,6 +43,7 @@ func Display(app fyne.App, buildInfo BuildInfo) {
 			fyne.NewMenuItem("About", aboutWindow.Show))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
+
 	mainWindow.ShowAndRun()
 }
 
@@ -79,13 +80,13 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer.Label.TextSize = 60
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
-	timerPanel := timer
+	timerPanel := container.NewCenter(container.NewHBox(timer))
 
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
 	nextButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nil)
 	settingsButton := widget.NewButtonWithIcon("", theme.SettingsIcon(), nil)
-	buttons := container.NewHBox(layout.NewSpacer(), playButton, stopButton, nextButton, settingsButton, layout.NewSpacer())
+	buttons := container.NewCenter(container.NewHBox(playButton, stopButton, nextButton, settingsButton))
 
 	timer.OnTapped = func() {
 		if myPomodoro.Running {
