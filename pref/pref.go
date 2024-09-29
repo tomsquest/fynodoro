@@ -13,16 +13,11 @@ type Pref struct {
 
 func Load() Pref {
 	app := fyne.CurrentApp()
-	workDuration := app.Preferences().IntWithFallback("workDuration", 25)
-	shortBreakDuration := app.Preferences().IntWithFallback("shortBreakDuration", 5)
-	longBreakDuration := app.Preferences().IntWithFallback("longBreakDuration", 15)
-	workRounds := app.Preferences().IntWithFallback("workRounds", 4)
-
 	return Pref{
-		workDuration,
-		shortBreakDuration,
-		longBreakDuration,
-		workRounds,
+		WorkDuration:       app.Preferences().IntWithFallback("workDuration", 25),
+		ShortBreakDuration: app.Preferences().IntWithFallback("shortBreakDuration", 5),
+		LongBreakDuration:  app.Preferences().IntWithFallback("longBreakDuration", 15),
+		WorkRounds:         app.Preferences().IntWithFallback("workRounds", 4),
 	}
 }
 
