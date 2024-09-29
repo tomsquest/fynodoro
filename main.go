@@ -1,3 +1,4 @@
+//go:generate fyne bundle --package ui -o ui/assets.go --prefix Asset assets/Icon.png
 package main
 
 import (
@@ -15,7 +16,6 @@ var (
 
 func main() {
 	myApp := app.NewWithID("com.tomsquest.fynodoro")
-	myApp.Settings().SetTheme(&ui.Theme{})
 	myApp.SetIcon(ui.AssetIconPng)
 
 	ui.Display(myApp, ui.BuildInfo{version, commit, commitDate})
