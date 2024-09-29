@@ -21,7 +21,7 @@ type BuildInfo struct {
 
 func Display(app fyne.App, buildInfo BuildInfo) {
 	myPref := pref.Load()
-	myPomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
+	thePomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
 		WorkDuration:       time.Duration(myPref.WorkDuration) * time.Minute,
 		ShortBreakDuration: time.Duration(myPref.ShortBreakDuration) * time.Minute,
 		LongBreakDuration:  time.Duration(myPref.LongBreakDuration) * time.Minute,
@@ -30,7 +30,7 @@ func Display(app fyne.App, buildInfo BuildInfo) {
 
 	mainWindow := app.NewWindow("Fynodoro")
 	mainWindow.SetMaster()
-	mainWindow.SetContent(MakeClassicLayout(myPomodoro))
+	mainWindow.SetContent(MakeClassicLayout(thePomodoro))
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
 	mainWindow.SetFixedSize(true)
 
@@ -71,12 +71,11 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 	buttonsContainer := container.NewHBox(layout.NewSpacer(), closeButton)
 
 	aboutWindow.SetContent(container.NewVBox(imgContainer, markdown, layout.NewSpacer(), buttonsContainer))
-
 	return aboutWindow
 }
 
-func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
-	timer := NewTappableText(formatDuration(myPomodoro.RemainingTime), nil, nil)
+func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
 	timer.Label.TextSize = 60
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
@@ -89,64 +88,30 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	buttons := container.NewCenter(container.NewHBox(playButton, stopButton, nextButton, settingsButton))
 
 	timer.OnTapped = func() {
-		if myPomodoro.Running {
-			myPomodoro.Pause()
-
-			playButton.Icon = theme.MediaPlayIcon()
-			playButton.Refresh()
-		} else {
-			myPomodoro.Start()
-
-			playButton.Icon = theme.MediaPauseIcon()
-			playButton.Refresh()
-		}
+		playPausePomodoro(thePomodoro, playButton)
 	}
-
-	onPlay := func() {
-		if myPomodoro.Running {
-			myPomodoro.Pause()
-
-			playButton.Icon = theme.MediaPlayIcon()
-			playButton.Refresh()
-		} else {
-			myPomodoro.Start()
-
-			playButton.Icon = theme.MediaPauseIcon()
-			playButton.Refresh()
-		}
+	playButton.OnTapped = func() {
+		playPausePomodoro(thePomodoro, playButton)
 	}
-	onStop := func() {
-		myPomodoro.Stop()
-
-		playButton.Icon = theme.MediaPlayIcon()
-		playButton.Refresh()
-
-		timer.SetText(formatDuration(myPomodoro.RemainingTime))
-		timer.Refresh()
+	stopButton.OnTapped = func() {
+		stopPomodoro(thePomodoro, playButton, timer)
 	}
-	onNext := func() {
-		myPomodoro.Next()
-
-		playButton.Icon = theme.MediaPlayIcon()
-		playButton.Refresh()
-
-		timer.SetText(formatDuration(myPomodoro.RemainingTime))
-		timer.Refresh()
+	nextButton.OnTapped = func() {
+		nextPomodoro(thePomodoro, playButton, timer)
 	}
-	onSettings := func() {
+	settingsButton.OnTapped = func() {
 		settings := NewSettings()
 		settings.SetOnSubmit(func() {
 			// Apply new preferences to current pomodoro
 			newPref := pref.Load()
-			myPomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
-			myPomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
-			myPomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
-			myPomodoro.SetWorkRounds(newPref.WorkRounds)
-			myPomodoro.SetRemainingTime()
+			thePomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
+			thePomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
+			thePomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
+			thePomodoro.SetWorkRounds(newPref.WorkRounds)
+			thePomodoro.SetRemainingTime()
 
 			// Display new duration
-			timer.SetText(formatDuration(myPomodoro.RemainingTime))
-			timer.Refresh()
+			setTimerRemainingTime(thePomodoro, timer)
 		})
 		settings.SetOnClosed(func() {
 			settingsButton.Enable()
@@ -156,18 +121,11 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 		settings.Show()
 	}
 
-	playButton.OnTapped = onPlay
-	stopButton.OnTapped = onStop
-	nextButton.OnTapped = onNext
-	settingsButton.OnTapped = onSettings
-
-	myPomodoro.OnTick = func() {
-		timer.SetText(formatDuration(myPomodoro.RemainingTime))
-		timer.Refresh()
+	thePomodoro.OnTick = func() {
+		setTimerRemainingTime(thePomodoro, timer)
 	}
-	myPomodoro.OnEnd = func(kind pomodoro.Kind) {
-		timer.SetText(formatDuration(myPomodoro.RemainingTime))
-		timer.Refresh()
+	thePomodoro.OnEnd = func(kind pomodoro.Kind) {
+		setTimerRemainingTime(thePomodoro, timer)
 
 		playButton.Icon = theme.MediaPlayIcon()
 		playButton.Refresh()
@@ -176,4 +134,34 @@ func MakeClassicLayout(myPomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	}
 
 	return container.NewVBox(timerPanel, buttons)
+}
+
+func setTimerRemainingTime(thePomodoro *pomodoro.Pomodoro, timer *TappableText) {
+	timer.SetText(formatDuration(thePomodoro.RemainingTime))
+	timer.Refresh()
+}
+
+func playPausePomodoro(thePomodoro *pomodoro.Pomodoro, playButton *widget.Button) {
+	if thePomodoro.Running {
+		thePomodoro.Pause()
+		playButton.Icon = theme.MediaPlayIcon()
+	} else {
+		thePomodoro.Start()
+		playButton.Icon = theme.MediaPauseIcon()
+	}
+	playButton.Refresh()
+}
+
+func stopPomodoro(thePomodoro *pomodoro.Pomodoro, playButton *widget.Button, timer *TappableText) {
+	thePomodoro.Stop()
+	playButton.Icon = theme.MediaPlayIcon()
+	playButton.Refresh()
+	setTimerRemainingTime(thePomodoro, timer)
+}
+
+func nextPomodoro(thePomodoro *pomodoro.Pomodoro, playButton *widget.Button, timer *TappableText) {
+	thePomodoro.Next()
+	playButton.Icon = theme.MediaPlayIcon()
+	playButton.Refresh()
+	setTimerRemainingTime(thePomodoro, timer)
 }
