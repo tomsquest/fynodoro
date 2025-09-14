@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
@@ -91,13 +92,10 @@ func makeForm() *widget.Form {
 	return form
 }
 
-func newIntegerFormItem(bind binding.Int, entryText string, hintText string, _ fyne.StringValidator) *widget.FormItem {
+func newIntegerFormItem(bind binding.Int, entryText string, hintText string, validator fyne.StringValidator) *widget.FormItem {
 	value, _ := bind.Get()
 	entry := newIntegerEntryWithData(binding.IntToString(bind))
-
-	// Validation disabled until https://github.com/fyne-io/fyne/issues/3961 is fixed (Fyne 2.5.1)
-	//entry.Validator = validator
-
+	entry.Validator = validator
 	formItem := widget.NewFormItem(entryText, entry)
 	formItem.HintText = fmt.Sprintf(hintText, value)
 	return formItem
