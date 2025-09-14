@@ -125,7 +125,8 @@ if ! [ -z "$(git status --untracked-files=no --porcelain)" ]; then
 fi
 git fetch --all --tags
 TAG=v1.0.0 && git tag $TAG && git push origin $TAG
-# Publish Release draft: https://github.com/tomsquest/fynodoro/releases
+# Check Release Build https://github.com/tomsquest/fynodoro/actions/workflows/release.yaml
+# Check Release Note  https://github.com/tomsquest/fynodoro/releases
 ```
 
 ## TODO & IDEAS
