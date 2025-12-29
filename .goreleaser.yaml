@@ -47,7 +47,7 @@ nfpms:
       - src: assets/Icon.png
         dst: /usr/share/pixmaps/fynodoro.png
       - src: assets/fynodoro.desktop
-        dst: /usr/local/share/applications/fynodoro.desktop
+        dst: /usr/share/applications/fynodoro.desktop
       - src: assets/notification.mp3
         dst: /usr/share/fynodoro/notification.mp3
       - src: assets/notify.sh
