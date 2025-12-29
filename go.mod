@@ -3,7 +3,7 @@ module github.com/tomsquest/fynodoro
 go 1.25.5
 
 require (
-	fyne.io/fyne/v2 v2.7.0
+	fyne.io/fyne/v2 v2.7.1
 	github.com/benbjohnson/clock v1.3.5
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/stretchr/testify v1.11.1
