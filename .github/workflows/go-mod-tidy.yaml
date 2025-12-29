@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: WillAbides/setup-go-faster@a0ff5217a7d2567ed6ff1aa2b7d8f9d58173b2c9 # v1.14.0
         with:
-          go-version: '1.25.5'
+          go-version-file: 'go.mod'
       - name: tidy
         uses: paulvollmer/action-golang-gosum@fec93d20b3e20c8bbc39d5b23576316ce53586d5 # v1.0.0
         env:

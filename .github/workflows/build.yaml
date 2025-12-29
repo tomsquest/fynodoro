@@ -15,7 +15,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
       - uses: WillAbides/setup-go-faster@a0ff5217a7d2567ed6ff1aa2b7d8f9d58173b2c9 # v1.14.0
         with:
-          go-version: '1.25.5'
+          go-version-file: 'go.mod'
       - name: Generate assets
         run: |
           go install fyne.io/fyne/v2/cmd/fyne@latest
