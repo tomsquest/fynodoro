@@ -2,6 +2,8 @@
 package main
 
 import (
+	"flag"
+
 	"fyne.io/fyne/v2/app"
 	"github.com/tomsquest/fynodoro/ui"
 )
@@ -14,9 +16,13 @@ var (
 	commitDate string
 )
 
+var startMinimized = flag.Bool("minimized", false, "Start the application minimized to tray")
+
 func main() {
+	flag.Parse()
+
 	myApp := app.NewWithID("com.tomsquest.fynodoro")
 	myApp.SetIcon(ui.AssetIconPng)
 
-	ui.Display(myApp, ui.BuildInfo{version, commit, commitDate})
+	ui.Display(myApp, ui.BuildInfo{version, commit, commitDate}, *startMinimized)
 }

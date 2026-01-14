@@ -19,7 +19,7 @@ type BuildInfo struct {
 	CommitDate string
 }
 
-func Display(app fyne.App, buildInfo BuildInfo) {
+func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 	myPref := pref.Load()
 	thePomodoro := pomodoro.NewPomodoro(&pomodoro.Params{
 		WorkDuration:       time.Duration(myPref.WorkDuration) * time.Minute,
@@ -44,7 +44,11 @@ func Display(app fyne.App, buildInfo BuildInfo) {
 		desk.SetSystemTrayMenu(trayMenu)
 	}
 
-	mainWindow.ShowAndRun()
+	if cliStartMinimized || myPref.StartMinimized {
+		app.Run()
+	} else {
+		mainWindow.ShowAndRun()
+	}
 }
 
 func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
