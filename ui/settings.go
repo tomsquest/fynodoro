@@ -77,7 +77,7 @@ func makeForm() *widget.Form {
 	startMinimizedBinding := binding.NewBool()
 	_ = startMinimizedBinding.Set(myPref.StartMinimized)
 	startMinimizedCheck := widget.NewCheckWithData("Start minimized to tray", startMinimizedBinding)
-	form.AppendItem(widget.NewFormItem("", startMinimizedCheck))
+	form.AppendItem(widget.NewFormItem("Startup", startMinimizedCheck))
 
 	form.OnSubmit = func() {
 		workDuration, _ := workDurationBinding.Get()
