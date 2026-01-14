@@ -9,6 +9,7 @@ type Pref struct {
 	ShortBreakDuration int
 	LongBreakDuration  int
 	WorkRounds         int
+	StartMinimized     bool
 }
 
 func Load() Pref {
@@ -18,6 +19,7 @@ func Load() Pref {
 		ShortBreakDuration: app.Preferences().IntWithFallback("shortBreakDuration", 5),
 		LongBreakDuration:  app.Preferences().IntWithFallback("longBreakDuration", 15),
 		WorkRounds:         app.Preferences().IntWithFallback("workRounds", 4),
+		StartMinimized:     app.Preferences().BoolWithFallback("startMinimized", false),
 	}
 }
 
@@ -27,4 +29,5 @@ func Save(pref Pref) {
 	app.Preferences().SetInt("shortBreakDuration", pref.ShortBreakDuration)
 	app.Preferences().SetInt("longBreakDuration", pref.LongBreakDuration)
 	app.Preferences().SetInt("workRounds", pref.WorkRounds)
+	app.Preferences().SetBool("startMinimized", pref.StartMinimized)
 }

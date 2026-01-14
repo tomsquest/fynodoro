@@ -74,17 +74,24 @@ func makeForm() *widget.Form {
 	_ = workRoundsBinding.Set(myPref.WorkRounds)
 	form.AppendItem(newIntegerFormItem(workRoundsBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
 
+	startMinimizedBinding := binding.NewBool()
+	_ = startMinimizedBinding.Set(myPref.StartMinimized)
+	startMinimizedCheck := widget.NewCheckWithData("Start minimized to tray", startMinimizedBinding)
+	form.AppendItem(widget.NewFormItem("", startMinimizedCheck))
+
 	form.OnSubmit = func() {
 		workDuration, _ := workDurationBinding.Get()
 		shortBreakDuration, _ := shortBreakDurationBinding.Get()
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
+		startMinimized, _ := startMinimizedBinding.Get()
 
 		newPref := pref.Pref{
-			workDuration,
-			shortBreakDuration,
-			longBreakDuration,
-			workRounds,
+			WorkDuration:       workDuration,
+			ShortBreakDuration: shortBreakDuration,
+			LongBreakDuration:  longBreakDuration,
+			WorkRounds:         workRounds,
+			StartMinimized:     startMinimized,
 		}
 		pref.Save(newPref)
 	}
