@@ -9,20 +9,19 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 ## Table of contents
 
 - [Screenshots](#screenshots)
-    - [Timer](#timer)
-    - [Settings](#settings)
 - [Features](#features)
 - [Changelog](#changelog)
+- [Usage](#usage)
 - [Configuration](#configuration)
-    - [Notification sound](#notification-sound)
+  - [Start minimized](#start-minimized)
+  - [Change notification sound](#change-notification-sound)
 - [Install](#install)
-    - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
-    - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
-    - [Download Linux binaries](#download-linux-binaries)
+  - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
+  - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
+  - [Download Linux binaries](#download-linux-binaries)
 - [Releasing the project](#releasing-the-project)
 - [TODO & IDEAS](#todo--ideas)
 - [Credits](#credits)
@@ -31,16 +30,8 @@
 
 ## Screenshots
 
-### Timer
-
 <p align="center" width="100%">
-    <img src="screenshots/app.pimped.png" alt="Fynodoro app screenshot">
-</p>
-
-### Settings
-
-<p align="center" width="100%">
-    <img src="screenshots/settings.pimped.png" alt="Fynodoro settings screenshot">
+    <img src="screenshots/app.pimped.png" alt="Fynodoro app screenshot"/>
 </p>
 
 ## Features
@@ -48,13 +39,17 @@
 - ⏲️ Pomodoro Timer ✨
 - 🗒️ Configurable: work duration, short break/long break, work rounds 🖊️
 - 🏆 Small download size
-- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as linux binary
+- 💼 Releases for Ubuntu/Debian, Fedora/Redhat, and as a linux binary
 
 ## Changelog
 
 See the [Releases](https://github.com/tomsquest/fynodoro/releases) section on GitHub.
 
 ## Usage
+
+A `.desktop` file is installed for you, so you can start Fynodoro from your application menu. 
+
+You can also start it from the command line:
 
 ```shell
 fynodoro              # Start normally
@@ -78,9 +73,11 @@ You can **disable** Short breaks by setting the duration of Short breaks to `0`.
 
 Tips: you can **disable** both Short and Long breaks by setting them to `0`. The timer will then act as a ticker, notifying you after each Work period.
 
+### Start minimized
+
 You can **start minimized** to the system tray by enabling the option in Settings, or by using the `--minimized` command-line flag.
 
-### Notification sound
+### Change notification sound
 
 The notification sound is stored in: `/usr/share/fynodoro/notification.mp3`.  
 You can override it if you wish with another **mp3** file.
