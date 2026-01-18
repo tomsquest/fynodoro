@@ -32,7 +32,7 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 	mainWindow.SetMaster()
 	mainWindow.SetContent(MakeClassicLayout(thePomodoro))
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
-	mainWindow.SetFixedSize(true)
+	mainWindow.Resize(fyne.NewSize(300, 200))
 
 	if desk, ok := app.(desktop.App); ok {
 		aboutWindow := makeAboutWindow(app, buildInfo)
@@ -83,7 +83,6 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	myPref := pref.Load()
 
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
-	timer.Label.TextSize = float32(myPref.FontSize)
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
 	applyFontFamily(timer, myPref.FontFamily)
@@ -117,9 +116,6 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 			thePomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
 			thePomodoro.SetWorkRounds(newPref.WorkRounds)
 			thePomodoro.SetRemainingTime()
-
-			// Apply font size preference
-			timer.Label.TextSize = float32(newPref.FontSize)
 
 			// Apply font family preference
 			applyFontFamily(timer, newPref.FontFamily)

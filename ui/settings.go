@@ -92,10 +92,6 @@ func makeForm() *widget.Form {
 	notificationScriptFormItem.HintText = "Path to a script to run when a pomodoro ends. Leave empty to disable. Default: /usr/share/fynodoro/notify.sh"
 	form.AppendItem(notificationScriptFormItem)
 
-	fontSizeBinding := binding.NewInt()
-	_ = fontSizeBinding.Set(myPref.FontSize)
-	form.AppendItem(newIntegerFormItem(fontSizeBinding, "Font size", "Set the font size for the timer display. Default is: %d pixels.", NewRangeValidator(10, 200)))
-
 	showButtonsBinding := binding.NewBool()
 	_ = showButtonsBinding.Set(myPref.ShowButtons)
 	showButtonsCheck := widget.NewCheckWithData("Show control buttons", showButtonsBinding)
@@ -118,7 +114,6 @@ func makeForm() *widget.Form {
 		startMinimized, _ := startMinimizedBinding.Get()
 		enableNotificationPopup, _ := enableNotificationPopupBinding.Get()
 		notificationScript, _ := notificationScriptBinding.Get()
-		fontSize, _ := fontSizeBinding.Get()
 		showButtons, _ := showButtonsBinding.Get()
 		fontFamily, _ := fontFamilyBinding.Get()
 
@@ -130,7 +125,6 @@ func makeForm() *widget.Form {
 			StartMinimized:          startMinimized,
 			EnableNotificationPopup: enableNotificationPopup,
 			NotificationScript:      notificationScript,
-			FontSize:                fontSize,
 			ShowButtons:             showButtons,
 			FontFamily:              fontFamily,
 		}
