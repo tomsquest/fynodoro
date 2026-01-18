@@ -30,7 +30,7 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 
 	mainWindow := app.NewWindow("Fynodoro")
 	mainWindow.SetMaster()
-	mainWindow.SetContent(MakeClassicLayout(thePomodoro))
+	mainWindow.SetContent(MakeClassicLayout(app, mainWindow, thePomodoro))
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
 	mainWindow.SetFixedSize(true)
 
@@ -40,7 +40,9 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 			fyne.NewMenuItem("Show", mainWindow.Show),
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
 			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
-			fyne.NewMenuItem("About", aboutWindow.Show))
+			fyne.NewMenuItem("About", aboutWindow.Show),
+			fyne.NewMenuItemSeparator(),
+			fyne.NewMenuItem("Quit", func() { app.Quit() }))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
 
@@ -78,7 +80,7 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 	return aboutWindow
 }
 
-func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+func MakeClassicLayout(app fyne.App, mainWindow fyne.Window, thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
 	timer.Label.TextSize = 60
 	timer.Label.TextStyle.Bold = true
@@ -93,6 +95,80 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 
 	timer.OnTapped = func() {
 		playPausePomodoro(thePomodoro, playButton)
+	}
+	timer.OnTappedSecondary = func(pe *fyne.PointEvent) {
+		// Create menu items with dynamic play/pause label
+		var playPauseLabel string
+		var playPauseIcon fyne.Resource
+		if thePomodoro.Running {
+			playPauseLabel = "Pause"
+			playPauseIcon = theme.MediaPauseIcon()
+		} else {
+			playPauseLabel = "Play"
+			playPauseIcon = theme.MediaPlayIcon()
+		}
+
+		playPauseItem := fyne.NewMenuItem(playPauseLabel, func() {
+			playPausePomodoro(thePomodoro, playButton)
+		})
+		playPauseItem.Icon = playPauseIcon
+
+		stopItem := fyne.NewMenuItem("Stop", func() {
+			stopPomodoro(thePomodoro, playButton, timer)
+		})
+		stopItem.Icon = theme.MediaStopIcon()
+
+		nextItem := fyne.NewMenuItem("Next", func() {
+			nextPomodoro(thePomodoro, playButton, timer)
+		})
+		nextItem.Icon = theme.MediaSkipNextIcon()
+
+		settingsItem := fyne.NewMenuItem("Settings", func() {
+			settings := NewSettings()
+			settings.SetOnSubmit(func() {
+				// Apply new preferences to current pomodoro
+				newPref := pref.Load()
+				thePomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
+				thePomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
+				thePomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
+				thePomodoro.SetWorkRounds(newPref.WorkRounds)
+				thePomodoro.SetRemainingTime()
+
+				// Display new duration
+				setTimerRemainingTime(thePomodoro, timer)
+			})
+			settings.SetOnClosed(func() {
+				settingsButton.Enable()
+			})
+
+			settingsButton.Disable()
+			settings.Show()
+		})
+		settingsItem.Icon = theme.SettingsIcon()
+
+		closeItem := fyne.NewMenuItem("Close", func() {
+			mainWindow.Hide()
+		})
+		closeItem.Icon = theme.WindowCloseIcon()
+
+		quitItem := fyne.NewMenuItem("Quit", func() {
+			app.Quit()
+		})
+		quitItem.Icon = theme.CancelIcon()
+
+		// Create and show popup menu
+		menu := fyne.NewMenu("",
+			playPauseItem,
+			stopItem,
+			nextItem,
+			fyne.NewMenuItemSeparator(),
+			settingsItem,
+			fyne.NewMenuItemSeparator(),
+			closeItem,
+			quitItem,
+		)
+
+		widget.ShowPopUpMenuAtPosition(menu, mainWindow.Canvas(), pe.AbsolutePosition)
 	}
 	playButton.OnTapped = func() {
 		playPausePomodoro(thePomodoro, playButton)

@@ -10,8 +10,9 @@ import (
 
 type TappableText struct {
 	widget.BaseWidget
-	Label    *canvas.Text
-	OnTapped func()
+	Label             *canvas.Text
+	OnTapped          func()
+	OnTappedSecondary func(*fyne.PointEvent)
 }
 
 func NewTappableText(title string, color color.Color, tapped func()) *TappableText {
@@ -30,6 +31,12 @@ func (t *TappableText) CreateRenderer() fyne.WidgetRenderer {
 func (t *TappableText) Tapped(*fyne.PointEvent) {
 	if onTapped := t.OnTapped; onTapped != nil {
 		onTapped()
+	}
+}
+
+func (t *TappableText) TappedSecondary(pe *fyne.PointEvent) {
+	if onTappedSecondary := t.OnTappedSecondary; onTappedSecondary != nil {
+		onTappedSecondary(pe)
 	}
 }
 
