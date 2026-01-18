@@ -12,6 +12,9 @@ type Pref struct {
 	StartMinimized          bool
 	EnableNotificationPopup bool
 	NotificationScript      string
+	ShowButtons             bool
+	FontSize                int
+	FontFamily              string
 }
 
 func Load() Pref {
@@ -24,6 +27,9 @@ func Load() Pref {
 		StartMinimized:          app.Preferences().BoolWithFallback("startMinimized", false),
 		EnableNotificationPopup: app.Preferences().BoolWithFallback("enableNotificationPopup", true),
 		NotificationScript:      app.Preferences().StringWithFallback("notificationScript", "/usr/share/fynodoro/notify.sh"),
+		ShowButtons:             app.Preferences().BoolWithFallback("showButtons", true),
+		FontSize:                app.Preferences().IntWithFallback("fontSize", 60),
+		FontFamily:              app.Preferences().StringWithFallback("fontFamily", ""),
 	}
 }
 
@@ -36,4 +42,7 @@ func Save(pref Pref) {
 	app.Preferences().SetBool("startMinimized", pref.StartMinimized)
 	app.Preferences().SetBool("enableNotificationPopup", pref.EnableNotificationPopup)
 	app.Preferences().SetString("notificationScript", pref.NotificationScript)
+	app.Preferences().SetBool("showButtons", pref.ShowButtons)
+	app.Preferences().SetInt("fontSize", pref.FontSize)
+	app.Preferences().SetString("fontFamily", pref.FontFamily)
 }

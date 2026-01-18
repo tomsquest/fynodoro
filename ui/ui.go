@@ -80,10 +80,13 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 }
 
 func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+	myPref := pref.Load()
+
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
-	timer.Label.TextSize = 60
+	timer.Label.TextSize = float32(myPref.FontSize)
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
+	applyFontFamily(timer, myPref.FontFamily)
 	timerPanel := container.NewCenter(container.NewHBox(timer))
 
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
@@ -115,6 +118,12 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 			thePomodoro.SetWorkRounds(newPref.WorkRounds)
 			thePomodoro.SetRemainingTime()
 
+			// Apply font size preference
+			timer.Label.TextSize = float32(newPref.FontSize)
+
+			// Apply font family preference
+			applyFontFamily(timer, newPref.FontFamily)
+
 			// Display new duration
 			setTimerRemainingTime(thePomodoro, timer)
 		})
@@ -142,7 +151,10 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 		notifyPomodoroDone(kind)
 	}
 
-	return container.NewVBox(timerPanel, buttons)
+	if myPref.ShowButtons {
+		return container.NewVBox(timerPanel, buttons)
+	}
+	return timerPanel
 }
 
 func setTimerRemainingTime(thePomodoro *pomodoro.Pomodoro, timer *TappableText) {
@@ -173,4 +185,24 @@ func nextPomodoro(thePomodoro *pomodoro.Pomodoro, playButton *widget.Button, tim
 	playButton.Icon = theme.MediaPlayIcon()
 	playButton.Refresh()
 	setTimerRemainingTime(thePomodoro, timer)
+}
+
+func applyFontFamily(timer *TappableText, fontFamily string) {
+	// Note: Fyne canvas.Text uses theme fonts. To fully support custom fonts,
+	// a custom theme would need to be implemented. For now, we apply monospace
+	// when selected, using Fyne's built-in monospace font from the theme.
+	switch fontFamily {
+	case "Monospace":
+		// Use monospace font by setting the text font to monospace
+		// This requires accessing the theme's monospace font
+		// In Fyne v2, this is limited without custom theme implementation
+		timer.Label.TextStyle.Monospace = true
+	case "Sans", "Serif":
+		// Sans and Serif would require custom theme implementation
+		// For now, these will use the default system font
+		timer.Label.TextStyle.Monospace = false
+	default:
+		// Empty string or unknown - use system default
+		timer.Label.TextStyle.Monospace = false
+	}
 }
