@@ -5,21 +5,25 @@ import (
 )
 
 type Pref struct {
-	WorkDuration       int
-	ShortBreakDuration int
-	LongBreakDuration  int
-	WorkRounds         int
-	StartMinimized     bool
+	WorkDuration            int
+	ShortBreakDuration      int
+	LongBreakDuration       int
+	WorkRounds              int
+	StartMinimized          bool
+	EnableNotificationPopup bool
+	NotificationScript      string
 }
 
 func Load() Pref {
 	app := fyne.CurrentApp()
 	return Pref{
-		WorkDuration:       app.Preferences().IntWithFallback("workDuration", 25),
-		ShortBreakDuration: app.Preferences().IntWithFallback("shortBreakDuration", 5),
-		LongBreakDuration:  app.Preferences().IntWithFallback("longBreakDuration", 15),
-		WorkRounds:         app.Preferences().IntWithFallback("workRounds", 4),
-		StartMinimized:     app.Preferences().BoolWithFallback("startMinimized", false),
+		WorkDuration:            app.Preferences().IntWithFallback("workDuration", 25),
+		ShortBreakDuration:      app.Preferences().IntWithFallback("shortBreakDuration", 5),
+		LongBreakDuration:       app.Preferences().IntWithFallback("longBreakDuration", 15),
+		WorkRounds:              app.Preferences().IntWithFallback("workRounds", 4),
+		StartMinimized:          app.Preferences().BoolWithFallback("startMinimized", false),
+		EnableNotificationPopup: app.Preferences().BoolWithFallback("enableNotificationPopup", true),
+		NotificationScript:      app.Preferences().StringWithFallback("notificationScript", "/usr/share/fynodoro/notify.sh"),
 	}
 }
 
@@ -30,4 +34,6 @@ func Save(pref Pref) {
 	app.Preferences().SetInt("longBreakDuration", pref.LongBreakDuration)
 	app.Preferences().SetInt("workRounds", pref.WorkRounds)
 	app.Preferences().SetBool("startMinimized", pref.StartMinimized)
+	app.Preferences().SetBool("enableNotificationPopup", pref.EnableNotificationPopup)
+	app.Preferences().SetString("notificationScript", pref.NotificationScript)
 }

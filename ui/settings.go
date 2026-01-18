@@ -79,19 +79,36 @@ func makeForm() *widget.Form {
 	startMinimizedCheck := widget.NewCheckWithData("Start minimized to tray", startMinimizedBinding)
 	form.AppendItem(widget.NewFormItem("Startup", startMinimizedCheck))
 
+	enableNotificationPopupBinding := binding.NewBool()
+	_ = enableNotificationPopupBinding.Set(myPref.EnableNotificationPopup)
+	enableNotificationPopupCheck := widget.NewCheckWithData("Enable notification popup", enableNotificationPopupBinding)
+	form.AppendItem(widget.NewFormItem("Notification popup", enableNotificationPopupCheck))
+
+	notificationScriptBinding := binding.NewString()
+	_ = notificationScriptBinding.Set(myPref.NotificationScript)
+	notificationScriptEntry := widget.NewEntryWithData(notificationScriptBinding)
+	notificationScriptEntry.PlaceHolder = "Path to notification script (empty to disable)"
+	notificationScriptFormItem := widget.NewFormItem("Notification script", notificationScriptEntry)
+	notificationScriptFormItem.HintText = "Path to a script to run when a pomodoro ends. Leave empty to disable. Default: /usr/share/fynodoro/notify.sh"
+	form.AppendItem(notificationScriptFormItem)
+
 	form.OnSubmit = func() {
 		workDuration, _ := workDurationBinding.Get()
 		shortBreakDuration, _ := shortBreakDurationBinding.Get()
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
 		startMinimized, _ := startMinimizedBinding.Get()
+		enableNotificationPopup, _ := enableNotificationPopupBinding.Get()
+		notificationScript, _ := notificationScriptBinding.Get()
 
 		newPref := pref.Pref{
-			WorkDuration:       workDuration,
-			ShortBreakDuration: shortBreakDuration,
-			LongBreakDuration:  longBreakDuration,
-			WorkRounds:         workRounds,
-			StartMinimized:     startMinimized,
+			WorkDuration:            workDuration,
+			ShortBreakDuration:      shortBreakDuration,
+			LongBreakDuration:       longBreakDuration,
+			WorkRounds:              workRounds,
+			StartMinimized:          startMinimized,
+			EnableNotificationPopup: enableNotificationPopup,
+			NotificationScript:      notificationScript,
 		}
 		pref.Save(newPref)
 	}
