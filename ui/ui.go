@@ -40,7 +40,8 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 			fyne.NewMenuItem("Show", mainWindow.Show),
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
 			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
-			fyne.NewMenuItem("About", aboutWindow.Show))
+			fyne.NewMenuItem("About", aboutWindow.Show),
+			fyne.NewMenuItem("Quit", app.Quit))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
 
