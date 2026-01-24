@@ -127,13 +127,17 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	}
 
 	thePomodoro.OnTick = func() {
-		setTimerRemainingTime(thePomodoro, timer)
+		fyne.Do(func() {
+			setTimerRemainingTime(thePomodoro, timer)
+		})
 	}
 	thePomodoro.OnEnd = func(kind pomodoro.Kind) {
-		setTimerRemainingTime(thePomodoro, timer)
+		fyne.Do(func() {
+			setTimerRemainingTime(thePomodoro, timer)
 
-		playButton.Icon = theme.MediaPlayIcon()
-		playButton.Refresh()
+			playButton.Icon = theme.MediaPlayIcon()
+			playButton.Refresh()
+		})
 
 		notifyPomodoroDone(kind)
 	}
