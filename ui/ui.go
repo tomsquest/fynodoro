@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"time"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
@@ -10,7 +12,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/tomsquest/fynodoro/pomodoro"
 	"github.com/tomsquest/fynodoro/pref"
-	"time"
 )
 
 type BuildInfo struct {
@@ -41,6 +42,13 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
 			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
 			fyne.NewMenuItem("About", aboutWindow.Show),
+			fyne.NewMenuItem("Preferences", func() {
+				settings := NewSettings()
+				settings.SetOnSubmit(func() {
+					applyPreferencesToPomodoro(thePomodoro)
+				})
+				settings.Show()
+			}),
 			fyne.NewMenuItem("Quit", app.Quit))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
@@ -107,15 +115,7 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	settingsButton.OnTapped = func() {
 		settings := NewSettings()
 		settings.SetOnSubmit(func() {
-			// Apply new preferences to current pomodoro
-			newPref := pref.Load()
-			thePomodoro.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
-			thePomodoro.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
-			thePomodoro.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
-			thePomodoro.SetWorkRounds(newPref.WorkRounds)
-			thePomodoro.SetRemainingTime()
-
-			// Display new duration
+			applyPreferencesToPomodoro(thePomodoro)
 			setTimerRemainingTime(thePomodoro, timer)
 		})
 		settings.SetOnClosed(func() {
@@ -173,4 +173,13 @@ func nextPomodoro(thePomodoro *pomodoro.Pomodoro, playButton *widget.Button, tim
 	playButton.Icon = theme.MediaPlayIcon()
 	playButton.Refresh()
 	setTimerRemainingTime(thePomodoro, timer)
+}
+
+func applyPreferencesToPomodoro(p *pomodoro.Pomodoro) {
+	newPref := pref.Load()
+	p.SetWorkDuration(time.Duration(newPref.WorkDuration) * time.Minute)
+	p.SetShortBreakDuration(time.Duration(newPref.ShortBreakDuration) * time.Minute)
+	p.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
+	p.SetWorkRounds(newPref.WorkRounds)
+	p.SetRemainingTime()
 }

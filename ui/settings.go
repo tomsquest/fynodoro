@@ -29,6 +29,12 @@ func NewSettings() Settings {
 	f.OnCancel = func() {
 		w.Close()
 	}
+	// Close the window on Submit as well
+	originalSubmit := f.OnSubmit
+	f.OnSubmit = func() {
+		originalSubmit()
+		w.Close()
+	}
 	// Need to "refresh" to make the Submit and Cancel buttons appears
 	f.Refresh()
 
@@ -44,7 +50,6 @@ func (s *settings) SetOnSubmit(callback func()) {
 	formSubmit := s.form.OnSubmit
 	s.form.OnSubmit = func() {
 		formSubmit()
-		(*s.win).Close()
 		callback()
 	}
 	(*s.form).Refresh()
