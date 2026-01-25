@@ -40,16 +40,16 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 	l.buttons = container.NewCenter(container.NewHBox(l.playButton, l.stopButton, l.nextButton))
 
 	l.timer.OnTapped = func() {
-		l.playPause()
+		l.PlayPause()
 	}
 	l.playButton.OnTapped = func() {
-		l.playPause()
+		l.PlayPause()
 	}
 	l.stopButton.OnTapped = func() {
-		l.stop()
+		l.Stop()
 	}
 	l.nextButton.OnTapped = func() {
-		l.next()
+		l.Next()
 	}
 
 	thePomodoro.OnTick = func() {
@@ -94,7 +94,7 @@ func (l *PomodoroWidget) updateTimerDisplay() {
 	l.timer.Refresh()
 }
 
-func (l *PomodoroWidget) playPause() {
+func (l *PomodoroWidget) PlayPause() {
 	if l.pomodoro.Running {
 		l.pomodoro.Pause()
 		l.playButton.Icon = theme.MediaPlayIcon()
@@ -105,14 +105,14 @@ func (l *PomodoroWidget) playPause() {
 	l.playButton.Refresh()
 }
 
-func (l *PomodoroWidget) stop() {
+func (l *PomodoroWidget) Stop() {
 	l.pomodoro.Stop()
 	l.playButton.Icon = theme.MediaPlayIcon()
 	l.playButton.Refresh()
 	l.updateTimerDisplay()
 }
 
-func (l *PomodoroWidget) next() {
+func (l *PomodoroWidget) Next() {
 	l.pomodoro.Next()
 	l.playButton.Icon = theme.MediaPlayIcon()
 	l.playButton.Refresh()

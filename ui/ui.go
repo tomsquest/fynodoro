@@ -37,6 +37,10 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 	if desk, ok := app.(desktop.App); ok {
 		aboutWindow := makeAboutWindow(app, buildInfo)
 		trayMenu := fyne.NewMenu("Fynodoro",
+			fyne.NewMenuItem("Play/Pause", pomodoroWidget.PlayPause),
+			fyne.NewMenuItem("Stop", pomodoroWidget.Stop),
+			fyne.NewMenuItem("Next", pomodoroWidget.Next),
+			fyne.NewMenuItemSeparator(),
 			fyne.NewMenuItem("Show", mainWindow.Show),
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
 			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
