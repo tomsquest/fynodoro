@@ -33,7 +33,6 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 	mainWindow.SetMaster()
 	mainWindow.SetContent(MakeClassicLayout(thePomodoro))
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
-	mainWindow.SetFixedSize(true)
 
 	if desk, ok := app.(desktop.App); ok {
 		aboutWindow := makeAboutWindow(app, buildInfo)
@@ -90,8 +89,9 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 }
 
 func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
+	myPref := pref.Load()
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
-	timer.Label.TextSize = 60
+	timer.Label.TextSize = float32(myPref.TimerFontSize)
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
 	timerPanel := container.NewCenter(container.NewHBox(timer))

@@ -79,6 +79,10 @@ func makeForm() *widget.Form {
 	_ = workRoundsBinding.Set(myPref.WorkRounds)
 	form.AppendItem(newIntegerFormItem(workRoundsBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
 
+	timerFontSizeBinding := binding.NewInt()
+	_ = timerFontSizeBinding.Set(myPref.TimerFontSize)
+	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: %d. Requires restart.", NewRangeValidator(10, 200)))
+
 	startMinimizedBinding := binding.NewBool()
 	_ = startMinimizedBinding.Set(myPref.StartMinimized)
 	startMinimizedCheck := widget.NewCheckWithData("Start minimized to tray", startMinimizedBinding)
@@ -102,6 +106,7 @@ func makeForm() *widget.Form {
 		shortBreakDuration, _ := shortBreakDurationBinding.Get()
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
+		timerFontSize, _ := timerFontSizeBinding.Get()
 		startMinimized, _ := startMinimizedBinding.Get()
 		enableNotificationPopup, _ := enableNotificationPopupBinding.Get()
 		notificationScript, _ := notificationScriptBinding.Get()
@@ -111,6 +116,7 @@ func makeForm() *widget.Form {
 			ShortBreakDuration:      shortBreakDuration,
 			LongBreakDuration:       longBreakDuration,
 			WorkRounds:              workRounds,
+			TimerFontSize:           timerFontSize,
 			StartMinimized:          startMinimized,
 			EnableNotificationPopup: enableNotificationPopup,
 			NotificationScript:      notificationScript,
