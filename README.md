@@ -17,7 +17,8 @@
 - [Usage](#usage)
 - [Configuration](#configuration)
   - [Start minimized](#start-minimized)
-  - [Change notification sound](#change-notification-sound)
+  - [Notification popup](#notification-popup)
+  - [Notification script](#notification-script)
 - [Install](#install)
   - [Install Ubuntu/Debian (.deb)](#install-ubuntudebian-deb)
   - [Install Fedora/Redhat (.rpm)](#install-fedoraredhat-rpm)
@@ -77,10 +78,18 @@ Tips: you can **disable** both Short and Long breaks by setting them to `0`. The
 
 You can **start minimized** to the system tray by enabling the option in Settings, or by using the `--minimized` command-line flag.
 
-### Change notification sound
+### Notification popup
 
-The notification sound is stored in: `/usr/share/fynodoro/notification.mp3`.  
-You can override it if you wish with another **mp3** file.
+You can **disable the notification popup** by unchecking the option in Settings. This is useful if you only want the notification script to run without a popup.
+
+### Notification script
+
+The notification script is executed when a pomodoro ends. By default, it is located at: `/usr/share/fynodoro/notify.sh`.
+
+You can **customize** the notification script path in Settings, or leave it empty to disable script execution entirely.
+
+The default script plays a sound file located at: `/usr/share/fynodoro/notification.mp3`.
+You can replace it with another **mp3** file if you wish to change the notification sound.
 
 ## Install
 
@@ -142,8 +151,6 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 - [ ] Resizable UI (scale timer and buttons with the window)
 - [ ] Pico/Nano/Normal UI presets
 - [ ] option for Dark/Light mode (what about Fyne global preferences?)
-- [ ] option to disable notification popup
-- [ ] option to change notification script
 - [ ] Keyboard shortcuts
 - [ ] Release Windows, macOS, Android, IOS versions
 
