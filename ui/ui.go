@@ -99,8 +99,7 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	playButton := widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	stopButton := widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
 	nextButton := widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nil)
-	settingsButton := widget.NewButtonWithIcon("", theme.SettingsIcon(), nil)
-	buttons := container.NewCenter(container.NewHBox(playButton, stopButton, nextButton, settingsButton))
+	buttons := container.NewCenter(container.NewHBox(playButton, stopButton, nextButton))
 
 	timer.OnTapped = func() {
 		playPausePomodoro(thePomodoro, playButton)
@@ -113,19 +112,6 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	}
 	nextButton.OnTapped = func() {
 		nextPomodoro(thePomodoro, playButton, timer)
-	}
-	settingsButton.OnTapped = func() {
-		settings := NewSettings()
-		settings.SetOnSubmit(func() {
-			applyPreferencesToPomodoro(thePomodoro)
-			setTimerRemainingTime(thePomodoro, timer)
-		})
-		settings.SetOnClosed(func() {
-			settingsButton.Enable()
-		})
-
-		settingsButton.Disable()
-		settings.Show()
 	}
 
 	thePomodoro.OnTick = func() {
