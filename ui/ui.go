@@ -92,6 +92,7 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 	myPref := pref.Load()
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
 	timer.Label.TextSize = float32(myPref.TimerFontSize)
+	timer.Label.Color = parseHexColor(myPref.TimerFontColor)
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
 	timerPanel := container.NewCenter(container.NewHBox(timer))

@@ -10,6 +10,7 @@ type Pref struct {
 	LongBreakDuration       int
 	WorkRounds              int
 	TimerFontSize           int
+	TimerFontColor          string
 	StartMinimized          bool
 	EnableNotificationPopup bool
 	NotificationScript      string
@@ -23,6 +24,7 @@ func Load() Pref {
 		LongBreakDuration:       app.Preferences().IntWithFallback("longBreakDuration", 15),
 		WorkRounds:              app.Preferences().IntWithFallback("workRounds", 4),
 		TimerFontSize:           app.Preferences().IntWithFallback("timerFontSize", 60),
+		TimerFontColor:          app.Preferences().StringWithFallback("timerFontColor", "#555555"),
 		StartMinimized:          app.Preferences().BoolWithFallback("startMinimized", false),
 		EnableNotificationPopup: app.Preferences().BoolWithFallback("enableNotificationPopup", true),
 		NotificationScript:      app.Preferences().StringWithFallback("notificationScript", "/usr/share/fynodoro/notify.sh"),
@@ -36,6 +38,7 @@ func Save(pref Pref) {
 	app.Preferences().SetInt("longBreakDuration", pref.LongBreakDuration)
 	app.Preferences().SetInt("workRounds", pref.WorkRounds)
 	app.Preferences().SetInt("timerFontSize", pref.TimerFontSize)
+	app.Preferences().SetString("timerFontColor", pref.TimerFontColor)
 	app.Preferences().SetBool("startMinimized", pref.StartMinimized)
 	app.Preferences().SetBool("enableNotificationPopup", pref.EnableNotificationPopup)
 	app.Preferences().SetString("notificationScript", pref.NotificationScript)
