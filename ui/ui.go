@@ -41,7 +41,7 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 			fyne.NewMenuItem("Show", mainWindow.Show),
 			fyne.NewMenuItem("Hide", mainWindow.Hide),
 			fyne.NewMenuItem("Center", mainWindow.CenterOnScreen),
-			fyne.NewMenuItem("About", aboutWindow.Show),
+			fyne.NewMenuItemSeparator(),
 			fyne.NewMenuItem("Preferences", func() {
 				settings := NewSettings()
 				settings.SetOnSubmit(func() {
@@ -49,6 +49,8 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 				})
 				settings.Show()
 			}),
+			fyne.NewMenuItem("About", aboutWindow.Show),
+			fyne.NewMenuItemSeparator(),
 			fyne.NewMenuItem("Quit", app.Quit))
 		desk.SetSystemTrayMenu(trayMenu)
 	}
