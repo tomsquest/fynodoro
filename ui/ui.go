@@ -33,6 +33,7 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 	pomodoroWidget := NewPomodoroWidget(thePomodoro)
 	mainWindow.SetContent(pomodoroWidget)
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
+	mainWindow.SetFixedSize(true)
 
 	if desk, ok := app.(desktop.App); ok {
 		aboutWindow := makeAboutWindow(app, buildInfo)
