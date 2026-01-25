@@ -147,11 +147,6 @@ TAG=v1.0.0 && git tag $TAG && git push origin $TAG
 ## TODO & IDEAS
 
 - [ ] Display the type of Pomodoro: Work/Short/Long
-- [ ] Display the time left in the Tray (see [Fomato](https://github.com/andydotxyz/fomato))
-- [ ] Resizable UI (scale timer and buttons with the window)
-- [ ] Pico/Nano/Normal UI presets
-- [ ] option for Dark/Light mode (what about Fyne global preferences?)
-- [ ] Keyboard shortcuts
 - [ ] Release Windows, macOS, Android, IOS versions
 
 ## Credits
