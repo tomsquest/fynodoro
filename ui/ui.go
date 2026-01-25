@@ -31,7 +31,8 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 
 	mainWindow := app.NewWindow("Fynodoro")
 	mainWindow.SetMaster()
-	mainWindow.SetContent(MakeClassicLayout(thePomodoro))
+	layout, timer := MakeClassicLayout(thePomodoro)
+	mainWindow.SetContent(layout)
 	mainWindow.SetCloseIntercept(mainWindow.Hide)
 
 	if desk, ok := app.(desktop.App); ok {
@@ -45,6 +46,7 @@ func Display(app fyne.App, buildInfo BuildInfo, cliStartMinimized bool) {
 				settings := NewSettings()
 				settings.SetOnSubmit(func() {
 					applyPreferencesToPomodoro(thePomodoro)
+					applyPreferencesToTimer(timer)
 				})
 				settings.Show()
 			}),
@@ -88,11 +90,9 @@ func makeAboutWindow(app fyne.App, buildInfo BuildInfo) fyne.Window {
 	return aboutWindow
 }
 
-func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
-	myPref := pref.Load()
+func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) (fyne.CanvasObject, *TappableText) {
 	timer := NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
-	timer.Label.TextSize = float32(myPref.TimerFontSize)
-	timer.Label.Color = parseHexColor(myPref.TimerFontColor)
+	applyPreferencesToTimer(timer)
 	timer.Label.TextStyle.Bold = true
 	timer.Label.Alignment = fyne.TextAlignCenter
 	timerPanel := container.NewCenter(container.NewHBox(timer))
@@ -131,7 +131,7 @@ func MakeClassicLayout(thePomodoro *pomodoro.Pomodoro) fyne.CanvasObject {
 		notifyPomodoroDone(kind)
 	}
 
-	return container.NewVBox(timerPanel, buttons)
+	return container.NewVBox(timerPanel, buttons), timer
 }
 
 func setTimerRemainingTime(thePomodoro *pomodoro.Pomodoro, timer *TappableText) {
@@ -171,4 +171,11 @@ func applyPreferencesToPomodoro(p *pomodoro.Pomodoro) {
 	p.SetLongBreakDuration(time.Duration(newPref.LongBreakDuration) * time.Minute)
 	p.SetWorkRounds(newPref.WorkRounds)
 	p.SetRemainingTime()
+}
+
+func applyPreferencesToTimer(timer *TappableText) {
+	newPref := pref.Load()
+	timer.Label.TextSize = float32(newPref.TimerFontSize)
+	timer.Label.Color = parseHexColor(newPref.TimerFontColor)
+	timer.Refresh()
 }

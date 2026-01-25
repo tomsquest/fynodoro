@@ -84,7 +84,7 @@ func makeForm(win fyne.Window) *widget.Form {
 
 	timerFontSizeBinding := binding.NewInt()
 	_ = timerFontSizeBinding.Set(myPref.TimerFontSize)
-	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: %d. Requires restart.", NewRangeValidator(10, 200)))
+	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: %d.", NewRangeValidator(10, 200)))
 
 	timerFontColorBinding := binding.NewString()
 	_ = timerFontColorBinding.Set(myPref.TimerFontColor)
@@ -101,7 +101,7 @@ func makeForm(win fyne.Window) *widget.Form {
 	})
 	colorContainer := container.NewBorder(nil, nil, nil, colorButton, colorEntry)
 	colorFormItem := widget.NewFormItem("Timer font color", colorContainer)
-	colorFormItem.HintText = "Color of the timer text. Default is #555555. Requires restart."
+	colorFormItem.HintText = "Color of the timer text. Default is #555555."
 	form.AppendItem(colorFormItem)
 
 	startMinimizedBinding := binding.NewBool()
