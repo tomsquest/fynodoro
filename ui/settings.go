@@ -92,14 +92,11 @@ func makeForm(win fyne.Window) *widget.Form {
 	colorEntry.PlaceHolder = "#555555"
 	colorButton := widget.NewButton("Pick...", func() {
 		picker := dialog.NewColorPicker("Timer Font Color", "Select a color for the timer", func(c color.Color) {
-			if c != nil {
-				_ = timerFontColorBinding.Set(colorToHex(c))
-			}
+			_ = timerFontColorBinding.Set(colorToHex(c))
 		}, win)
-		if currentHex, _ := timerFontColorBinding.Get(); currentHex != "" {
-			picker.Advanced = true
-			picker.SetColor(parseHexColor(currentHex))
-		}
+		picker.Advanced = true
+		currentHex, _ := timerFontColorBinding.Get()
+		picker.SetColor(parseHexColor(currentHex))
 		picker.Show()
 	})
 	colorContainer := container.NewBorder(nil, nil, nil, colorButton, colorEntry)
@@ -166,7 +163,7 @@ func parseHexColor(hex string) color.Color {
 	if hex == "" {
 		return color.Gray{Y: 128}
 	}
-	if len(hex) > 0 && hex[0] == '#' {
+	if hex[0] == '#' {
 		hex = hex[1:]
 	}
 	if len(hex) != 6 {
