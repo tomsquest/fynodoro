@@ -30,7 +30,6 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 	l.timer = NewTappableText(formatDuration(thePomodoro.RemainingTime), nil, nil)
 	l.timer.Label.TextStyle.Bold = true
 	l.timer.Label.Alignment = fyne.TextAlignCenter
-	l.ApplyPreferences()
 
 	timerPanel := container.NewCenter(container.NewHBox(l.timer))
 
@@ -67,6 +66,7 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 	}
 
 	l.content = container.NewVBox(timerPanel, l.buttons)
+	l.ApplyPreferences()
 	return l
 }
 
@@ -79,6 +79,7 @@ func (l *PomodoroWidget) ApplyPreferences() {
 	l.timer.Label.TextSize = float32(prefs.TimerFontSize)
 	l.timer.Label.Color = parseHexColor(prefs.TimerFontColor)
 	l.timer.Refresh()
+	l.SetButtonsVisible(prefs.ShowButtons)
 }
 
 func (l *PomodoroWidget) SetButtonsVisible(visible bool) {

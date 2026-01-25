@@ -104,6 +104,11 @@ func makeForm(win fyne.Window) *widget.Form {
 	colorFormItem.HintText = "Color of the timer text. Default is #555555."
 	form.AppendItem(colorFormItem)
 
+	showButtonsBinding := binding.NewBool()
+	_ = showButtonsBinding.Set(myPref.ShowButtons)
+	showButtonsCheck := widget.NewCheckWithData("Show buttons", showButtonsBinding)
+	form.AppendItem(widget.NewFormItem("Buttons", showButtonsCheck))
+
 	startMinimizedBinding := binding.NewBool()
 	_ = startMinimizedBinding.Set(myPref.StartMinimized)
 	startMinimizedCheck := widget.NewCheckWithData("Start minimized to tray", startMinimizedBinding)
@@ -129,6 +134,7 @@ func makeForm(win fyne.Window) *widget.Form {
 		workRounds, _ := workRoundsBinding.Get()
 		timerFontSize, _ := timerFontSizeBinding.Get()
 		timerFontColor, _ := timerFontColorBinding.Get()
+		showButtons, _ := showButtonsBinding.Get()
 		startMinimized, _ := startMinimizedBinding.Get()
 		enableNotificationPopup, _ := enableNotificationPopupBinding.Get()
 		notificationScript, _ := notificationScriptBinding.Get()
@@ -140,6 +146,7 @@ func makeForm(win fyne.Window) *widget.Form {
 			WorkRounds:              workRounds,
 			TimerFontSize:           timerFontSize,
 			TimerFontColor:          timerFontColor,
+			ShowButtons:             showButtons,
 			StartMinimized:          startMinimized,
 			EnableNotificationPopup: enableNotificationPopup,
 			NotificationScript:      notificationScript,
