@@ -68,23 +68,23 @@ func makeForm(win fyne.Window) *widget.Form {
 
 	workDurationBinding := binding.NewInt()
 	_ = workDurationBinding.Set(myPref.WorkDuration)
-	form.AppendItem(newIntegerFormItem(workDurationBinding, "Work duration in minutes", "Set the duration of the Work period. Default is: %d minutes.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(workDurationBinding, "Work duration in minutes", "Set the duration of the Work period. Default is: 25 minutes.", NewRangeValidator(0, 999)))
 
 	shortBreakDurationBinding := binding.NewInt()
 	_ = shortBreakDurationBinding.Set(myPref.ShortBreakDuration)
-	form.AppendItem(newIntegerFormItem(shortBreakDurationBinding, "Short break duration in minutes", "Set the duration of the short break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(shortBreakDurationBinding, "Short break duration in minutes", "Set the duration of the short break. Default is: 5 minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	longBreakDurationBinding := binding.NewInt()
 	_ = longBreakDurationBinding.Set(myPref.LongBreakDuration)
-	form.AppendItem(newIntegerFormItem(longBreakDurationBinding, "Long break duration in minutes", "Set the duration of the long break. Default is: %d minutes. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(longBreakDurationBinding, "Long break duration in minutes", "Set the duration of the long break. Default is: 15 minutes. 0 to disable.", NewRangeValidator(0, 999)))
 
 	workRoundsBinding := binding.NewInt()
 	_ = workRoundsBinding.Set(myPref.WorkRounds)
-	form.AppendItem(newIntegerFormItem(workRoundsBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: %d. 0 to disable.", NewRangeValidator(0, 999)))
+	form.AppendItem(newIntegerFormItem(workRoundsBinding, "Work rounds", "Set how many Work rounds before a long break. Default is: 4. 0 to disable.", NewRangeValidator(0, 999)))
 
 	timerFontSizeBinding := binding.NewInt()
 	_ = timerFontSizeBinding.Set(myPref.TimerFontSize)
-	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: %d.", NewRangeValidator(10, 200)))
+	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: 60.", NewRangeValidator(10, 200)))
 
 	timerFontColorBinding := binding.NewString()
 	_ = timerFontColorBinding.Set(myPref.TimerFontColor)
