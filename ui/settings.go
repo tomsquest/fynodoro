@@ -2,9 +2,12 @@ package ui
 
 import (
 	"fmt"
+	"image/color"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/tomsquest/fynodoro/pref"
 )
@@ -25,7 +28,7 @@ type settings struct {
 
 func NewSettings() Settings {
 	w := fyne.CurrentApp().NewWindow("Settings")
-	f := makeForm()
+	f := makeForm(w)
 	f.OnCancel = func() {
 		w.Close()
 	}
@@ -59,7 +62,7 @@ func (s *settings) SetOnClosed(callback func()) {
 	(*s.win).SetOnClosed(callback)
 }
 
-func makeForm() *widget.Form {
+func makeForm(win fyne.Window) *widget.Form {
 	myPref := pref.Load()
 	form := widget.NewForm()
 
@@ -82,6 +85,27 @@ func makeForm() *widget.Form {
 	timerFontSizeBinding := binding.NewInt()
 	_ = timerFontSizeBinding.Set(myPref.TimerFontSize)
 	form.AppendItem(newIntegerFormItem(timerFontSizeBinding, "Timer font size", "Set the font size of the timer. Default is: %d. Requires restart.", NewRangeValidator(10, 200)))
+
+	timerFontColorBinding := binding.NewString()
+	_ = timerFontColorBinding.Set(myPref.TimerFontColor)
+	colorEntry := widget.NewEntryWithData(timerFontColorBinding)
+	colorEntry.PlaceHolder = "#555555"
+	colorButton := widget.NewButton("Pick...", func() {
+		picker := dialog.NewColorPicker("Timer Font Color", "Select a color for the timer", func(c color.Color) {
+			if c != nil {
+				_ = timerFontColorBinding.Set(colorToHex(c))
+			}
+		}, win)
+		if currentHex, _ := timerFontColorBinding.Get(); currentHex != "" {
+			picker.Advanced = true
+			picker.SetColor(parseHexColor(currentHex))
+		}
+		picker.Show()
+	})
+	colorContainer := container.NewBorder(nil, nil, nil, colorButton, colorEntry)
+	colorFormItem := widget.NewFormItem("Timer font color", colorContainer)
+	colorFormItem.HintText = "Color of the timer text. Default is #555555. Requires restart."
+	form.AppendItem(colorFormItem)
 
 	startMinimizedBinding := binding.NewBool()
 	_ = startMinimizedBinding.Set(myPref.StartMinimized)
@@ -107,6 +131,7 @@ func makeForm() *widget.Form {
 		longBreakDuration, _ := longBreakDurationBinding.Get()
 		workRounds, _ := workRoundsBinding.Get()
 		timerFontSize, _ := timerFontSizeBinding.Get()
+		timerFontColor, _ := timerFontColorBinding.Get()
 		startMinimized, _ := startMinimizedBinding.Get()
 		enableNotificationPopup, _ := enableNotificationPopupBinding.Get()
 		notificationScript, _ := notificationScriptBinding.Get()
@@ -117,6 +142,7 @@ func makeForm() *widget.Form {
 			LongBreakDuration:       longBreakDuration,
 			WorkRounds:              workRounds,
 			TimerFontSize:           timerFontSize,
+			TimerFontColor:          timerFontColor,
 			StartMinimized:          startMinimized,
 			EnableNotificationPopup: enableNotificationPopup,
 			NotificationScript:      notificationScript,
@@ -134,4 +160,24 @@ func newIntegerFormItem(bind binding.Int, entryText string, hintText string, val
 	formItem := widget.NewFormItem(entryText, entry)
 	formItem.HintText = fmt.Sprintf(hintText, value)
 	return formItem
+}
+
+func parseHexColor(hex string) color.Color {
+	if hex == "" {
+		return color.Gray{Y: 128}
+	}
+	if len(hex) > 0 && hex[0] == '#' {
+		hex = hex[1:]
+	}
+	if len(hex) != 6 {
+		return color.Gray{Y: 128}
+	}
+	var r, g, b uint8
+	_, _ = fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+	return color.RGBA{R: r, G: g, B: b, A: 255}
+}
+
+func colorToHex(c color.Color) string {
+	r, g, b, _ := c.RGBA()
+	return fmt.Sprintf("#%02x%02x%02x", uint8(r>>8), uint8(g>>8), uint8(b>>8))
 }
