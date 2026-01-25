@@ -31,8 +31,6 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 	l.timer.Label.TextStyle.Bold = true
 	l.timer.Label.Alignment = fyne.TextAlignCenter
 
-	timerPanel := container.NewCenter(container.NewHBox(l.timer))
-
 	l.playButton = widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
 	l.stopButton = widget.NewButtonWithIcon("", theme.MediaStopIcon(), nil)
 	l.nextButton = widget.NewButtonWithIcon("", theme.MediaSkipNextIcon(), nil)
@@ -75,7 +73,7 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 		notifyPomodoroDone(kind)
 	}
 
-	l.content = container.NewVBox(timerPanel, l.buttons)
+	l.content = container.NewCenter(container.NewVBox(l.timer, l.buttons))
 	l.ApplyPreferences()
 	return l
 }
