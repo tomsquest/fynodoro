@@ -47,7 +47,11 @@ func NewPomodoroWidget(thePomodoro *pomodoro.Pomodoro) *PomodoroWidget {
 		nextItem := fyne.NewMenuItem("Next", l.Next)
 		nextItem.Icon = theme.MediaSkipNextIcon()
 		menu := fyne.NewMenu("", playPauseItem, stopItem, nextItem)
-		widget.ShowPopUpMenuAtPosition(menu, fyne.CurrentApp().Driver().CanvasForObject(l.timer), e.AbsolutePosition)
+		c := fyne.CurrentApp().Driver().CanvasForObject(l.timer)
+		if c == nil {
+			return
+		}
+		widget.ShowPopUpMenuAtPosition(menu, c, e.AbsolutePosition)
 	}
 	l.playButton.OnTapped = func() {
 		l.PlayPause()
